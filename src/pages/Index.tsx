@@ -75,7 +75,7 @@ const Index = () => {
           <div className="bg-white rounded-full p-2 mr-4">
             <ShoppingCart className="h-5 w-5 text-[#007bff]" />
           </div>
-          <span className="text-center">BUY NOW</span>
+          <span className="text-center pl-2">BUY NOW</span>
         </a>
 
         <div className="mb-4 text-sm font-light text-gray-300">
