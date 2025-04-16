@@ -3,10 +3,12 @@ import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import StreamingButton from "@/components/StreamingButton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -71,10 +73,10 @@ const Index = () => {
           rel="noopener noreferrer"
           className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4"
         >
-          <div className="bg-white rounded-full p-2 mr-2">
+          <div className="bg-white rounded-full p-2 mr-4">
             <ShoppingCart className="h-5 w-5 text-[#007bff]" />
           </div>
-          <span className="flex-1 text-center">BUY NOW</span>
+          <span className="mx-auto pr-8">BUY NOW</span>
         </a>
 
         <div className="mb-4 text-sm font-light text-gray-300">
@@ -111,21 +113,25 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-4 left-0 w-3/4 max-w-[225px] opacity-90 pointer-events-none overflow-hidden">
-        <img 
-          src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
-          alt="Film Reel" 
-          className="w-full object-contain transform -translate-x-4"
-        />
-      </div>
-      
-      <div className="absolute bottom-4 right-0 w-3/4 max-w-[225px] opacity-90 pointer-events-none overflow-hidden">
-        <img 
-          src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
-          alt="Popcorn" 
-          className="w-full object-contain transform translate-x-4"
-        />
-      </div>
+      {isMobile && (
+        <>
+          <div className="absolute bottom-4 left-0 w-[165px] max-w-[165px] opacity-90 pointer-events-none overflow-hidden">
+            <img 
+              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
+              alt="Film Reel" 
+              className="w-full object-contain transform -translate-x-2"
+            />
+          </div>
+          
+          <div className="absolute bottom-4 right-0 w-[165px] max-w-[165px] opacity-90 pointer-events-none overflow-hidden">
+            <img 
+              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
+              alt="Popcorn" 
+              className="w-full object-contain transform translate-x-2"
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
