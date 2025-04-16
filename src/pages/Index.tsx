@@ -1,7 +1,7 @@
-
 import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import StreamingButton from "@/components/StreamingButton";
 
 const Index = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -81,44 +81,23 @@ const Index = () => {
         </div>
 
         <div className="w-full max-w-xs space-y-4 mb-8">
-          <a 
-            href="https://telegram.me/ott_on_rent" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-          >
-            <img 
-              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
-              alt="Netflix" 
-              className="h-8 object-contain" 
-            />
-          </a>
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
+            alt="Netflix" 
+            link="https://telegram.me/ott_on_rent"
+          />
           
-          <a 
-            href="https://telegram.me/ott_on_rent" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-          >
-            <img 
-              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
-              alt="Prime Video" 
-              className="h-10 object-contain" 
-            />
-          </a>
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
+            alt="Prime Video" 
+            link="https://telegram.me/ott_on_rent"
+          />
           
-          <a 
-            href="https://telegram.me/ott_on_rent" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-          >
-            <img 
-              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
-              alt="Crunchyroll" 
-              className="h-7 object-contain" 
-            />
-          </a>
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
+            alt="Crunchyroll" 
+            link="https://telegram.me/ott_on_rent"
+          />
         </div>
 
         <div className="text-center mb-4 px-4">
