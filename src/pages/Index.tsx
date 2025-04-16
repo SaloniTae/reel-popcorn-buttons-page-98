@@ -1,3 +1,4 @@
+
 import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -73,7 +74,7 @@ const Index = () => {
           <div className="bg-white rounded-full p-2 mr-2">
             <ShoppingCart className="h-5 w-5 text-[#007bff]" />
           </div>
-          <span className="mx-auto pr-6">BUY NOW</span>
+          <span className="flex-1 text-center">BUY NOW</span>
         </a>
 
         <div className="mb-4 text-sm font-light text-gray-300">
@@ -110,19 +111,19 @@ const Index = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-4 left-0 w-1/2 max-w-[150px] opacity-90 pointer-events-none">
+      <div className="absolute bottom-4 left-0 w-3/4 max-w-[225px] opacity-90 pointer-events-none overflow-hidden">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
           alt="Film Reel" 
-          className="w-full object-contain"
+          className="w-full object-contain transform -translate-x-4"
         />
       </div>
       
-      <div className="absolute bottom-4 right-0 w-1/2 max-w-[150px] opacity-90 pointer-events-none">
+      <div className="absolute bottom-4 right-0 w-3/4 max-w-[225px] opacity-90 pointer-events-none overflow-hidden">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
           alt="Popcorn" 
-          className="w-full object-contain"
+          className="w-full object-contain transform translate-x-4"
         />
       </div>
     </div>
