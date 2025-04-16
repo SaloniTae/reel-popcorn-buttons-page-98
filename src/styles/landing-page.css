@@ -1,46 +1,57 @@
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-}
-
-.logo-pulse {
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-}
-
-.float-animation {
-  animation: float 6s ease-in-out infinite;
-}
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
+/* Reset any animations */
+.float-animation,
+.shimmer,
 .fade-in-element {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  animation: none;
 }
 
-.fade-in-element.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Clean styles for the landing page */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+/* Make sure the page is truly full height without scrolling */
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (max-height: 700px) {
+  .mb-20 {
+    margin-bottom: 2rem;
+  }
+  
+  .mb-16 {
+    margin-bottom: 1rem;
+  }
+  
+  .mb-8 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .my-4 {
+    margin: 0.25rem 0;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 500px) {
+  .max-w-xs {
+    max-width: 85%;
+  }
 }

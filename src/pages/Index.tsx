@@ -1,152 +1,113 @@
 
 import "../styles/landing-page.css";
-import { Separator } from "@/components/ui/separator";
+import { ShoppingCart } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden relative">
-      {/* Background overlay */}
-      <div className="absolute inset-0 bg-[url('https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png')] bg-no-repeat bg-cover opacity-5"></div>
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Logo and title */}
+      <div className="flex flex-col items-center mb-20">
+        <div className="mb-4 relative">
+          <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
+          <img 
+            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+            alt="OTT ON RENT" 
+            className="w-28 h-28 rounded-full object-cover relative z-10"
+          />
+        </div>
+        <h1 className="text-3xl font-bold mt-4">
+          OTT ON RENT
+        </h1>
+      </div>
+
+      {/* Buy Now Button */}
+      <a 
+        href="https://telegram.me/ott_on_rent" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center justify-center mb-6"
+      >
+        <div className="bg-white rounded-full p-2 mr-3">
+          <ShoppingCart className="h-5 w-5 text-[#007bff]" />
+        </div>
+        <span>BUY NOW</span>
+      </a>
+
+      {/* OR divider */}
+      <div className="my-4 text-lg">
+        OR
+      </div>
+
+      {/* Streaming options */}
+      <div className="w-full max-w-xs space-y-4 mb-16">
+        {/* Netflix */}
+        <a 
+          href="https://telegram.me/ott_on_rent" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
+        >
+          <img 
+            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
+            alt="Netflix" 
+            className="h-8 object-contain" 
+          />
+        </a>
+        
+        {/* Prime */}
+        <a 
+          href="https://telegram.me/ott_on_rent" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
+        >
+          <img 
+            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
+            alt="Prime Video" 
+            className="h-8 object-contain" 
+          />
+        </a>
+        
+        {/* Crunchyroll */}
+        <a 
+          href="https://telegram.me/ott_on_rent" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
+        >
+          <img 
+            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
+            alt="Crunchyroll" 
+            className="h-8 object-contain" 
+          />
+        </a>
+      </div>
+
+      {/* Instructions text */}
+      <div className="text-center mb-8">
+        <p className="text-sm text-gray-300">
+          START THE BOT • CHOOSE SLOT • PAY
+        </p>
+        <p className="text-sm text-gray-300">
+          GET YOUR NETFLIX OR CRUNCHYROLL ACCOUNT!
+        </p>
+      </div>
+
+      {/* Film reel and popcorn images */}
+      <div className="absolute bottom-0 left-0 w-1/3 max-w-[180px] opacity-90 pointer-events-none">
+        <img 
+          src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
+          alt="Film Reel" 
+          className="w-full object-contain"
+        />
+      </div>
       
-      <div className="container mx-auto px-4 py-8 flex flex-col min-h-screen relative z-10">
-        {/* Header with logo */}
-        <header className="w-full flex flex-col items-center justify-center py-6">
-          <a 
-            href="https://www.instagram.com/ott.on.rent?igsh=MWd5cHh5aHk3NGgxbQ==" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="relative"
-          >
-            <div className="absolute inset-0 rounded-full bg-blue-500/30 blur-md"></div>
-            <img 
-              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
-              alt="OTT ON RENT" 
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover relative z-10 shadow-lg"
-            />
-          </a>
-          <h1 className="text-3xl md:text-4xl font-bold mt-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            OTT ON RENT
-          </h1>
-          <p className="text-gray-300 mt-2 text-center max-w-md">
-            Premium streaming services at affordable prices
-          </p>
-        </header>
-
-        {/* Main content */}
-        <main className="flex-1 flex flex-col items-center justify-center py-6 md:py-12">
-          {/* Main CTA */}
-          <div className="w-full max-w-md">
-            <a 
-              href="https://t.me/ott_on_rent" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl flex items-center justify-center hover:from-blue-500 hover:to-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/30"
-            >
-              <div className="bg-white rounded-full p-2 mr-4">
-                <svg className="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-              </div>
-              <span className="text-xl font-bold">BUY NOW</span>
-            </a>
-          </div>
-
-          {/* Divider */}
-          <div className="my-8 w-full max-w-xs flex items-center">
-            <div className="flex-1 h-[1px] bg-gray-700"></div>
-            <span className="px-4 text-gray-400">OR</span>
-            <div className="flex-1 h-[1px] bg-gray-700"></div>
-          </div>
-
-          {/* Streaming options */}
-          <div className="w-full max-w-md space-y-4">
-            {/* Netflix */}
-            <a 
-              href="https://t.me/ott_on_rent" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300"
-            >
-              <img 
-                src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
-                alt="Netflix" 
-                className="h-8 md:h-10 object-contain" 
-              />
-            </a>
-            
-            {/* Prime */}
-            <a 
-              href="https://t.me/ott_on_rent" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300" 
-            >
-              <img 
-                src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
-                alt="Prime Video" 
-                className="h-8 md:h-10 object-contain" 
-              />
-            </a>
-            
-            {/* Crunchyroll */}
-            <a 
-              href="https://t.me/ott_on_rent" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300" 
-            >
-              <img 
-                src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
-                alt="Crunchyroll" 
-                className="h-8 md:h-10 object-contain" 
-              />
-            </a>
-          </div>
-
-          {/* How it works */}
-          <div className="mt-10 text-center">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">How it works</h3>
-            <div className="flex flex-col md:flex-row justify-center items-center md:space-x-8 space-y-6 md:space-y-0">
-              <div className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl w-full max-w-[180px] flex flex-col items-center">
-                <div className="bg-blue-500/20 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                  <span className="text-xl font-bold text-blue-400">1</span>
-                </div>
-                <p className="text-gray-300">START THE BOT</p>
-              </div>
-              
-              <div className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl w-full max-w-[180px] flex flex-col items-center">
-                <div className="bg-purple-500/20 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                  <span className="text-xl font-bold text-purple-400">2</span>
-                </div>
-                <p className="text-gray-300">CHOOSE SLOT</p>
-              </div>
-              
-              <div className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl w-full max-w-[180px] flex flex-col items-center">
-                <div className="bg-pink-500/20 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                  <span className="text-xl font-bold text-pink-400">3</span>
-                </div>
-                <p className="text-gray-300">PAY & GET ACCOUNT</p>
-              </div>
-            </div>
-          </div>
-        </main>
-        
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 w-1/3 max-w-[280px] opacity-60 pointer-events-none z-0">
-          <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
-            alt="Film Reel" 
-            className="w-full object-contain"
-          />
-        </div>
-        
-        <div className="absolute bottom-0 right-0 w-1/3 max-w-[280px] opacity-60 pointer-events-none z-0">
-          <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
-            alt="Popcorn" 
-            className="w-full object-contain"
-          />
-        </div>
+      <div className="absolute bottom-0 right-0 w-1/3 max-w-[180px] opacity-90 pointer-events-none">
+        <img 
+          src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
+          alt="Popcorn" 
+          className="w-full object-contain"
+        />
       </div>
     </div>
   );
