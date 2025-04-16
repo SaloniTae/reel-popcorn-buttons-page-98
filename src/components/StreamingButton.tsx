@@ -7,9 +7,16 @@ interface StreamingButtonProps {
   alt: string;
   link: string;
   className?: string;
+  imageClassName?: string;
 }
 
-const StreamingButton = ({ imageUrl, alt, link, className }: StreamingButtonProps) => {
+const StreamingButton = ({ 
+  imageUrl, 
+  alt, 
+  link, 
+  className, 
+  imageClassName 
+}: StreamingButtonProps) => {
   return (
     <a 
       href={link} 
@@ -20,7 +27,15 @@ const StreamingButton = ({ imageUrl, alt, link, className }: StreamingButtonProp
         className
       )}
     >
-      <img src={imageUrl} alt={alt} className="h-8 md:h-10" />
+      <img 
+        src={imageUrl} 
+        alt={alt} 
+        className={cn(
+          "object-contain", 
+          alt === "Prime Video" ? "h-10" : "h-8", 
+          imageClassName
+        )} 
+      />
     </a>
   );
 };

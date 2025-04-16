@@ -1,6 +1,6 @@
-
 import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
+import StreamingButton from "@/components/StreamingButton";
 
 const Index = () => {
   return (
@@ -41,46 +41,27 @@ const Index = () => {
       {/* Streaming options */}
       <div className="w-full max-w-xs space-y-4 mb-8">
         {/* Netflix */}
-        <a 
-          href="https://telegram.me/ott_on_rent" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-        >
-          <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
-            alt="Netflix" 
-            className="h-8 object-contain" 
-          />
-        </a>
+        <StreamingButton 
+          imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
+          alt="Netflix"
+          link="https://telegram.me/ott_on_rent"
+        />
         
         {/* Prime */}
-        <a 
-          href="https://telegram.me/ott_on_rent" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-        >
-          <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
-            alt="Prime Video" 
-            className="h-8 object-contain" 
-          />
-        </a>
+        <StreamingButton 
+          imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
+          alt="Prime Video"
+          link="https://telegram.me/ott_on_rent"
+          imageClassName="h-12"
+        />
         
         {/* Crunchyroll */}
-        <a 
-          href="https://telegram.me/ott_on_rent" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block w-full bg-white rounded-full py-3 flex justify-center items-center"
-        >
-          <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
-            alt="Crunchyroll" 
-            className="h-8 object-contain" 
-          />
-        </a>
+        <StreamingButton 
+          imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
+          alt="Crunchyroll"
+          link="https://telegram.me/ott_on_rent"
+          imageClassName="h-7"
+        />
       </div>
 
       {/* Instructions text */}
@@ -93,7 +74,7 @@ const Index = () => {
         </p>
       </div>
 
-      {/* Film reel and popcorn images - adjusted size and positioning */}
+      {/* Film reel and popcorn images */}
       <div className="absolute bottom-4 left-0 w-1/2 max-w-[150px] opacity-90 pointer-events-none">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
