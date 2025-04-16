@@ -6,16 +6,16 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       {/* Logo and title */}
-      <div className="flex flex-col items-center mb-20">
+      <div className="flex flex-col items-center mb-12">
         <div className="mb-4 relative">
           <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
             alt="OTT ON RENT" 
-            className="w-28 h-28 rounded-full object-cover relative z-10"
+            className="w-24 h-24 rounded-full object-cover relative z-10"
           />
         </div>
-        <h1 className="text-3xl font-bold mt-4">
+        <h1 className="text-xl font-normal mt-2 tracking-wider">
           OTT ON RENT
         </h1>
       </div>
@@ -25,21 +25,21 @@ const Index = () => {
         href="https://telegram.me/ott_on_rent" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center justify-center mb-6"
+        className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-8"
       >
-        <div className="bg-white rounded-full p-2 mr-3">
+        <div className="bg-white rounded-full p-2 ml-4 mr-6">
           <ShoppingCart className="h-5 w-5 text-[#007bff]" />
         </div>
-        <span>BUY NOW</span>
+        <span className="flex-grow text-center pr-6">BUY NOW</span>
       </a>
 
       {/* OR divider */}
-      <div className="my-4 text-lg">
+      <div className="mb-6 text-sm font-light">
         OR
       </div>
 
       {/* Streaming options */}
-      <div className="w-full max-w-xs space-y-4 mb-16">
+      <div className="w-full max-w-xs space-y-4 mb-14">
         {/* Netflix */}
         <a 
           href="https://telegram.me/ott_on_rent" 
@@ -83,18 +83,18 @@ const Index = () => {
         </a>
       </div>
 
-      {/* Instructions text */}
-      <div className="text-center mb-8">
-        <p className="text-sm text-gray-300">
+      {/* Instructions text - absolute positioning to ensure visibility */}
+      <div className="text-center absolute bottom-24 left-0 right-0 z-30">
+        <p className="text-xs text-gray-300 tracking-wider">
           START THE BOT • CHOOSE SLOT • PAY
         </p>
-        <p className="text-sm text-gray-300">
+        <p className="text-xs text-gray-300 tracking-wider">
           GET YOUR NETFLIX OR CRUNCHYROLL ACCOUNT!
         </p>
       </div>
 
-      {/* Film reel and popcorn images */}
-      <div className="absolute bottom-0 left-0 w-1/3 max-w-[180px] opacity-90 pointer-events-none">
+      {/* Film reel and popcorn images - made larger and positioned lower */}
+      <div className="absolute bottom-0 left-0 w-1/2 max-w-[250px] opacity-90 pointer-events-none">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
           alt="Film Reel" 
@@ -102,7 +102,7 @@ const Index = () => {
         />
       </div>
       
-      <div className="absolute bottom-0 right-0 w-1/3 max-w-[180px] opacity-90 pointer-events-none">
+      <div className="absolute bottom-0 right-0 w-1/2 max-w-[250px] opacity-90 pointer-events-none">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
           alt="Popcorn" 
