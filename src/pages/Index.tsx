@@ -1,10 +1,55 @@
+
 import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const Index = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (videoRef.current) {
+            videoRef.current.src = "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4";
+            videoRef.current.load();
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
+  const handleVideoLoaded = () => {
+    setIsVideoLoaded(true);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="flex flex-col items-center w-full pt-8 pb-24 md:pb-32">
+      <div className="video-container absolute inset-0 w-full h-full overflow-hidden z-0">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`}
+          onLoadedData={handleVideoLoaded}
+        ></video>
+      </div>
+
+      <div className="flex flex-col items-center w-full pt-4 pb-20 relative z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="mb-4 relative">
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
@@ -58,7 +103,7 @@ const Index = () => {
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
               alt="Prime Video" 
-              className="h-8 object-contain" 
+              className="h-10 object-contain" 
             />
           </a>
           
@@ -71,7 +116,7 @@ const Index = () => {
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
               alt="Crunchyroll" 
-              className="h-8 object-contain" 
+              className="h-7 object-contain" 
             />
           </a>
         </div>
