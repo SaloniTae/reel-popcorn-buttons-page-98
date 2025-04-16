@@ -1,49 +1,8 @@
 
-import { useEffect, useRef } from "react";
 import "../styles/landing-page.css";
+import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    // Set up intersection observer for fade-in animations
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    // Apply to all fade-in elements
-    document.querySelectorAll('.fade-in-element').forEach((el) => {
-      if (observerRef.current) observerRef.current.observe(el);
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    // Preload images for better user experience
-    const imagesToPreload = [
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png",
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png",
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png",
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png",
-      "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png"
-    ];
-    
-    imagesToPreload.forEach(src => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white overflow-hidden relative">
       {/* Background overlay */}
@@ -51,18 +10,18 @@ const Index = () => {
       
       <div className="container mx-auto px-4 py-8 flex flex-col min-h-screen relative z-10">
         {/* Header with logo */}
-        <header className="w-full flex flex-col items-center justify-center py-6 fade-in-element">
+        <header className="w-full flex flex-col items-center justify-center py-6">
           <a 
             href="https://www.instagram.com/ott.on.rent?igsh=MWd5cHh5aHk3NGgxbQ==" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="group relative"
+            className="relative"
           >
-            <div className="absolute inset-0 rounded-full bg-blue-500/30 blur-md group-hover:bg-blue-400/40 transition-all duration-300"></div>
+            <div className="absolute inset-0 rounded-full bg-blue-500/30 blur-md"></div>
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
               alt="OTT ON RENT" 
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover relative z-10 logo-pulse shadow-lg"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover relative z-10 shadow-lg"
             />
           </a>
           <h1 className="text-3xl md:text-4xl font-bold mt-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -76,7 +35,7 @@ const Index = () => {
         {/* Main content */}
         <main className="flex-1 flex flex-col items-center justify-center py-6 md:py-12">
           {/* Main CTA */}
-          <div className="w-full max-w-md fade-in-element" style={{ transitionDelay: '100ms' }}>
+          <div className="w-full max-w-md">
             <a 
               href="https://t.me/ott_on_rent" 
               target="_blank" 
@@ -93,20 +52,20 @@ const Index = () => {
           </div>
 
           {/* Divider */}
-          <div className="my-8 w-full max-w-xs flex items-center fade-in-element" style={{ transitionDelay: '200ms' }}>
+          <div className="my-8 w-full max-w-xs flex items-center">
             <div className="flex-1 h-[1px] bg-gray-700"></div>
             <span className="px-4 text-gray-400">OR</span>
             <div className="flex-1 h-[1px] bg-gray-700"></div>
           </div>
 
           {/* Streaming options */}
-          <div className="w-full max-w-md space-y-4 fade-in-element" style={{ transitionDelay: '300ms' }}>
+          <div className="w-full max-w-md space-y-4">
             {/* Netflix */}
             <a 
               href="https://t.me/ott_on_rent" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300 transform hover:scale-102"
+              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300"
             >
               <img 
                 src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
@@ -120,7 +79,7 @@ const Index = () => {
               href="https://t.me/ott_on_rent" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300 transform hover:scale-102" 
+              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300" 
             >
               <img 
                 src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
@@ -134,7 +93,7 @@ const Index = () => {
               href="https://t.me/ott_on_rent" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300 transform hover:scale-102" 
+              className="block w-full bg-white rounded-xl p-3 flex justify-center items-center hover:shadow-lg transition-all duration-300" 
             >
               <img 
                 src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
@@ -145,7 +104,7 @@ const Index = () => {
           </div>
 
           {/* How it works */}
-          <div className="mt-10 text-center fade-in-element" style={{ transitionDelay: '400ms' }}>
+          <div className="mt-10 text-center">
             <h3 className="text-xl md:text-2xl font-bold mb-4 text-white">How it works</h3>
             <div className="flex flex-col md:flex-row justify-center items-center md:space-x-8 space-y-6 md:space-y-0">
               <div className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl w-full max-w-[180px] flex flex-col items-center">
@@ -177,7 +136,7 @@ const Index = () => {
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
             alt="Film Reel" 
-            className="w-full object-contain float-animation"
+            className="w-full object-contain"
           />
         </div>
         
@@ -185,8 +144,7 @@ const Index = () => {
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
             alt="Popcorn" 
-            className="w-full object-contain float-animation"
-            style={{ animationDelay: '1s' }}
+            className="w-full object-contain"
           />
         </div>
       </div>
