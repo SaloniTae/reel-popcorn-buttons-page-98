@@ -73,10 +73,10 @@ const Index = () => {
           rel="noopener noreferrer"
           className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4"
         >
-          <div className="bg-white rounded-full p-2 mr-4">
+          <div className="bg-white rounded-full p-2 mr-6">
             <ShoppingCart className="h-5 w-5 text-[#007bff]" />
           </div>
-          <span className="mx-auto pr-8">BUY NOW</span>
+          <span className="text-center flex-1 pr-6">BUY NOW</span>
         </a>
 
         <div className="mb-4 text-sm font-light text-gray-300">
@@ -115,7 +115,7 @@ const Index = () => {
 
       {isMobile && (
         <>
-          <div className="absolute bottom-4 left-0 w-[165px] max-w-[165px] opacity-90 pointer-events-none overflow-hidden">
+          <div className="absolute bottom-4 left-0 w-[205px] max-w-[205px] opacity-90 pointer-events-none overflow-hidden">
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
               alt="Film Reel" 
@@ -123,7 +123,7 @@ const Index = () => {
             />
           </div>
           
-          <div className="absolute bottom-4 right-0 w-[165px] max-w-[165px] opacity-90 pointer-events-none overflow-hidden">
+          <div className="absolute bottom-4 right-0 w-[205px] max-w-[205px] opacity-90 pointer-events-none overflow-hidden">
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
               alt="Popcorn" 
