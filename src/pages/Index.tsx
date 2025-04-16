@@ -1,3 +1,4 @@
+
 import "../styles/landing-page.css";
 import { ShoppingCart } from "lucide-react";
 
@@ -29,7 +30,7 @@ const Index = () => {
         <div className="bg-white rounded-full p-2 mr-6">
           <ShoppingCart className="h-5 w-5 text-[#007bff]" />
         </div>
-        <span className="flex-grow text-center pr-6">BUY NOW</span>
+        <span className="flex-grow text-center">BUY NOW</span>
       </a>
 
       {/* OR divider */}
@@ -92,8 +93,8 @@ const Index = () => {
         </p>
       </div>
 
-      {/* Film reel and popcorn images - increased size slightly */}
-      <div className="absolute bottom-4 left-0 w-1/2 max-w-[200px] opacity-90 pointer-events-none">
+      {/* Film reel and popcorn images - adjusted size and positioning */}
+      <div className="absolute bottom-4 left-0 w-1/2 max-w-[150px] opacity-90 pointer-events-none">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
           alt="Film Reel" 
@@ -101,7 +102,7 @@ const Index = () => {
         />
       </div>
       
-      <div className="absolute bottom-4 right-0 w-1/2 max-w-[200px] opacity-90 pointer-events-none">
+      <div className="absolute bottom-4 right-0 w-1/2 max-w-[150px] opacity-90 pointer-events-none">
         <img 
           src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
           alt="Popcorn" 
