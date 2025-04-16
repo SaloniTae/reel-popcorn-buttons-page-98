@@ -23,6 +23,7 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Responsive adjustments for smaller screens */
 @media (max-height: 700px) {
   .mb-20 {
     margin-bottom: 2rem;
@@ -49,7 +50,6 @@ html, body, #root {
   }
 }
 
-/* Responsive adjustments for smaller screens */
 @media (max-width: 500px) {
   .max-w-xs {
     max-width: 85%;
