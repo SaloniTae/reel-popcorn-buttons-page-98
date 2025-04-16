@@ -27,10 +27,10 @@ const Index = () => {
         rel="noopener noreferrer"
         className="w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4"
       >
-        <div className="bg-white rounded-full p-2 mr-6">
+        <div className="bg-white rounded-full p-2 mr-2">
           <ShoppingCart className="h-5 w-5 text-[#007bff]" />
         </div>
-        <span className="flex-grow text-center">BUY NOW</span>
+        <span className="mx-auto pr-6">BUY NOW</span>
       </a>
 
       {/* OR divider */}
