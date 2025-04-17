@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { recordClick } from "@/services/LinkTrackingService";
+import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
 
 const RedirectPage = () => {

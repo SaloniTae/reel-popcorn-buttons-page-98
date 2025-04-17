@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
-import { createShortUrl, getAllLinks, recordClick, deleteLink } from '@/services/LinkTrackingService';
+import { createShortUrl, getAllLinks, recordClick, deleteLink } from '@/services/linkTracking';
 import { toast } from "sonner";
 
 interface LinkTrackingContextType {

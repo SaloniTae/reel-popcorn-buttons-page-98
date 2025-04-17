@@ -4,7 +4,7 @@ import { ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import StreamingButton from "@/components/StreamingButton";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { recordClick } from "@/services/LinkTrackingService";
+import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
