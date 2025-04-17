@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
@@ -43,10 +44,18 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
     if (filter === 'landing') {
       return getLandingPages();
     } else if (filter === 'redirect') {
-      return links.filter(link => link.linkType !== 'landing' && !link.parentLandingPage);
+      // Only show redirect links that are not buttons of landing pages
+      return links.filter(link => 
+        link.linkType !== 'landing' && 
+        !link.parentLandingPage
+      );
     }
     
-    return links.filter(link => link.linkType === 'landing' || !link.parentLandingPage);
+    // For 'all' filter, only show landing pages and standalone links (not buttons)
+    return links.filter(link => 
+      link.linkType === 'landing' || 
+      !link.parentLandingPage
+    );
   };
 
   const filteredLinks = getFilteredLinks();
@@ -76,11 +85,11 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
   };
 
   const handleOpenLink = (link: any) => {
+    // Open link directly without redirecting page
     if (link.linkType === 'landing') {
-      window.open(link.shortUrl, '_blank');
+      window.open(link.shortUrl, '_blank', 'noopener,noreferrer');
     } else {
-      const shortCode = link.shortUrl.split('oor.link/')[1];
-      window.open(`/r/${shortCode}`, '_blank');
+      window.open('https://telegram.me/ott_on_rent', '_blank', 'noopener,noreferrer');
     }
   };
 
@@ -172,7 +181,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                         <DropdownMenuItem asChild className="cursor-pointer">
                           <Link to={`/OOR/links/${link.id}`}>
                             <FolderOpen className="mr-2 h-4 w-4" />
-                            <span>Manage buttons</span>
+                            <span>View buttons</span>
                           </Link>
                         </DropdownMenuItem>
                       )}
@@ -343,7 +352,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                         <DropdownMenuItem asChild className="cursor-pointer">
                           <Link to={`/OOR/links/${link.id}`}>
                             <FolderOpen className="mr-2 h-4 w-4" />
-                            <span>Manage buttons</span>
+                            <span>View buttons</span>
                           </Link>
                         </DropdownMenuItem>
                       )}

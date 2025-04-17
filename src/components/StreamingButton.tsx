@@ -16,7 +16,7 @@ const StreamingButton = ({ imageUrl, alt, link, className, onClick }: StreamingB
     if (onClick) {
       onClick();
     }
-    // Open link directly in new tab
+    // Open link directly in new tab without any redirecting page
     window.open(link, '_blank', 'noopener,noreferrer');
   };
 

@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
 import { createShortUrl, getAllLinks as fetchAllLinks, recordClick, deleteLink as removeLink } from '@/services/linkTracking';
@@ -68,6 +69,33 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         
         setLinks(prev => [newLink, ...prev]);
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
+        
+        // If this is a landing page, automatically create its tracking buttons
+        if (linkType === "landing" && customSlug) {
+          const baseName = customSlug.replace(/[^a-z0-9]/g, '');
+          
+          // Create default buttons for this landing page
+          const trackingButtons = [
+            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+          ];
+          
+          for (const button of trackingButtons) {
+            await createShortUrl(
+              'https://telegram.me/ott_on_rent',
+              button.title,
+              undefined,
+              button.slug,
+              button.type
+            );
+          }
+          
+          // Refresh links to include the new buttons
+          await refreshLinks();
+        }
+        
         return newLink;
       }
       
