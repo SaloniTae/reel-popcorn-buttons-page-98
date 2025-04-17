@@ -35,7 +35,7 @@ import { TrackedLink } from "@/types/linkTracking";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, getButtonsForLandingPage, getAllLinks } = useLinkTracking();
+  const { links, deleteLink, getButtonsForLandingPage } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);
@@ -83,13 +83,15 @@ const LinkDetailPage = () => {
   };
 
   const handleTestLink = () => {
-    // Open the link directly in a new tab
+    // Open the link directly
     if (link.linkType === 'landing') {
       window.open(link.shortUrl, '_blank');
     } else {
       const shortCode = link.shortUrl.split('oor.link/')[1];
       window.open(`/r/${shortCode}`, '_blank');
     }
+    
+    // No need to show toast since the page will open directly
   };
 
   const formatDate = (dateString: string) => {
@@ -255,7 +257,7 @@ const LinkDetailPage = () => {
         )}
       </div>
 
-      {/* Show landing page buttons section */}
+      {/* Show child links section for landing pages */}
       {link?.linkType === 'landing' && childLinks.length > 0 && (
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex justify-between items-center mb-4">

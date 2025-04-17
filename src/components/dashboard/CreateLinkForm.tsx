@@ -6,7 +6,9 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
 
 const CreateLinkForm = () => {
   const { addLink } = useLinkTracking();
@@ -46,8 +48,6 @@ const CreateLinkForm = () => {
       
       if (newLink) {
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
-        
-        // Automatically navigate to the link detail page
         navigate(`/OOR/links/${newLink.id}`);
       }
     } catch (error) {
@@ -72,7 +72,7 @@ const CreateLinkForm = () => {
         
         <TabsContent value="landing">
           <p className="text-sm text-gray-500 mb-4">
-            Create a unique landing page with its own set of tracking links. Each landing page automatically includes Buy Now, Netflix, Prime, and Crunchyroll buttons.
+            Create a unique landing page with its own set of tracking links.
           </p>
         </TabsContent>
       </Tabs>
