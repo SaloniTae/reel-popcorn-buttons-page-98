@@ -73,11 +73,13 @@ const LandingPage = () => {
           });
         } else {
           // Generate unique tracking slugs for this landing page
+          // Make sure to use the exact slug from the landing page
+          const exactSlug = landingPage.slug;
           const trackingButtons = [
-            { slug: `${slug}-buy`, title: 'Buy Now Button', type: 'primary' },
-            { slug: `${slug}-netflix`, title: 'Netflix Button', type: 'streaming' },
-            { slug: `${slug}-prime`, title: 'Prime Video Button', type: 'streaming' },
-            { slug: `${slug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+            { slug: `${exactSlug}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${exactSlug}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${exactSlug}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${exactSlug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
           ];
           
           // Create tracking links
@@ -87,15 +89,15 @@ const LandingPage = () => {
               title: button.title,
               redirect_url: 'https://telegram.me/ott_on_rent',
               button_type: button.type,
-              parent_landing_page: slug
+              parent_landing_page: exactSlug
             });
           }
           
           setTrackingSlugs({
-            buyNow: `${slug}-buy`,
-            netflix: `${slug}-netflix`,
-            prime: `${slug}-prime`,
-            crunchyroll: `${slug}-crunchyroll`
+            buyNow: `${exactSlug}-buy`,
+            netflix: `${exactSlug}-netflix`,
+            prime: `${exactSlug}-prime`,
+            crunchyroll: `${exactSlug}-crunchyroll`
           });
         }
         

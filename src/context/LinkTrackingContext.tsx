@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
 import { createShortUrl, getAllLinks as fetchAllLinks, recordClick, deleteLink as removeLink } from '@/services/linkTracking';
@@ -23,7 +22,6 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
   const [links, setLinks] = useState<TrackedLink[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load links when component mounts
   useEffect(() => {
     loadLinks();
   }, []);
@@ -61,7 +59,6 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
       const newLink = await createShortUrl(originalUrl, title, utmParameters, customSlug, linkType);
       
       if (newLink) {
-        // Add parent landing page reference if this is a button
         if (parentLandingPage) {
           newLink.parentLandingPage = parentLandingPage;
           newLink.isButton = true;
@@ -70,16 +67,14 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         setLinks(prev => [newLink, ...prev]);
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
         
-        // If this is a landing page, automatically create its tracking buttons
         if (linkType === "landing" && customSlug) {
-          const baseName = customSlug.replace(/[^a-z0-9]/g, '');
+          const exactSlug = customSlug;
           
-          // Create default buttons for this landing page
           const trackingButtons = [
-            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary' },
-            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming' },
-            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming' },
-            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+            { slug: `${exactSlug}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${exactSlug}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${exactSlug}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${exactSlug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
           ];
           
           for (const button of trackingButtons) {
@@ -92,7 +87,6 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
             );
           }
           
-          // Refresh links to include the new buttons
           await refreshLinks();
         }
         
@@ -109,7 +103,6 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleRecordClick = async (shortUrl: string, referrer?: string) => {
     try {
-      // Extract the short code from the URL
       const shortCode = shortUrl.split('oor.link/')[1];
       
       if (!shortCode) {
@@ -117,10 +110,8 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
       
-      // Record the click in the database
       await recordClick(shortCode, referrer, navigator.userAgent);
       
-      // Update the local state
       setLinks(prev => 
         prev.map(link => {
           if (link.shortUrl === shortUrl) {
@@ -163,12 +154,10 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     return links.find(link => link.id === id);
   };
 
-  // Get all landing pages
   const getLandingPages = () => {
     return links.filter(link => link.linkType === 'landing');
   };
 
-  // Get all buttons for a specific landing page
   const getButtonsForLandingPage = (landingPageSlug: string) => {
     return links.filter(link => 
       link.parentLandingPage === landingPageSlug || 
