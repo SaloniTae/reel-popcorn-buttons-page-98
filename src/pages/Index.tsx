@@ -11,7 +11,7 @@ const Index = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isMobile = useIsMobile();
-  const [shortLinks, setShortLinks] = useState({
+  const [trackingSlugs, setTrackingSlugs] = useState({
     buyNow: "",
     netflix: "",
     prime: "",
@@ -25,72 +25,35 @@ const Index = () => {
         // Check if tracking links already exist
         const { data: existingLinks, error } = await supabase
           .from('links')
-          .select('short_code, title')
-          .in('title', ['Buy Now Button', 'Netflix Button', 'Prime Video Button', 'Crunchyroll Button']);
+          .select('slug, title, button_type')
+          .in('button_type', ['primary', 'streaming']);
           
         if (error) {
           console.error("Error fetching tracking links:", error);
           return;
         }
         
-        const linkMap: Record<string, string> = {};
+        const slugMap: Record<string, string> = {};
         
-        // If links exist, use them
+        // Map links to their respective buttons
         if (existingLinks && existingLinks.length > 0) {
           existingLinks.forEach(link => {
-            if (link.title === 'Buy Now Button') linkMap.buyNow = link.short_code;
-            if (link.title === 'Netflix Button') linkMap.netflix = link.short_code;
-            if (link.title === 'Prime Video Button') linkMap.prime = link.short_code;
-            if (link.title === 'Crunchyroll Button') linkMap.crunchyroll = link.short_code;
+            if (link.title === 'Buy Now Button' || link.button_type === 'primary') 
+              slugMap.buyNow = link.slug;
+            if (link.title === 'Netflix Button') 
+              slugMap.netflix = link.slug;
+            if (link.title === 'Prime Video Button') 
+              slugMap.prime = link.slug;
+            if (link.title === 'Crunchyroll Button') 
+              slugMap.crunchyroll = link.slug;
           });
         }
         
-        // Create any missing links
-        if (!linkMap.buyNow) {
-          const { data: buyNowLink } = await supabase.from('links').insert({
-            original_url: 'https://telegram.me/ott_on_rent',
-            short_code: 'buynowoor' + Math.random().toString(36).slice(2, 5),
-            title: 'Buy Now Button'
-          }).select().single();
-          
-          if (buyNowLink) linkMap.buyNow = buyNowLink.short_code;
-        }
-        
-        if (!linkMap.netflix) {
-          const { data: netflixLink } = await supabase.from('links').insert({
-            original_url: 'https://telegram.me/ott_on_rent',
-            short_code: 'netflixoor' + Math.random().toString(36).slice(2, 5),
-            title: 'Netflix Button'
-          }).select().single();
-          
-          if (netflixLink) linkMap.netflix = netflixLink.short_code;
-        }
-        
-        if (!linkMap.prime) {
-          const { data: primeLink } = await supabase.from('links').insert({
-            original_url: 'https://telegram.me/ott_on_rent',
-            short_code: 'primeoor' + Math.random().toString(36).slice(2, 5),
-            title: 'Prime Video Button'
-          }).select().single();
-          
-          if (primeLink) linkMap.prime = primeLink.short_code;
-        }
-        
-        if (!linkMap.crunchyroll) {
-          const { data: crunchyLink } = await supabase.from('links').insert({
-            original_url: 'https://telegram.me/ott_on_rent',
-            short_code: 'crunchyoor' + Math.random().toString(36).slice(2, 5),
-            title: 'Crunchyroll Button'
-          }).select().single();
-          
-          if (crunchyLink) linkMap.crunchyroll = crunchyLink.short_code;
-        }
-        
-        setShortLinks({
-          buyNow: linkMap.buyNow || "",
-          netflix: linkMap.netflix || "",
-          prime: linkMap.prime || "",
-          crunchyroll: linkMap.crunchyroll || ""
+        setTrackingSlugs({
+          buyNow: slugMap.buyNow || "buynow",
+          netflix: slugMap.netflix || "netflix",
+          prime: slugMap.prime || "prime",
+          crunchyroll: slugMap.crunchyroll || "crunchyroll"
         });
       } catch (err) {
         console.error("Error setting up tracking links:", err);
@@ -101,9 +64,9 @@ const Index = () => {
   }, []);
 
   // Track clicks on buttons
-  const trackButtonClick = (buttonType: string, shortCode: string) => {
-    if (shortCode) {
-      recordClick(shortCode, document.referrer, navigator.userAgent);
+  const trackButtonClick = (buttonType: string, slug: string) => {
+    if (slug) {
+      recordClick(slug, document.referrer, navigator.userAgent);
     }
   };
 
@@ -165,8 +128,8 @@ const Index = () => {
         </div>
 
         <a 
-          href={`/r/${shortLinks.buyNow}`}
-          onClick={() => trackButtonClick('buyNow', shortLinks.buyNow)}
+          href={`/r/${trackingSlugs.buyNow}`}
+          onClick={() => trackButtonClick('buyNow', trackingSlugs.buyNow)}
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3"
         >
           <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-6">
@@ -183,24 +146,24 @@ const Index = () => {
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
             alt="Netflix" 
-            link={`/r/${shortLinks.netflix}`}
-            onClick={() => trackButtonClick('netflix', shortLinks.netflix)}
+            link={`/r/${trackingSlugs.netflix}`}
+            onClick={() => trackButtonClick('netflix', trackingSlugs.netflix)}
             className="small-screen:py-2"
           />
           
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
             alt="Prime Video" 
-            link={`/r/${shortLinks.prime}`}
-            onClick={() => trackButtonClick('prime', shortLinks.prime)}
+            link={`/r/${trackingSlugs.prime}`}
+            onClick={() => trackButtonClick('prime', trackingSlugs.prime)}
             className="small-screen:py-2"
           />
           
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
             alt="Crunchyroll" 
-            link={`/r/${shortLinks.crunchyroll}`}
-            onClick={() => trackButtonClick('crunchyroll', shortLinks.crunchyroll)}
+            link={`/r/${trackingSlugs.crunchyroll}`}
+            onClick={() => trackButtonClick('crunchyroll', trackingSlugs.crunchyroll)}
             className="small-screen:py-2"
           />
         </div>

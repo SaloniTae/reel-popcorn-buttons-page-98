@@ -24,8 +24,8 @@ const RedirectPage = () => {
         setLoading(true);
         const { data, error } = await supabase
           .from('links')
-          .select('original_url')
-          .eq('short_code', shortCode)
+          .select('redirect_url, slug')
+          .eq('slug', shortCode)
           .single();
 
         if (error || !data) {
@@ -35,10 +35,10 @@ const RedirectPage = () => {
           return;
         }
 
-        setRedirectUrl(data.original_url);
+        setRedirectUrl(data.redirect_url);
         
         // Record the click with browser info
-        await recordClick(shortCode, document.referrer, navigator.userAgent);
+        await recordClick(data.slug, document.referrer, navigator.userAgent);
 
         // Start countdown
         setLoading(false);

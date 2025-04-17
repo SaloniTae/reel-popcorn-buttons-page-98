@@ -9,43 +9,49 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      clicks: {
+      click_events: {
         Row: {
           browser: string | null
+          button_name: string | null
+          city: string | null
+          country: string | null
           device: string | null
           id: string
           ip: string | null
           link_id: string | null
-          location: string | null
           referrer: string | null
+          region: string | null
           timestamp: string | null
-          user_agent: string | null
         }
         Insert: {
           browser?: string | null
+          button_name?: string | null
+          city?: string | null
+          country?: string | null
           device?: string | null
           id?: string
           ip?: string | null
           link_id?: string | null
-          location?: string | null
           referrer?: string | null
+          region?: string | null
           timestamp?: string | null
-          user_agent?: string | null
         }
         Update: {
           browser?: string | null
+          button_name?: string | null
+          city?: string | null
+          country?: string | null
           device?: string | null
           id?: string
           ip?: string | null
           link_id?: string | null
-          location?: string | null
           referrer?: string | null
+          region?: string | null
           timestamp?: string | null
-          user_agent?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "clicks_link_id_fkey"
+            foreignKeyName: "click_events_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "links"
@@ -55,43 +61,31 @@ export type Database = {
       }
       links: {
         Row: {
+          button_type: string | null
           created_at: string | null
           id: string
-          original_url: string
-          short_code: string
+          redirect_url: string
+          slug: string
           title: string
-          user_id: string | null
-          utm_campaign: string | null
-          utm_content: string | null
-          utm_medium: string | null
-          utm_source: string | null
-          utm_term: string | null
+          updated_at: string | null
         }
         Insert: {
+          button_type?: string | null
           created_at?: string | null
           id?: string
-          original_url: string
-          short_code: string
+          redirect_url?: string
+          slug: string
           title: string
-          user_id?: string | null
-          utm_campaign?: string | null
-          utm_content?: string | null
-          utm_medium?: string | null
-          utm_source?: string | null
-          utm_term?: string | null
+          updated_at?: string | null
         }
         Update: {
+          button_type?: string | null
           created_at?: string | null
           id?: string
-          original_url?: string
-          short_code?: string
+          redirect_url?: string
+          slug?: string
           title?: string
-          user_id?: string | null
-          utm_campaign?: string | null
-          utm_content?: string | null
-          utm_medium?: string | null
-          utm_source?: string | null
-          utm_term?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }

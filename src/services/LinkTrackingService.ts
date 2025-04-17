@@ -5,15 +5,11 @@ import { toast } from "sonner";
 
 export type LinkData = {
   id: string;
-  original_url: string;
-  short_code: string;
+  slug: string;
   title: string;
+  redirect_url: string;
   created_at: string;
-  utm_campaign?: string;
-  utm_source?: string;
-  utm_medium?: string;
-  utm_content?: string;
-  utm_term?: string;
+  button_type?: string;
 };
 
 export type ClickDataFromDB = {
@@ -23,9 +19,41 @@ export type ClickDataFromDB = {
   referrer?: string;
   browser?: string;
   device?: string;
-  location?: string;
+  country?: string;
+  region?: string;
+  city?: string;
   ip?: string;
-  user_agent?: string;
+};
+
+// Helper function to get client IP address
+export const getClientIP = async (): Promise<string> => {
+  try {
+    const response = await fetch('https://api.ipify.org?format=json');
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error("Error getting IP:", error);
+    return "";
+  }
+};
+
+// Helper function to get geolocation from IP
+export const getGeoLocation = async (ip: string) => {
+  try {
+    const { data, error } = await supabase.functions.invoke('geo-lookup', {
+      body: { ip }
+    });
+
+    if (error) {
+      console.error("Error getting geolocation:", error);
+      return { country: 'India', region: 'Unknown', city: 'Unknown' };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error invoking geo-lookup function:", error);
+    return { country: 'India', region: 'Unknown', city: 'Unknown' };
+  }
 };
 
 export const createShortUrl = async (
@@ -34,24 +62,35 @@ export const createShortUrl = async (
   utmParameters?: UtmParameters
 ): Promise<TrackedLink | null> => {
   try {
-    // Generate a short code from the title plus some random characters
+    // Generate a short slug from the title plus some random characters
     const slug = title
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '')
       .slice(0, 8);
     const randomChars = Math.random().toString(36).slice(2, 5);
-    const shortCode = `${slug}${randomChars}`;
+    const shortSlug = `${slug}${randomChars}`;
+
+    // Build the redirect URL with UTM parameters if provided
+    let redirectUrl = 'https://telegram.me/ott_on_rent';
+    if (utmParameters) {
+      const params = new URLSearchParams();
+      if (utmParameters.campaign) params.append('utm_campaign', utmParameters.campaign);
+      if (utmParameters.source) params.append('utm_source', utmParameters.source);
+      if (utmParameters.medium) params.append('utm_medium', utmParameters.medium);
+      if (utmParameters.content) params.append('utm_content', utmParameters.content);
+      if (utmParameters.term) params.append('utm_term', utmParameters.term);
+      
+      if (params.toString()) {
+        redirectUrl += `?${params.toString()}`;
+      }
+    }
 
     // Insert the new link into Supabase
     const { data, error } = await supabase.from('links').insert({
-      original_url: originalUrl,
-      short_code: shortCode,
+      slug: shortSlug,
       title: title,
-      utm_campaign: utmParameters?.campaign,
-      utm_source: utmParameters?.source,
-      utm_medium: utmParameters?.medium,
-      utm_content: utmParameters?.content,
-      utm_term: utmParameters?.term
+      redirect_url: redirectUrl,
+      button_type: 'custom'
     }).select().single();
 
     if (error) {
@@ -63,17 +102,11 @@ export const createShortUrl = async (
     // Format the response to match TrackedLink type
     const trackedLink: TrackedLink = {
       id: data.id,
-      originalUrl: data.original_url,
-      shortUrl: `oor.link/${data.short_code}`,
+      originalUrl: originalUrl,
+      shortUrl: `oor.link/${data.slug}`,
       title: data.title,
       createdAt: data.created_at,
-      utmParameters: {
-        campaign: data.utm_campaign || undefined,
-        source: data.utm_source || undefined,
-        medium: data.utm_medium || undefined,
-        content: data.utm_content || undefined,
-        term: data.utm_term || undefined
-      },
+      utmParameters: utmParameters || {},
       clicks: 0,
       clickHistory: []
     };
@@ -87,7 +120,7 @@ export const createShortUrl = async (
 };
 
 export const recordClick = async (
-  shortCode: string,
+  slug: string,
   referrer?: string,
   userAgent?: string
 ): Promise<void> => {
@@ -96,7 +129,7 @@ export const recordClick = async (
     const { data: linkData, error: linkError } = await supabase
       .from('links')
       .select('id')
-      .eq('short_code', shortCode)
+      .eq('slug', slug)
       .single();
 
     if (linkError || !linkData) {
@@ -104,21 +137,27 @@ export const recordClick = async (
       return;
     }
 
+    // Get the client IP address
+    const ip = await getClientIP();
+    
     // Extract browser and device info from user agent
     const browser = detectBrowser(userAgent);
     const device = detectDevice(userAgent);
     
-    // Get approximate location from IP (this would normally use a service like ipinfo.io)
-    const location = "Unknown"; // In a real app, you'd use a geolocation service
+    // Get geolocation data
+    const { country, region, city } = await getGeoLocation(ip);
 
     // Record the click
-    const { error: clickError } = await supabase.from('clicks').insert({
+    const { error: clickError } = await supabase.from('click_events').insert({
       link_id: linkData.id,
+      ip,
+      country,
+      region,
+      city,
       referrer: referrer || 'direct',
       browser,
       device,
-      location,
-      user_agent: userAgent
+      button_name: linkData.button_type
     });
 
     if (clickError) {
@@ -142,49 +181,47 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
       return [];
     }
 
-    // Get click count for each link
+    // Get all click events
     const linkIds = links.map(link => link.id);
     
-    // Fixed: using countAll() instead of count
-    const clickCounts: Record<string, number> = {};
+    let clickEvents: ClickDataFromDB[] = [];
+    let clickCounts: Record<string, number> = {};
     
     if (linkIds.length > 0) {
-      const { data: clicksData, error: clicksCountError } = await supabase
-        .from('clicks')
-        .select('link_id')
-        .in('link_id', linkIds);
+      // Get click counts
+      const { data: countData, error: countError } = await supabase
+        .from('click_events')
+        .select('link_id, count')
+        .in('link_id', linkIds)
+        .select(null, { count: 'exact', by: 'link_id' });
         
-      if (!clicksCountError && clicksData) {
-        // Count clicks manually by grouping
-        clicksData.forEach(click => {
-          if (click.link_id) {
-            clickCounts[click.link_id] = (clickCounts[click.link_id] || 0) + 1;
-          }
+      if (!countError && countData) {
+        countData.forEach(item => {
+          clickCounts[item.link_id] = item.count;
         });
       }
-    }
-
-    // Get all clicks
-    const { data: allClicks, error: allClicksError } = await supabase
-      .from('clicks')
-      .select('*')
-      .in('link_id', linkIds);
-
-    if (allClicksError) {
-      console.error("Error fetching clicks:", allClicksError);
+      
+      // Get click details
+      const { data: clicksData, error: clicksError } = await supabase
+        .from('click_events')
+        .select('*')
+        .in('link_id', linkIds)
+        .order('timestamp', { ascending: false });
+        
+      if (!clicksError && clicksData) {
+        clickEvents = clicksData;
+      }
     }
 
     // Group clicks by link ID
     const clicksMap: Record<string, ClickDataFromDB[]> = {};
     
-    if (allClicks) {
-      allClicks.forEach(click => {
-        if (!clicksMap[click.link_id]) {
-          clicksMap[click.link_id] = [];
-        }
-        clicksMap[click.link_id].push(click);
-      });
-    }
+    clickEvents.forEach(click => {
+      if (!clicksMap[click.link_id]) {
+        clicksMap[click.link_id] = [];
+      }
+      clicksMap[click.link_id].push(click);
+    });
 
     // Format the response to match TrackedLink[] type
     const trackedLinks: TrackedLink[] = links.map(link => {
@@ -192,24 +229,18 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
       
       return {
         id: link.id,
-        originalUrl: link.original_url,
-        shortUrl: `oor.link/${link.short_code}`,
+        originalUrl: link.redirect_url,
+        shortUrl: `oor.link/${link.slug}`,
         title: link.title,
         createdAt: link.created_at,
-        utmParameters: {
-          campaign: link.utm_campaign || undefined,
-          source: link.utm_source || undefined,
-          medium: link.utm_medium || undefined,
-          content: link.utm_content || undefined,
-          term: link.utm_term || undefined
-        },
+        utmParameters: {},
         clicks: clickCounts[link.id] || 0,
         clickHistory: linkClicks.map(click => ({
           timestamp: click.timestamp,
           referrer: click.referrer,
           browser: click.browser,
           device: click.device,
-          location: click.location
+          location: `${click.city || ''}, ${click.region || ''}, ${click.country || 'India'}`
         }))
       };
     });
