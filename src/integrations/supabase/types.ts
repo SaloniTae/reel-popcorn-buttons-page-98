@@ -64,6 +64,7 @@ export type Database = {
           button_type: string | null
           created_at: string | null
           id: string
+          parent_landing_page: string | null
           redirect_url: string
           slug: string
           title: string
@@ -73,6 +74,7 @@ export type Database = {
           button_type?: string | null
           created_at?: string | null
           id?: string
+          parent_landing_page?: string | null
           redirect_url?: string
           slug: string
           title: string
@@ -82,6 +84,7 @@ export type Database = {
           button_type?: string | null
           created_at?: string | null
           id?: string
+          parent_landing_page?: string | null
           redirect_url?: string
           slug?: string
           title?: string
