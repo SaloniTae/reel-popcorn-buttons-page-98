@@ -1,6 +1,7 @@
 
 
 
+
 /* Reset any animations */
 .float-animation,
 .shimmer,
@@ -115,6 +116,9 @@ html, body, #root {
   }
   .small-screen\:mb-6 {
     margin-bottom: 1.5rem;
+  }
+  .small-screen\:mb-4 {
+    margin-bottom: 1rem;
   }
   .pb-small-screen {
     padding-bottom: 3.5rem;
