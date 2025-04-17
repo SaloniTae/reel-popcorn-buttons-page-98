@@ -1,7 +1,7 @@
 
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
-import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
+import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -30,16 +30,29 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { TrackedLink } from "@/types/linkTracking";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, recordClick } = useLinkTracking();
+  const { links, deleteLink, getAllLinks } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);
+  const [childLinks, setChildLinks] = useState<TrackedLink[]>([]);
 
   const link = links.find((l) => l.id === id);
+
+  useEffect(() => {
+    // If this is a landing page, find all links that have this page's slug in their originalUrl
+    if (link && link.linkType === 'landing') {
+      const relatedLinks = links.filter(l => 
+        l.id !== link.id && // Not the same link
+        l.originalUrl.includes(link.shortUrl.split('/').pop() || '') // Contains the slug
+      );
+      setChildLinks(relatedLinks);
+    }
+  }, [link, links]);
 
   if (!link) {
     return (
@@ -73,11 +86,15 @@ const LinkDetailPage = () => {
   };
 
   const handleTestLink = () => {
-    window.open(`/r/${link.shortUrl.split('oor.link/')[1]}`, '_blank');
-    toast({
-      title: "Link opened",
-      description: "The link has been opened in a new tab.",
-    });
+    // Open the link directly
+    if (link.linkType === 'landing') {
+      window.open(link.shortUrl, '_blank');
+    } else {
+      const shortCode = link.shortUrl.split('oor.link/')[1];
+      window.open(`/r/${shortCode}`, '_blank');
+    }
+    
+    // No need to show toast since the page will open directly
   };
 
   const formatDate = (dateString: string) => {
@@ -121,9 +138,14 @@ const LinkDetailPage = () => {
       <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold mb-1">{link.title}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold mb-1">{link.title}</h1>
+              {link.linkType === 'landing' && (
+                <Badge variant="outline" className="bg-purple-50">Landing Page</Badge>
+              )}
+            </div>
             <p className="text-gray-500 break-all">
-              Original URL: {link.originalUrl}
+              {link.linkType === 'landing' ? 'Landing Page URL' : 'Original URL'}: {link.originalUrl}
             </p>
             <div className="flex items-center mt-2">
               <p className="font-medium text-blue-600 mr-2">{link.shortUrl}</p>
@@ -237,6 +259,82 @@ const LinkDetailPage = () => {
           </div>
         )}
       </div>
+
+      {/* Show child links section for landing pages */}
+      {link.linkType === 'landing' && (
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">Landing Page Buttons</h2>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              onClick={() => navigate('/OOR/create', { state: { landingPageSlug: link.shortUrl.split('/').pop() } })}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Button
+            </Button>
+          </div>
+          
+          {childLinks.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">No buttons added to this landing page yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Button Title</TableHead>
+                  <TableHead>Short URL</TableHead>
+                  <TableHead>Clicks</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {childLinks.map((childLink) => (
+                  <TableRow key={childLink.id}>
+                    <TableCell>
+                      <RouterLink to={`/OOR/links/${childLink.id}`} className="font-medium text-blue-600 hover:underline">
+                        {childLink.title}
+                      </RouterLink>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-600">{childLink.shortUrl}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6"
+                          onClick={() => {
+                            navigator.clipboard.writeText(childLink.shortUrl);
+                            toast({
+                              title: "Link copied",
+                              description: "The link has been copied to your clipboard.",
+                            });
+                          }}
+                        >
+                          <Copy className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">{childLink.clicks}</TableCell>
+                    <TableCell className="text-gray-600">{formatDate(childLink.createdAt)}</TableCell>
+                    <TableCell className="text-right">
+                      <Button 
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                      >
+                        <RouterLink to={`/OOR/links/${childLink.id}`}>
+                          View Details
+                        </RouterLink>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </div>
+      )}
 
       <Tabs defaultValue="clicks" className="w-full">
         <TabsList className="mb-4">

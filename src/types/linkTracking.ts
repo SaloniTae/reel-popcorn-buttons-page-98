@@ -9,6 +9,7 @@ export interface TrackedLink {
   clicks: number;
   clickHistory: ClickData[];
   linkType?: string; // 'redirect' or 'landing'
+  parentLandingPage?: string; // Reference to parent landing page slug
 }
 
 export interface UtmParameters {

@@ -2,6 +2,9 @@
 import TopStats from "@/components/dashboard/TopStats";
 import LinkTable from "@/components/dashboard/LinkTable";
 import LinkStatsVisual from "@/components/dashboard/LinkStatsVisual";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
@@ -17,7 +20,13 @@ const Dashboard = () => {
       
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Recent Links</h2>
+          <h2 className="text-xl font-semibold">Links</h2>
+          <Button asChild>
+            <Link to="/OOR/create">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create New Link
+            </Link>
+          </Button>
         </div>
         
         <LinkTable />
