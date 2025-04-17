@@ -78,11 +78,6 @@ const Index = () => {
           </div>
           <span className="text-center flex-1 pl-2">BUY NOW</span>
         </a>
-        <small className="absolute top-4 right-4 text-xs text-white/50 hover:text-white transition-colors">
-          <a href="/OOR" className="flex items-center gap-1 opacity-50 hover:opacity-100">
-            Admin
-          </a>
-        </small>
 
         <div className="mb-4 small-screen:mb-2 text-sm small-screen:text-xs font-light text-gray-300">
           OR

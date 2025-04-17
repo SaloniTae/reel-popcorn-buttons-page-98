@@ -9,7 +9,92 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      clicks: {
+        Row: {
+          browser: string | null
+          device: string | null
+          id: string
+          ip: string | null
+          link_id: string | null
+          location: string | null
+          referrer: string | null
+          timestamp: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          browser?: string | null
+          device?: string | null
+          id?: string
+          ip?: string | null
+          link_id?: string | null
+          location?: string | null
+          referrer?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          browser?: string | null
+          device?: string | null
+          id?: string
+          ip?: string | null
+          link_id?: string | null
+          location?: string | null
+          referrer?: string | null
+          timestamp?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      links: {
+        Row: {
+          created_at: string | null
+          id: string
+          original_url: string
+          short_code: string
+          title: string
+          user_id: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          original_url: string
+          short_code: string
+          title: string
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          original_url?: string
+          short_code?: string
+          title?: string
+          user_id?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
