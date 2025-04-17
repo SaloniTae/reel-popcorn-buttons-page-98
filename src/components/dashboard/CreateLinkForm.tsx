@@ -43,7 +43,7 @@ const CreateLinkForm = () => {
     return urlObj.toString();
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!title.trim()) {
@@ -81,14 +81,17 @@ const CreateLinkForm = () => {
           }
         : undefined;
       
-      const newLink = addLink(finalUrl, title, utmParams);
+      const newLink = await addLink(finalUrl, title, utmParams);
       
-      toast({
-        title: "Link created successfully",
-        description: "Your new tracked link has been created.",
-      });
-      
-      navigate(`/OOR/links/${newLink.id}`);
+      if (newLink) {
+        toast({
+          title: "Link created successfully",
+          description: "Your new tracked link has been created.",
+        });
+        
+        // We need to await the promise and then navigate
+        navigate(`/OOR/links/${newLink.id}`);
+      }
     } catch (error) {
       toast({
         title: "Invalid URL",

@@ -1,3 +1,5 @@
+
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,35 +15,47 @@ import LinkDetailPage from "./pages/admin/LinkDetailPage";
 import SettingsPage from "./pages/admin/SettingsPage";
 import RedirectPage from "./pages/RedirectPage";
 
-const queryClient = new QueryClient();
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          
-          {/* Admin Dashboard Routes */}
-          <Route path="/OOR" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="links" element={<LinksPage />} />
-            <Route path="links/:id" element={<LinkDetailPage />} />
-            <Route path="create" element={<CreateLinkPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
-          
-          {/* Link Redirect Route */}
-          <Route path="/r/:shortCode" element={<RedirectPage />} />
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              
+              {/* Admin Dashboard Routes */}
+              <Route path="/OOR" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="links" element={<LinksPage />} />
+                <Route path="links/:id" element={<LinkDetailPage />} />
+                <Route path="create" element={<CreateLinkPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
+              
+              {/* Link Redirect Route */}
+              <Route path="/r/:shortCode" element={<RedirectPage />} />
+              
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </React.StrictMode>
+  );
+};
 
 export default App;
