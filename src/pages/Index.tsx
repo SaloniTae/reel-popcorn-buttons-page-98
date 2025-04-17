@@ -51,7 +51,7 @@ const Index = () => {
         ></video>
       </div>
 
-      <div className="flex flex-col items-center w-full pt-4 pb-10 relative z-10">
+      <div className="flex flex-col items-center w-full pt-4 pb-20 relative z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="mb-4 relative">
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
@@ -75,7 +75,7 @@ const Index = () => {
           <div className="bg-white rounded-full p-2 mr-6">
             <ShoppingCart className="h-5 w-5 text-[#007bff]" />
           </div>
-          <span className="text-center flex-1 pr-2">BUY NOW</span>
+          <span className="text-center flex-1 pl-2">BUY NOW</span>
         </a>
 
         <div className="mb-4 text-sm font-light text-gray-300">
