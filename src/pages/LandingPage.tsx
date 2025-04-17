@@ -11,6 +11,11 @@ const LandingPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [landingPageData, setLandingPageData] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
+  
   const [trackingSlugs, setTrackingSlugs] = useState({
     buyNow: "",
     netflix: "",
@@ -42,6 +47,8 @@ const LandingPage = () => {
           setLoading(false);
           return;
         }
+        
+        setLandingPageData(landingPage);
         
         // Record a visit to this landing page
         if (landingPage.slug) {
@@ -116,6 +123,7 @@ const LandingPage = () => {
   return (
     <LandingPageTemplate 
       slug={slug || ''} 
+      title={landingPageData?.title}
       trackingSlugs={trackingSlugs}
     />
   );

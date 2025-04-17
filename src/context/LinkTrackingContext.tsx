@@ -1,6 +1,7 @@
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
-import { createShortUrl, getAllLinks as fetchAllLinks, recordClick, deleteLink as removeLink } from '@/services/linkTracking';
+import { createShortUrl, getAllLinks, recordClick, deleteLink } from '@/services/linkTracking';
 import { toast } from "sonner";
 
 interface LinkTrackingContextType {
@@ -13,7 +14,6 @@ interface LinkTrackingContextType {
   refreshLinks: () => Promise<void>;
   getLandingPages: () => TrackedLink[];
   getButtonsForLandingPage: (landingPageSlug: string) => TrackedLink[];
-  getAllLinks: () => Promise<TrackedLink[]>;
 }
 
 const LinkTrackingContext = createContext<LinkTrackingContextType | undefined>(undefined);
@@ -30,7 +30,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
   const loadLinks = async () => {
     setLoading(true);
     try {
-      const fetchedLinks = await fetchAllLinks();
+      const fetchedLinks = await getAllLinks();
       setLinks(fetchedLinks);
     } catch (error) {
       console.error("Error loading links:", error);
@@ -44,10 +44,6 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     await loadLinks();
   };
   
-  const getAllLinks = async () => {
-    return await fetchAllLinks();
-  };
-
   const handleAddLink = async (
     originalUrl: string, 
     title: string, 
@@ -120,7 +116,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDeleteLink = async (id: string) => {
     try {
-      const success = await removeLink(id);
+      const success = await deleteLink(id);
       
       if (success) {
         setLinks(prev => prev.filter(link => link.id !== id));
@@ -159,8 +155,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         getLink,
         refreshLinks,
         getLandingPages,
-        getButtonsForLandingPage,
-        getAllLinks
+        getButtonsForLandingPage
       }}
     >
       {children}

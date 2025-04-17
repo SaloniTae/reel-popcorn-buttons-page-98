@@ -1,3 +1,4 @@
+
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, Plus } from "lucide-react";
@@ -34,7 +35,7 @@ import { TrackedLink } from "@/types/linkTracking";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, refreshLinks, getButtonsForLandingPage } = useLinkTracking();
+  const { links, deleteLink, refreshLinks } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);
@@ -45,11 +46,13 @@ const LinkDetailPage = () => {
   useEffect(() => {
     // If this is a landing page, find all links that have this page's slug in their originalUrl
     if (link && link.linkType === 'landing') {
-      const slug = link.shortUrl.split('/').pop() || '';
-      const relatedLinks = getButtonsForLandingPage(slug);
+      const relatedLinks = links.filter(l => 
+        l.id !== link.id && // Not the same link
+        l.originalUrl.includes(link.shortUrl.split('/').pop() || '') // Contains the slug
+      );
       setChildLinks(relatedLinks);
     }
-  }, [link, links, getButtonsForLandingPage]);
+  }, [link, links]);
 
   if (!link) {
     return (

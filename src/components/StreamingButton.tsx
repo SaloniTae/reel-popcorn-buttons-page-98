@@ -14,8 +14,6 @@ const StreamingButton = ({ imageUrl, alt, link, className, onClick }: StreamingB
   return (
     <a 
       href={link} 
-      target="_blank"
-      rel="noopener noreferrer"
       onClick={(e) => {
         if (onClick) {
           onClick();
