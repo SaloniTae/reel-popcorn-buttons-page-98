@@ -29,14 +29,15 @@ serve(async (req) => {
     if (data.status !== 'success') {
       console.error('IP lookup failed:', data.message);
       return new Response(
-        JSON.stringify({ country: 'Unknown', region: 'Unknown', city: 'Unknown' }),
+        JSON.stringify({ country: 'India', region: 'Unknown', city: 'Unknown' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
     
+    // Always return India as country as per requirements
     return new Response(
       JSON.stringify({
-        country: data.country || 'India', // Default to India if not available
+        country: 'India', 
         region: data.regionName || 'Unknown',
         city: data.city || 'Unknown'
       }),

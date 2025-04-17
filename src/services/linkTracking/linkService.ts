@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { TrackedLink, UtmParameters, ClickData } from "@/types/linkTracking";
 import { ClickDataFromDB, LinkData } from "./types";
@@ -7,32 +6,26 @@ import { toast } from "sonner";
 export const createShortUrl = async (
   originalUrl: string,
   title: string,
-  utmParameters?: UtmParameters
+  utmParameters?: UtmParameters,
+  customSlug?: string
 ): Promise<TrackedLink | null> => {
   try {
-    // Generate a short slug from the title plus some random characters
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '')
-      .slice(0, 8);
-    const randomChars = Math.random().toString(36).slice(2, 5);
-    const shortSlug = `${slug}${randomChars}`;
-
-    // Build the redirect URL with UTM parameters if provided
-    let redirectUrl = 'https://telegram.me/ott_on_rent';
-    if (utmParameters) {
-      const params = new URLSearchParams();
-      if (utmParameters.campaign) params.append('utm_campaign', utmParameters.campaign);
-      if (utmParameters.source) params.append('utm_source', utmParameters.source);
-      if (utmParameters.medium) params.append('utm_medium', utmParameters.medium);
-      if (utmParameters.content) params.append('utm_content', utmParameters.content);
-      if (utmParameters.term) params.append('utm_term', utmParameters.term);
-      
-      if (params.toString()) {
-        redirectUrl += `?${params.toString()}`;
-      }
+    // Use custom slug if provided, otherwise generate one from title + random chars
+    let shortSlug = customSlug;
+    
+    if (!shortSlug) {
+      // Generate a short slug from the title plus some random characters
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '')
+        .slice(0, 8);
+      const randomChars = Math.random().toString(36).slice(2, 5);
+      shortSlug = `${slug}${randomChars}`;
     }
 
+    // Build the redirect URL (always the same: telegram link)
+    let redirectUrl = 'https://telegram.me/ott_on_rent';
+    
     // Insert the new link into Supabase
     const { data, error } = await supabase.from('links').insert({
       slug: shortSlug,
@@ -42,15 +35,20 @@ export const createShortUrl = async (
     }).select().single();
 
     if (error) {
+      // Check if it's a duplicate slug error
+      if (error.code === '23505') {
+        toast.error("This custom link is already taken. Please choose another one.");
+      } else {
+        toast.error("Failed to create link");
+      }
       console.error("Error creating link:", error);
-      toast.error("Failed to create link");
       return null;
     }
 
     // Format the response to match TrackedLink type
     const trackedLink: TrackedLink = {
       id: data.id,
-      originalUrl: originalUrl,
+      originalUrl: redirectUrl,
       shortUrl: `oor.link/${data.slug}`,
       title: data.title,
       createdAt: data.created_at,

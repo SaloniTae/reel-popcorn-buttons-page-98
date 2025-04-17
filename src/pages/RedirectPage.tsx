@@ -40,7 +40,7 @@ const RedirectPage = () => {
         // Record the click with browser info
         await recordClick(data.slug, document.referrer, navigator.userAgent);
 
-        // Start countdown
+        // Set loading to false to start countdown
         setLoading(false);
       } catch (err) {
         console.error("Error in redirect:", err);
@@ -60,7 +60,7 @@ const RedirectPage = () => {
       setCountdown(prev => {
         if (prev <= 1) {
           clearInterval(timer);
-          window.location.href = redirectUrl;
+          window.location.href = redirectUrl; // Use window.location for full redirect
           return 0;
         }
         return prev - 1;

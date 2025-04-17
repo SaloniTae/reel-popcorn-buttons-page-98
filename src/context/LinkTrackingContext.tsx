@@ -7,7 +7,7 @@ import { toast } from "sonner";
 interface LinkTrackingContextType {
   links: TrackedLink[];
   loading: boolean;
-  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters) => Promise<TrackedLink | null>;
+  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters, customSlug?: string) => Promise<TrackedLink | null>;
   recordClick: (shortUrl: string, referrer?: string) => void;
   deleteLink: (id: string) => Promise<void>;
   getLink: (id: string) => TrackedLink | undefined;
@@ -42,9 +42,14 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     await loadLinks();
   };
   
-  const handleAddLink = async (originalUrl: string, title: string, utmParameters?: UtmParameters): Promise<TrackedLink | null> => {
+  const handleAddLink = async (
+    originalUrl: string, 
+    title: string, 
+    utmParameters?: UtmParameters,
+    customSlug?: string
+  ): Promise<TrackedLink | null> => {
     try {
-      const newLink = await createShortUrl(originalUrl, title, utmParameters);
+      const newLink = await createShortUrl(originalUrl, title, utmParameters, customSlug);
       
       if (newLink) {
         setLinks(prev => [newLink, ...prev]);
