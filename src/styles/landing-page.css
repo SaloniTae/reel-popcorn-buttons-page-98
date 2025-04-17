@@ -1,5 +1,4 @@
 
-
 /* Reset any animations */
 .float-animation,
 .shimmer,
@@ -11,17 +10,24 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
 .rounded-full {
   border-radius: 50%;
 }
 
-/* Make sure the page is truly full height without scrolling */
+/* Make sure the page is truly full height and allows scrolling */
 html, body, #root {
   height: 100%;
-  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* Fix for admin dashboard scrolling on mobile */
+.dashboard-layout {
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Video container styling */
@@ -113,4 +119,3 @@ html, body, #root {
     max-width: 85%;
   }
 }
-

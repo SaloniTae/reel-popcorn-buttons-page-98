@@ -144,19 +144,24 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
 
     // Get click count for each link
     const linkIds = links.map(link => link.id);
-    const { data: clicksCount, error: clicksError } = await supabase
-      .from('clicks')
-      .select('link_id, count')
-      .in('link_id', linkIds)
-      .count();
-
-    // Map of link ID to click count
-    const clickCountMap: Record<string, number> = {};
     
-    if (!clicksError && clicksCount) {
-      clicksCount.forEach(item => {
-        clickCountMap[item.link_id] = item.count;
-      });
+    // Fixed: using countAll() instead of count
+    const clickCounts: Record<string, number> = {};
+    
+    if (linkIds.length > 0) {
+      const { data: clicksData, error: clicksCountError } = await supabase
+        .from('clicks')
+        .select('link_id')
+        .in('link_id', linkIds);
+        
+      if (!clicksCountError && clicksData) {
+        // Count clicks manually by grouping
+        clicksData.forEach(click => {
+          if (click.link_id) {
+            clickCounts[click.link_id] = (clickCounts[click.link_id] || 0) + 1;
+          }
+        });
+      }
     }
 
     // Get all clicks
@@ -198,7 +203,7 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
           content: link.utm_content || undefined,
           term: link.utm_term || undefined
         },
-        clicks: clickCountMap[link.id] || 0,
+        clicks: clickCounts[link.id] || 0,
         clickHistory: linkClicks.map(click => ({
           timestamp: click.timestamp,
           referrer: click.referrer,
