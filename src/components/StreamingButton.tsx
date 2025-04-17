@@ -23,7 +23,7 @@ const StreamingButton = ({ imageUrl, alt, link, className }: StreamingButtonProp
       <img 
         src={imageUrl} 
         alt={alt} 
-        className="h-7 object-contain" 
+        className="h-7 small-screen:h-5 object-contain" 
       />
     </a>
   );
