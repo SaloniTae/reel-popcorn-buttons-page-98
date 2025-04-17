@@ -52,7 +52,7 @@ const Index = () => {
         ></video>
       </div>
 
-      <div className="flex flex-col items-center w-full pt-4 pb-20 sm:pb-20 pb-small-screen relative z-10">
+      <div className="flex flex-col items-center w-full pt-4 pb-16 sm:pb-20 pb-small-screen relative z-10">
         <div className="flex flex-col items-center mb-4 small-screen:mb-3">
           <div className="mb-4 small-screen:mb-2 relative">
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
@@ -106,7 +106,7 @@ const Index = () => {
           />
         </div>
 
-        <div className="text-center mb-4 small-screen:mb-2 px-4">
+        <div className="text-center mb-8 small-screen:mb-6 px-4">
           <p className="text-xs small-screen:text-[10px] text-gray-300 tracking-wider mb-1 small-screen:mb-0.5">
             START THE BOT • CHOOSE SLOT • PAY
           </p>
@@ -117,23 +117,23 @@ const Index = () => {
       </div>
 
       {isMobile && (
-        <>
-          <div className="absolute bottom-4 left-0 w-[195px] max-w-[195px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-2 opacity-90 pointer-events-none overflow-hidden">
+        <div className="w-full flex justify-between items-center absolute bottom-0 left-0 right-0 small-screen:bottom-0 opacity-90 pointer-events-none">
+          <div className="w-[150px] max-w-[150px] small-screen:w-[120px] small-screen:max-w-[120px] overflow-hidden">
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
               alt="Film Reel" 
-              className="w-full object-contain transform -translate-x-2"
+              className="w-full object-contain transform -translate-x-1"
             />
           </div>
           
-          <div className="absolute bottom-4 right-0 w-[195px] max-w-[195px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-2 opacity-90 pointer-events-none overflow-hidden">
+          <div className="w-[150px] max-w-[150px] small-screen:w-[120px] small-screen:max-w-[120px] overflow-hidden">
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
               alt="Popcorn" 
-              className="w-full object-contain transform translate-x-2"
+              className="w-full object-contain transform translate-x-1"
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

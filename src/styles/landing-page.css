@@ -1,5 +1,6 @@
 
 
+
 /* Reset any animations */
 .float-animation,
 .shimmer,
@@ -100,11 +101,23 @@ html, body, #root {
   .small-screen\:max-w-\[150px\] {
     max-width: 150px;
   }
+  .small-screen\:w-\[120px\] {
+    width: 120px;
+  }
+  .small-screen\:max-w-\[120px\] {
+    max-width: 120px;
+  }
   .small-screen\:bottom-2 {
     bottom: 0.5rem;
   }
+  .small-screen\:bottom-0 {
+    bottom: 0;
+  }
+  .small-screen\:mb-6 {
+    margin-bottom: 1.5rem;
+  }
   .pb-small-screen {
-    padding-bottom: 4.5rem;
+    padding-bottom: 3.5rem;
   }
 }
 
@@ -113,4 +126,3 @@ html, body, #root {
     max-width: 85%;
   }
 }
-
