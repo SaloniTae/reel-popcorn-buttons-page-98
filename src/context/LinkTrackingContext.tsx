@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
-import { createShortUrl, getAllLinks, recordClick, deleteLink } from '@/services/linkTracking';
+import { createShortUrl, getAllLinks as fetchAllLinks, recordClick, deleteLink as removeLink } from '@/services/linkTracking';
 import { toast } from "sonner";
 
 interface LinkTrackingContextType {
@@ -14,6 +14,7 @@ interface LinkTrackingContextType {
   refreshLinks: () => Promise<void>;
   getLandingPages: () => TrackedLink[];
   getButtonsForLandingPage: (landingPageSlug: string) => TrackedLink[];
+  getAllLinks: () => Promise<TrackedLink[]>;
 }
 
 const LinkTrackingContext = createContext<LinkTrackingContextType | undefined>(undefined);
@@ -30,7 +31,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
   const loadLinks = async () => {
     setLoading(true);
     try {
-      const fetchedLinks = await getAllLinks();
+      const fetchedLinks = await fetchAllLinks();
       setLinks(fetchedLinks);
     } catch (error) {
       console.error("Error loading links:", error);
@@ -44,6 +45,10 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     await loadLinks();
   };
   
+  const getAllLinks = async () => {
+    return await fetchAllLinks();
+  };
+
   const handleAddLink = async (
     originalUrl: string, 
     title: string, 
@@ -64,6 +69,33 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         
         setLinks(prev => [newLink, ...prev]);
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
+        
+        // If this is a landing page, automatically create its tracking buttons
+        if (linkType === "landing" && customSlug) {
+          const baseName = customSlug.replace(/[^a-z0-9]/g, '');
+          
+          // Create default buttons for this landing page
+          const trackingButtons = [
+            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+          ];
+          
+          for (const button of trackingButtons) {
+            await createShortUrl(
+              'https://telegram.me/ott_on_rent',
+              button.title,
+              undefined,
+              button.slug,
+              button.type
+            );
+          }
+          
+          // Refresh links to include the new buttons
+          await refreshLinks();
+        }
+        
         return newLink;
       }
       
@@ -116,7 +148,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDeleteLink = async (id: string) => {
     try {
-      const success = await deleteLink(id);
+      const success = await removeLink(id);
       
       if (success) {
         setLinks(prev => prev.filter(link => link.id !== id));
@@ -155,7 +187,8 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         getLink,
         refreshLinks,
         getLandingPages,
-        getButtonsForLandingPage
+        getButtonsForLandingPage,
+        getAllLinks
       }}
     >
       {children}

@@ -11,11 +11,6 @@ const LandingPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [landingPageData, setLandingPageData] = useState<{
-    id: string;
-    title: string;
-  } | null>(null);
-  
   const [trackingSlugs, setTrackingSlugs] = useState({
     buyNow: "",
     netflix: "",
@@ -48,8 +43,6 @@ const LandingPage = () => {
           return;
         }
         
-        setLandingPageData(landingPage);
-        
         // Record a visit to this landing page
         if (landingPage.slug) {
           recordClick(landingPage.slug, document.referrer, navigator.userAgent);
@@ -69,10 +62,10 @@ const LandingPage = () => {
         const createTrackingLinks = async () => {
           // Check if tracking links already exist
           const trackingButtons = [
-            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary' },
-            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming' },
-            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming' },
-            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary', parentSlug: slug },
+            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming', parentSlug: slug },
+            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming', parentSlug: slug },
+            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming', parentSlug: slug }
           ];
           
           for (const button of trackingButtons) {
@@ -90,7 +83,7 @@ const LandingPage = () => {
                 title: button.title,
                 redirect_url: 'https://telegram.me/ott_on_rent',
                 button_type: button.type,
-                parent_landing_page: slug
+                parent_landing_page: button.parentSlug
               });
             }
           }
@@ -123,7 +116,6 @@ const LandingPage = () => {
   return (
     <LandingPageTemplate 
       slug={slug || ''} 
-      title={landingPageData?.title}
       trackingSlugs={trackingSlugs}
     />
   );

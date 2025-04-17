@@ -43,6 +43,7 @@ const Index = () => {
           });
         }
         
+        // Use default slugs if not found
         setTrackingSlugs({
           buyNow: slugMap.buyNow || "buynow",
           netflix: slugMap.netflix || "netflix",
