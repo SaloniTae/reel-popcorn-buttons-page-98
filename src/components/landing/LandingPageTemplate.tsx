@@ -8,7 +8,6 @@ import { recordClick } from "@/services/linkTracking";
 
 interface LandingPageTemplateProps {
   slug: string;
-  title?: string;
   trackingSlugs: {
     buyNow: string;
     netflix: string;
@@ -17,7 +16,7 @@ interface LandingPageTemplateProps {
   };
 }
 
-const LandingPageTemplate = ({ slug, title, trackingSlugs }: LandingPageTemplateProps) => {
+const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isMobile = useIsMobile();
@@ -85,14 +84,13 @@ const LandingPageTemplate = ({ slug, title, trackingSlugs }: LandingPageTemplate
           <h1 className="text-base small-screen:text-sm font-light tracking-wider text-gray-300">
             OTT ON RENT
           </h1>
-          {title && (
-            <p className="text-xs text-gray-400 mt-1">{title}</p>
-          )}
         </div>
 
         <a 
-          href={`/r/${trackingSlugs.buyNow}`}
+          href={`https://telegram.me/ott_on_rent`}
           onClick={() => trackButtonClick('buyNow', trackingSlugs.buyNow)}
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3"
         >
           <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-6">
@@ -109,7 +107,7 @@ const LandingPageTemplate = ({ slug, title, trackingSlugs }: LandingPageTemplate
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
             alt="Netflix" 
-            link={`/r/${trackingSlugs.netflix}`}
+            link="https://telegram.me/ott_on_rent"
             onClick={() => trackButtonClick('netflix', trackingSlugs.netflix)}
             className="small-screen:py-2"
           />
@@ -117,7 +115,7 @@ const LandingPageTemplate = ({ slug, title, trackingSlugs }: LandingPageTemplate
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
             alt="Prime Video" 
-            link={`/r/${trackingSlugs.prime}`}
+            link="https://telegram.me/ott_on_rent"
             onClick={() => trackButtonClick('prime', trackingSlugs.prime)}
             className="small-screen:py-2"
           />
@@ -125,7 +123,7 @@ const LandingPageTemplate = ({ slug, title, trackingSlugs }: LandingPageTemplate
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
             alt="Crunchyroll" 
-            link={`/r/${trackingSlugs.crunchyroll}`}
+            link="https://telegram.me/ott_on_rent"
             onClick={() => trackButtonClick('crunchyroll', trackingSlugs.crunchyroll)}
             className="small-screen:py-2"
           />
