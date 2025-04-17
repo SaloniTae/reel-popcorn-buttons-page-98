@@ -7,6 +7,8 @@ import LinkTableHeader from "./LinkTableHeader";
 import LandingPageRow from "./LandingPageRow";
 import ButtonTableRow from "./ButtonTableRow";
 import LoadingState from "./LoadingState";
+import { Table, TableBody } from "@/components/ui/table";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
 interface LinkTableProps {
   filter?: 'all' | 'landing' | 'redirect';
@@ -69,25 +71,21 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
         <LinkTableHeader />
         <tbody className="divide-y">
           {landingPages.map((landingPage) => (
-            <>
+            <React.Fragment key={landingPage.id}>
               <LandingPageRow
-                key={landingPage.id}
                 landingPage={landingPage}
-                isExpanded={expandedLandingPages.has(landingPage.id)}
-                onToggle={() => toggleLandingPage(landingPage.id)}
                 onOpenLink={handleOpenLink}
                 onCopyUrl={copyToClipboard}
                 onDelete={handleDeleteLink}
               />
-              {expandedLandingPages.has(landingPage.id) &&
-                getButtonsForLandingPage(landingPage.id).map((button) => (
-                  <ButtonTableRow
-                    key={button.id}
-                    button={button}
-                    onOpenLink={handleOpenLink}
-                  />
-                ))}
-            </>
+              {getButtonsForLandingPage(landingPage.slug).map((button) => (
+                <ButtonTableRow
+                  key={button.id}
+                  button={button}
+                  onOpenLink={handleOpenLink}
+                />
+              ))}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
