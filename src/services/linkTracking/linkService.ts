@@ -7,7 +7,8 @@ export const createShortUrl = async (
   originalUrl: string,
   title: string,
   utmParameters?: UtmParameters,
-  customSlug?: string
+  customSlug?: string,
+  linkType?: string
 ): Promise<TrackedLink | null> => {
   try {
     // Use custom slug if provided, otherwise generate one from title + random chars
@@ -24,14 +25,17 @@ export const createShortUrl = async (
     }
 
     // Build the redirect URL (always the same: telegram link)
-    let redirectUrl = 'https://telegram.me/ott_on_rent';
+    let redirectUrl = originalUrl;
+    
+    // Determine button type
+    const buttonType = linkType === 'landing' ? 'landing' : 'custom';
     
     // Insert the new link into Supabase
     const { data, error } = await supabase.from('links').insert({
       slug: shortSlug,
       title: title,
       redirect_url: redirectUrl,
-      button_type: 'custom'
+      button_type: buttonType
     }).select().single();
 
     if (error) {
@@ -49,12 +53,15 @@ export const createShortUrl = async (
     const trackedLink: TrackedLink = {
       id: data.id,
       originalUrl: redirectUrl,
-      shortUrl: `oor.link/${data.slug}`,
+      shortUrl: linkType === 'landing' 
+        ? `${window.location.origin}/${data.slug}`
+        : `oor.link/${data.slug}`,
       title: data.title,
       createdAt: data.created_at,
       utmParameters: utmParameters || {},
       clicks: 0,
-      clickHistory: []
+      clickHistory: [],
+      linkType: linkType || 'redirect'
     };
 
     return trackedLink;
@@ -128,11 +135,14 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
     // Format the response to match TrackedLink[] type
     const trackedLinks: TrackedLink[] = links.map(link => {
       const linkClicks = clicksMap[link.id] || [];
+      const isLanding = link.button_type === 'landing';
       
       return {
         id: link.id,
         originalUrl: link.redirect_url,
-        shortUrl: `oor.link/${link.slug}`,
+        shortUrl: isLanding 
+          ? `${window.location.origin}/${link.slug}`
+          : `oor.link/${link.slug}`,
         title: link.title,
         createdAt: link.created_at,
         utmParameters: {},
@@ -143,7 +153,8 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
           browser: click.browser,
           device: click.device,
           location: `${click.city || ''}, ${click.region || ''}, ${click.country || 'India'}`
-        }))
+        })),
+        linkType: isLanding ? 'landing' : 'redirect'
       };
     });
 

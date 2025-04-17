@@ -14,6 +14,7 @@ import CreateLinkPage from "./pages/admin/CreateLinkPage";
 import LinkDetailPage from "./pages/admin/LinkDetailPage";
 import SettingsPage from "./pages/admin/SettingsPage";
 import RedirectPage from "./pages/RedirectPage";
+import LandingPage from "./pages/LandingPage";
 import { LinkTrackingProvider } from "./context/LinkTrackingContext";
 
 // Create a client
@@ -49,6 +50,9 @@ const App = () => {
                 
                 {/* Link Redirect Route */}
                 <Route path="/r/:shortCode" element={<RedirectPage />} />
+                
+                {/* Landing Page Route */}
+                <Route path="/:slug" element={<LandingPage />} />
                 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

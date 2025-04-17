@@ -22,7 +22,7 @@ serve(async (req) => {
       );
     }
     
-    // Use the free ip-api.com service to get geolocation data
+    // Use ip-api.com service to get geolocation data as requested
     const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city`);
     const data = await response.json();
     

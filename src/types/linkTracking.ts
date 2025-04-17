@@ -8,6 +8,7 @@ export interface TrackedLink {
   utmParameters?: UtmParameters;
   clicks: number;
   clickHistory: ClickData[];
+  linkType?: string; // 'redirect' or 'landing'
 }
 
 export interface UtmParameters {

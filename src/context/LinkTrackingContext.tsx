@@ -7,7 +7,7 @@ import { toast } from "sonner";
 interface LinkTrackingContextType {
   links: TrackedLink[];
   loading: boolean;
-  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters, customSlug?: string) => Promise<TrackedLink | null>;
+  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters, customSlug?: string, linkType?: string) => Promise<TrackedLink | null>;
   recordClick: (shortUrl: string, referrer?: string) => void;
   deleteLink: (id: string) => Promise<void>;
   getLink: (id: string) => TrackedLink | undefined;
@@ -46,14 +46,15 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     originalUrl: string, 
     title: string, 
     utmParameters?: UtmParameters,
-    customSlug?: string
+    customSlug?: string,
+    linkType?: string
   ): Promise<TrackedLink | null> => {
     try {
-      const newLink = await createShortUrl(originalUrl, title, utmParameters, customSlug);
+      const newLink = await createShortUrl(originalUrl, title, utmParameters, customSlug, linkType);
       
       if (newLink) {
         setLinks(prev => [newLink, ...prev]);
-        toast.success("Link created successfully");
+        toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
         return newLink;
       }
       
