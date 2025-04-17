@@ -48,48 +48,57 @@ const LandingPage = () => {
           recordClick(landingPage.slug, document.referrer, navigator.userAgent);
         }
         
-        // Generate unique tracking slugs for this landing page
-        const baseName = slug.replace(/[^a-z0-9]/g, '');
-        
-        setTrackingSlugs({
-          buyNow: `${baseName}-buy`,
-          netflix: `${baseName}-netflix`,
-          prime: `${baseName}-prime`,
-          crunchyroll: `${baseName}-crunchyroll`
-        });
-        
-        // Create tracking links if they don't exist
-        const createTrackingLinks = async () => {
-          // Check if tracking links already exist
+        // Check if tracking links already exist for this landing page
+        const { data: existingButtons } = await supabase
+          .from('links')
+          .select('slug, title, button_type')
+          .eq('parent_landing_page', slug);
+          
+        // If buttons exist, use them
+        if (existingButtons && existingButtons.length > 0) {
+          const slugMap: Record<string, string> = {};
+          
+          existingButtons.forEach(button => {
+            if (button.title === 'Buy Now Button') slugMap.buyNow = button.slug;
+            if (button.title === 'Netflix Button') slugMap.netflix = button.slug;
+            if (button.title === 'Prime Video Button') slugMap.prime = button.slug;
+            if (button.title === 'Crunchyroll Button') slugMap.crunchyroll = button.slug;
+          });
+          
+          setTrackingSlugs({
+            buyNow: slugMap.buyNow || `${slug}-buy`,
+            netflix: slugMap.netflix || `${slug}-netflix`,
+            prime: slugMap.prime || `${slug}-prime`,
+            crunchyroll: slugMap.crunchyroll || `${slug}-crunchyroll`
+          });
+        } else {
+          // Generate unique tracking slugs for this landing page
           const trackingButtons = [
-            { slug: `${baseName}-buy`, title: 'Buy Now Button', type: 'primary', parentSlug: slug },
-            { slug: `${baseName}-netflix`, title: 'Netflix Button', type: 'streaming', parentSlug: slug },
-            { slug: `${baseName}-prime`, title: 'Prime Video Button', type: 'streaming', parentSlug: slug },
-            { slug: `${baseName}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming', parentSlug: slug }
+            { slug: `${slug}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${slug}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${slug}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${slug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
           ];
           
+          // Create tracking links
           for (const button of trackingButtons) {
-            // Check if this button already exists
-            const { data: existingButton } = await supabase
-              .from('links')
-              .select('id')
-              .eq('slug', button.slug)
-              .maybeSingle();
-              
-            // If it doesn't exist, create it
-            if (!existingButton) {
-              await supabase.from('links').insert({
-                slug: button.slug,
-                title: button.title,
-                redirect_url: 'https://telegram.me/ott_on_rent',
-                button_type: button.type,
-                parent_landing_page: button.parentSlug
-              });
-            }
+            await supabase.from('links').insert({
+              slug: button.slug,
+              title: button.title,
+              redirect_url: 'https://telegram.me/ott_on_rent',
+              button_type: button.type,
+              parent_landing_page: slug
+            });
           }
-        };
+          
+          setTrackingSlugs({
+            buyNow: `${slug}-buy`,
+            netflix: `${slug}-netflix`,
+            prime: `${slug}-prime`,
+            crunchyroll: `${slug}-crunchyroll`
+          });
+        }
         
-        await createTrackingLinks();
         setLoading(false);
       } catch (err) {
         console.error("Error loading landing page:", err);

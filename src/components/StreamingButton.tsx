@@ -1,6 +1,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { recordClick } from "@/services/linkTracking";
 
 interface StreamingButtonProps {
   imageUrl: string;
@@ -8,14 +9,30 @@ interface StreamingButtonProps {
   link: string;
   className?: string;
   onClick?: () => void;
+  trackingSlug?: string;
 }
 
-const StreamingButton = ({ imageUrl, alt, link, className, onClick }: StreamingButtonProps) => {
+const StreamingButton = ({ 
+  imageUrl, 
+  alt, 
+  link, 
+  className, 
+  onClick, 
+  trackingSlug 
+}: StreamingButtonProps) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Record the tracking click if a slug is provided
+    if (trackingSlug) {
+      recordClick(trackingSlug, document.referrer, navigator.userAgent);
+    }
+    
+    // Call the onClick callback if provided
     if (onClick) {
       onClick();
     }
+    
     // Open link directly in new tab without any redirecting page
     window.open(link, '_blank', 'noopener,noreferrer');
   };

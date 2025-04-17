@@ -19,7 +19,7 @@ const RedirectPage = () => {
       try {
         const { data, error } = await supabase
           .from('links')
-          .select('redirect_url, slug')
+          .select('redirect_url, slug, button_type, parent_landing_page')
           .eq('slug', shortCode)
           .single();
 
@@ -31,6 +31,11 @@ const RedirectPage = () => {
         
         // Record the click with browser info
         await recordClick(data.slug, document.referrer, navigator.userAgent);
+        
+        // Also record a click on the parent landing page if this is a button
+        if (data.parent_landing_page) {
+          await recordClick(data.parent_landing_page, document.referrer, navigator.userAgent);
+        }
 
         // Redirect immediately
         window.location.href = data.redirect_url;

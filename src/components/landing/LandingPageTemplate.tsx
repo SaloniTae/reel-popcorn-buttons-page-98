@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { recordClick } from "@/services/linkTracking";
 
 interface LandingPageTemplateProps {
@@ -20,13 +19,6 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isMobile = useIsMobile();
-
-  // Track clicks on buttons
-  const trackButtonClick = (buttonType: string, slug: string) => {
-    if (slug) {
-      recordClick(slug, document.referrer, navigator.userAgent);
-    }
-  };
 
   // Video lazy loading
   useEffect(() => {
@@ -87,8 +79,8 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         </div>
 
         <a 
-          href={`https://telegram.me/ott_on_rent`}
-          onClick={() => trackButtonClick('buyNow', trackingSlugs.buyNow)}
+          href="https://telegram.me/ott_on_rent"
+          onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3"
@@ -108,7 +100,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
             alt="Netflix" 
             link="https://telegram.me/ott_on_rent"
-            onClick={() => trackButtonClick('netflix', trackingSlugs.netflix)}
+            trackingSlug={trackingSlugs.netflix}
             className="small-screen:py-2"
           />
           
@@ -116,7 +108,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
             alt="Prime Video" 
             link="https://telegram.me/ott_on_rent"
-            onClick={() => trackButtonClick('prime', trackingSlugs.prime)}
+            trackingSlug={trackingSlugs.prime}
             className="small-screen:py-2"
           />
           
@@ -124,7 +116,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
             alt="Crunchyroll" 
             link="https://telegram.me/ott_on_rent"
-            onClick={() => trackButtonClick('crunchyroll', trackingSlugs.crunchyroll)}
+            trackingSlug={trackingSlugs.crunchyroll}
             className="small-screen:py-2"
           />
         </div>
