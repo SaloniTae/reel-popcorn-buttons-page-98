@@ -7,11 +7,13 @@ import { toast } from "sonner";
 interface LinkTrackingContextType {
   links: TrackedLink[];
   loading: boolean;
-  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters, customSlug?: string, linkType?: string) => Promise<TrackedLink | null>;
+  addLink: (originalUrl: string, title: string, utmParameters?: UtmParameters, customSlug?: string, linkType?: string, parentLandingPage?: string) => Promise<TrackedLink | null>;
   recordClick: (shortUrl: string, referrer?: string) => void;
   deleteLink: (id: string) => Promise<void>;
   getLink: (id: string) => TrackedLink | undefined;
   refreshLinks: () => Promise<void>;
+  getLandingPages: () => TrackedLink[];
+  getButtonsForLandingPage: (landingPageSlug: string) => TrackedLink[];
 }
 
 const LinkTrackingContext = createContext<LinkTrackingContextType | undefined>(undefined);
@@ -47,12 +49,19 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     title: string, 
     utmParameters?: UtmParameters,
     customSlug?: string,
-    linkType?: string
+    linkType?: string,
+    parentLandingPage?: string
   ): Promise<TrackedLink | null> => {
     try {
       const newLink = await createShortUrl(originalUrl, title, utmParameters, customSlug, linkType);
       
       if (newLink) {
+        // Add parent landing page reference if this is a button
+        if (parentLandingPage) {
+          newLink.parentLandingPage = parentLandingPage;
+          newLink.isButton = true;
+        }
+        
         setLinks(prev => [newLink, ...prev]);
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
         return newLink;
@@ -122,6 +131,19 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
     return links.find(link => link.id === id);
   };
 
+  // Get all landing pages
+  const getLandingPages = () => {
+    return links.filter(link => link.linkType === 'landing');
+  };
+
+  // Get all buttons for a specific landing page
+  const getButtonsForLandingPage = (landingPageSlug: string) => {
+    return links.filter(link => 
+      link.parentLandingPage === landingPageSlug || 
+      (link.originalUrl && link.originalUrl.includes(landingPageSlug))
+    );
+  };
+
   return (
     <LinkTrackingContext.Provider 
       value={{ 
@@ -131,7 +153,9 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         recordClick: handleRecordClick, 
         deleteLink: handleDeleteLink, 
         getLink,
-        refreshLinks
+        refreshLinks,
+        getLandingPages,
+        getButtonsForLandingPage
       }}
     >
       {children}

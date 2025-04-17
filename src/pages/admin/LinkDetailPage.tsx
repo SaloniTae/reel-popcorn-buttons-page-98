@@ -35,7 +35,7 @@ import { TrackedLink } from "@/types/linkTracking";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, getAllLinks } = useLinkTracking();
+  const { links, deleteLink, refreshLinks } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);

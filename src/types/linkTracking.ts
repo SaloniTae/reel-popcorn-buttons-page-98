@@ -8,8 +8,10 @@ export interface TrackedLink {
   utmParameters?: UtmParameters;
   clicks: number;
   clickHistory: ClickData[];
-  linkType?: string; // 'redirect' or 'landing'
+  linkType?: string; // 'redirect', 'landing', or button types like 'primary', 'streaming'
   parentLandingPage?: string; // Reference to parent landing page slug
+  buttonType?: string; // 'buyNow', 'netflix', 'prime', 'crunchyroll'
+  isButton?: boolean; // Indicates if this link is a button within a landing page
 }
 
 export interface UtmParameters {
