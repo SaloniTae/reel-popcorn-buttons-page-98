@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
@@ -46,7 +47,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
       return links.filter(link => link.linkType !== 'landing' && !link.parentLandingPage);
     }
     
-    return links.filter(link => link.linkType === 'landing' || !link.parentLandingPage);
+    return links;
   };
 
   const filteredLinks = getFilteredLinks();

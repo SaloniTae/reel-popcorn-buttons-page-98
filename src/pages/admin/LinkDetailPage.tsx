@@ -1,7 +1,6 @@
-
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
-import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
+import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -35,7 +34,7 @@ import { TrackedLink } from "@/types/linkTracking";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, getButtonsForLandingPage } = useLinkTracking();
+  const { links, deleteLink, refreshLinks, getButtonsForLandingPage } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);
@@ -44,6 +43,7 @@ const LinkDetailPage = () => {
   const link = links.find((l) => l.id === id);
 
   useEffect(() => {
+    // If this is a landing page, find all links that have this page's slug in their originalUrl
     if (link && link.linkType === 'landing') {
       const slug = link.shortUrl.split('/').pop() || '';
       const relatedLinks = getButtonsForLandingPage(slug);
@@ -258,52 +258,48 @@ const LinkDetailPage = () => {
       </div>
 
       {/* Show child links section for landing pages */}
-      {link?.linkType === 'landing' && childLinks.length > 0 && (
+      {link.linkType === 'landing' && (
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Landing Page Buttons</h2>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              onClick={() => navigate('/OOR/create', { state: { landingPageSlug: link.shortUrl.split('/').pop() } })}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Button
+            </Button>
           </div>
           
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Button</TableHead>
-                <TableHead>Total Clicks</TableHead>
-                <TableHead>Last 24h Clicks</TableHead>
-                <TableHead>Last 7d Clicks</TableHead>
-                <TableHead>Top Referrers</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {childLinks.map((childLink) => {
-                const last24h = childLink.clickHistory.filter(
-                  click => new Date(click.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
-                ).length;
-                
-                const last7d = childLink.clickHistory.filter(
-                  click => new Date(click.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-                ).length;
-
-                // Get top 3 referrers
-                const referrers = childLink.clickHistory.reduce((acc, click) => {
-                  const ref = click.referrer || 'direct';
-                  acc[ref] = (acc[ref] || 0) + 1;
-                  return acc;
-                }, {} as Record<string, number>);
-
-                const topReferrers = Object.entries(referrers)
-                  .sort((a, b) => b[1] - a[1])
-                  .slice(0, 3);
-
-                return (
+          {childLinks.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">No buttons added to this landing page yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Button Title</TableHead>
+                  <TableHead>Short URL</TableHead>
+                  <TableHead>Clicks</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {childLinks.map((childLink) => (
                   <TableRow key={childLink.id}>
                     <TableCell>
-                      <div className="flex items-center">
-                        <span className="font-medium">{childLink.title}</span>
+                      <RouterLink to={`/OOR/links/${childLink.id}`} className="font-medium text-blue-600 hover:underline">
+                        {childLink.title}
+                      </RouterLink>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-600">{childLink.shortUrl}</span>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-6 w-6 ml-2"
+                          className="h-6 w-6"
                           onClick={() => {
                             navigator.clipboard.writeText(childLink.shortUrl);
                             toast({
@@ -317,22 +313,23 @@ const LinkDetailPage = () => {
                       </div>
                     </TableCell>
                     <TableCell className="font-medium">{childLink.clicks}</TableCell>
-                    <TableCell>{last24h}</TableCell>
-                    <TableCell>{last7d}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-2">
-                        {topReferrers.map(([ref, count], idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {ref}: {count}
-                          </Badge>
-                        ))}
-                      </div>
+                    <TableCell className="text-gray-600">{formatDate(childLink.createdAt)}</TableCell>
+                    <TableCell className="text-right">
+                      <Button 
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                      >
+                        <RouterLink to={`/OOR/links/${childLink.id}`}>
+                          View Details
+                        </RouterLink>
+                      </Button>
                     </TableCell>
                   </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
       )}
 

@@ -11,19 +11,16 @@ interface StreamingButtonProps {
 }
 
 const StreamingButton = ({ imageUrl, alt, link, className, onClick }: StreamingButtonProps) => {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (onClick) {
-      onClick();
-    }
-    // Open link directly in new tab
-    window.open(link, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <a 
-      href={link}
-      onClick={handleClick}
+      href={link} 
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => {
+        if (onClick) {
+          onClick();
+        }
+      }}
       className={cn(
         "w-full max-w-[400px] py-3 rounded-full flex justify-center items-center mb-4 bg-white hover:shadow-lg transition-all duration-300 transform hover:scale-105",
         className
