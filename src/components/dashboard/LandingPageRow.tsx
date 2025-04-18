@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, ExternalLink, Copy } from "lucide-react";
+import { MoreHorizontal, ChevronDown, ChevronRight, ExternalLink, Copy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TrackedLink } from "@/types/linkTracking";
 import {
@@ -15,6 +15,8 @@ import {
 
 interface LandingPageRowProps {
   landingPage: TrackedLink;
+  isExpanded: boolean;
+  onToggle: () => void;
   onOpenLink: (link: TrackedLink) => void;
   onCopyUrl: (url: string) => void;
   onDelete: (id: string) => void;
@@ -22,14 +24,28 @@ interface LandingPageRowProps {
 
 const LandingPageRow = ({ 
   landingPage, 
+  isExpanded, 
+  onToggle,
   onOpenLink,
   onCopyUrl,
   onDelete
 }: LandingPageRowProps) => {
   return (
-    <tr className="bg-slate-100 hover:bg-slate-200">
+    <tr className="hover:bg-gray-50">
       <td className="px-4 py-3">
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+            onClick={onToggle}
+          >
+            {isExpanded ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </Button>
           <span className="font-medium">{landingPage.title}</span>
           <Badge variant="outline" className="bg-purple-50">Landing</Badge>
         </div>

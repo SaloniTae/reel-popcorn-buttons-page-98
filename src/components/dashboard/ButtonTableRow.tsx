@@ -12,8 +12,8 @@ interface ButtonTableRowProps {
 
 const ButtonTableRow = ({ button, onOpenLink }: ButtonTableRowProps) => {
   return (
-    <tr className="bg-white border-t border-gray-100">
-      <td className="px-4 py-2 pl-8">
+    <tr className="bg-gray-50">
+      <td className="px-4 py-2 pl-12">
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">{button.title}</span>
           <Badge variant="outline" className="bg-blue-50">Button</Badge>
