@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { useToast } from "@/hooks/use-toast";
 import { TrackedLink } from "@/types/linkTracking";
@@ -8,7 +8,6 @@ import LandingPageRow from "./LandingPageRow";
 import ButtonTableRow from "./ButtonTableRow";
 import LoadingState from "./LoadingState";
 import { Table, TableBody } from "@/components/ui/table";
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
 interface LinkTableProps {
   filter?: 'all' | 'landing' | 'redirect';
@@ -78,7 +77,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                 onCopyUrl={copyToClipboard}
                 onDelete={handleDeleteLink}
               />
-              {getButtonsForLandingPage(landingPage.slug).map((button) => (
+              {getButtonsForLandingPage(landingPage.id).map((button) => (
                 <ButtonTableRow
                   key={button.id}
                   button={button}
