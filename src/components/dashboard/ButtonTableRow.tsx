@@ -11,15 +11,6 @@ interface ButtonTableRowProps {
 }
 
 const ButtonTableRow = ({ button, onOpenLink }: ButtonTableRowProps) => {
-  // Calculate recent click statistics
-  const last24hClicks = button.clickHistory.filter(
-    click => new Date(click.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
-  ).length;
-  
-  const last7dClicks = button.clickHistory.filter(
-    click => new Date(click.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-  ).length;
-
   return (
     <tr className="bg-gray-50">
       <td className="px-4 py-2 pl-12">
@@ -29,8 +20,6 @@ const ButtonTableRow = ({ button, onOpenLink }: ButtonTableRowProps) => {
         </div>
       </td>
       <td className="px-4 py-2 font-medium">{button.clicks}</td>
-      <td className="px-4 py-2 text-gray-600">{last24hClicks}</td>
-      <td className="px-4 py-2 text-gray-600">{last7dClicks}</td>
       <td className="px-4 py-2 text-right">
         <Button
           variant="ghost"
