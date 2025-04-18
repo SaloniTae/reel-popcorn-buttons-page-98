@@ -14,7 +14,7 @@ interface LinkTableProps {
 }
 
 const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
-  const { links, deleteLink, loading, getLandingPages } = useLinkTracking();
+  const { links, deleteLink, loading, getLandingPages, getButtonsForLandingPage } = useLinkTracking();
   const { toast } = useToast();
   const [expandedLandingPages, setExpandedLandingPages] = useState<Set<string>>(new Set());
 
@@ -52,11 +52,6 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
     });
   };
 
-  // Get buttons for a specific landing page
-  const getButtonsForLandingPage = (parentId: string) => {
-    return links.filter(link => link.parentLandingPage === parentId);
-  };
-
   if (loading) {
     return <LoadingState />;
   }
@@ -66,7 +61,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
   return (
     <div className="w-full overflow-auto rounded-lg border">
       <table className="w-full text-sm">
-        <LinkTableHeader />
+        <LinkTableHeader showClickStats={true} />
         <tbody className="divide-y">
           {landingPages.map((landingPage) => (
             <>
@@ -80,7 +75,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                 onDelete={handleDeleteLink}
               />
               {expandedLandingPages.has(landingPage.id) &&
-                getButtonsForLandingPage(landingPage.id).map((button) => (
+                getButtonsForLandingPage(landingPage.shortUrl).map((button) => (
                   <ButtonTableRow
                     key={button.id}
                     button={button}
