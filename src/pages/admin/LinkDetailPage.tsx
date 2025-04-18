@@ -1,3 +1,4 @@
+
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
@@ -195,7 +196,7 @@ const LinkDetailPage = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="text-sm font-medium text-gray-500 mb-1">Created On</h3>
             <p>{formatDate(link.createdAt)}</p>
@@ -218,40 +219,7 @@ const LinkDetailPage = () => {
                 : "No clicks yet"}
             </p>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Type</h3>
-            <p>{link.linkType === 'landing' ? 'Landing Page' : 'Regular Link'}</p>
-          </div>
         </div>
-
-        {/* Add Button Breakdown section */}
-        {link.linkType === 'landing' && childLinks.length > 0 && (
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-4">Button Breakdown</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {childLinks.map((button) => (
-                <div key={button.id} className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="text-sm font-medium text-gray-500 mb-2">{button.title}</h4>
-                  <div className="flex items-center justify-between">
-                    <p className="text-2xl font-bold">{button.clicks}</p>
-                    <Badge variant="outline">{((button.clicks / link.clicks) * 100).toFixed(1)}%</Badge>
-                  </div>
-                  <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 h-2 rounded-full"
-                      style={{ width: `${(button.clicks / link.clicks) * 100}%` }}
-                    ></div>
-                  </div>
-                  <div className="mt-2 text-xs text-gray-500">
-                    Last click: {button.clickHistory.length > 0 
-                      ? formatDate(button.clickHistory[0].timestamp) 
-                      : 'Never'}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {link.utmParameters && Object.values(link.utmParameters).some(Boolean) && (
           <div className="mb-6">
