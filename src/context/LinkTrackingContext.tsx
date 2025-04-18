@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { TrackedLink, UtmParameters } from '@/types/linkTracking';
 import { createShortUrl, getAllLinks as fetchAllLinks, recordClick, deleteLink as removeLink } from '@/services/linkTracking';
@@ -68,6 +69,7 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
         
         if (linkType === "landing" && customSlug) {
+          // Ensure we're using the exact custom slug for button creation
           const exactSlug = customSlug;
           
           const trackingButtons = [

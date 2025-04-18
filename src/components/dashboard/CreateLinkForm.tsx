@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
@@ -33,13 +32,16 @@ const CreateLinkForm = () => {
       // For landing pages, we'll use a special internal URL format
       const url = linkType === "landing" ? "internal://landing-page" : finalUrl;
       
+      // Make sure the customSlug is properly trimmed and passed exactly as-is
+      const slug = customSlug.trim() || undefined;
+      
       const newLink = await addLink(
         url, 
         title,
         // Pass source as a UTM parameter
         source ? { source: source } : undefined,
         // Pass the custom slug if provided
-        customSlug.trim() || undefined,
+        slug,
         // Pass the link type
         linkType
       );
