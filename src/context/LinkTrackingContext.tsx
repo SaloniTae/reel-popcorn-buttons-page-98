@@ -141,10 +141,29 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDeleteLink = async (id: string) => {
     try {
-      const success = await removeLink(id);
+      const linkToDelete = links.find(link => link.id === id);
       
-      if (success) {
-        setLinks(prev => prev.filter(link => link.id !== id));
+      if (linkToDelete) {
+        // If it's a landing page, get all associated buttons
+        if (linkToDelete.linkType === 'landing') {
+          const slug = linkToDelete.shortUrl.split('/').pop() || '';
+          const buttonLinks = links.filter(link => link.parentLandingPage === slug);
+          
+          // Delete all button links first
+          for (const buttonLink of buttonLinks) {
+            await removeLink(buttonLink.id);
+          }
+          
+          // Update local state to remove button links
+          setLinks(prev => prev.filter(link => !buttonLinks.some(btn => btn.id === link.id)));
+        }
+        
+        // Delete the main link
+        const success = await removeLink(id);
+        
+        if (success) {
+          setLinks(prev => prev.filter(link => link.id !== id));
+        }
       }
     } catch (error) {
       console.error("Error deleting link:", error);

@@ -29,6 +29,8 @@ export const ButtonPerformance = ({ landingPage, childLinks }: ButtonPerformance
     });
   };
 
+  const allLinks = [landingPage, ...childLinks];
+
   return (
     <div className="mb-6">
       <h3 className="text-base font-medium mb-3">Button Performance</h3>
@@ -44,57 +46,33 @@ export const ButtonPerformance = ({ landingPage, childLinks }: ButtonPerformance
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow className="bg-blue-50">
-              <TableCell className="font-medium">Landing Page</TableCell>
-              <TableCell>{landingPage.clicks}</TableCell>
-              <TableCell>
-                {landingPage.clickHistory.filter(
-                  click => new Date(click.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
-                ).length}
-              </TableCell>
-              <TableCell>
-                {landingPage.clickHistory.filter(
-                  click => new Date(click.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-                ).length}
-              </TableCell>
-              <TableCell className="max-w-[200px] truncate">
-                <div className="flex items-center">
-                  <span className="truncate">{landingPage.shortUrl}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6 ml-1"
-                    onClick={() => copyToClipboard(landingPage.shortUrl)}
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-            
-            {childLinks.map((childLink) => {
-              const last24h = childLink.clickHistory.filter(
+            {allLinks.map((link) => {
+              const last24h = link.clickHistory.filter(
                 click => new Date(click.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
               ).length;
               
-              const last7d = childLink.clickHistory.filter(
+              const last7d = link.clickHistory.filter(
                 click => new Date(click.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
               ).length;
 
+              const isLandingPage = !link.parentLandingPage;
+
               return (
-                <TableRow key={childLink.id}>
-                  <TableCell className="font-medium">{childLink.title}</TableCell>
-                  <TableCell>{childLink.clicks}</TableCell>
+                <TableRow key={link.id} className={isLandingPage ? "bg-blue-50" : ""}>
+                  <TableCell className="font-medium">
+                    {isLandingPage ? "Landing Page" : link.title}
+                  </TableCell>
+                  <TableCell>{link.clicks}</TableCell>
                   <TableCell>{last24h}</TableCell>
                   <TableCell>{last7d}</TableCell>
                   <TableCell className="max-w-[200px] truncate">
                     <div className="flex items-center">
-                      <span className="truncate">{childLink.shortUrl}</span>
+                      <span className="truncate">{link.shortUrl}</span>
                       <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6 ml-1"
-                        onClick={() => copyToClipboard(childLink.shortUrl)}
+                        onClick={() => copyToClipboard(link.shortUrl)}
                       >
                         <Copy className="h-3.5 w-3.5" />
                       </Button>
