@@ -136,13 +136,13 @@ const LinkDetailPage = () => {
 
   const totalClicks = link.clicks + childLinks.reduce((total, button) => total + button.clicks, 0);
 
-  const clicksByRegion = consolidatedClicks.reduce((acc, click) => {
-    const region = click.region || 'Unknown Region';
-    acc[region] = (acc[region] || 0) + 1;
+  const clicksByCountry = consolidatedClicks.reduce((acc, click) => {
+    const country = click.location?.split(',').pop()?.trim() || 'Unknown';
+    acc[country] = (acc[country] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const topRegions = Object.entries(clicksByRegion)
+  const topCountries = Object.entries(clicksByCountry)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
@@ -151,7 +151,7 @@ const LinkDetailPage = () => {
     acc[referrer] = (acc[referrer] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-
+  
   const topReferrers = Object.entries(referrerStats)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
@@ -269,7 +269,7 @@ const LinkDetailPage = () => {
             </div>
 
             <ButtonPerformance landingPage={link} childLinks={childLinks} />
-            <GeographicDistribution topRegions={topRegions} totalClicks={totalClicks} />
+            <GeographicDistribution topCountries={topCountries} totalClicks={totalClicks} />
             <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={totalClicks} />
           </div>
         )}

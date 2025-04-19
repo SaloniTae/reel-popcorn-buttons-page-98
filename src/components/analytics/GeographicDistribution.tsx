@@ -2,20 +2,20 @@
 import React from 'react';
 
 interface GeographicProps {
-  topRegions: [string, number][];
+  topCountries: [string, number][];
   totalClicks: number;
 }
 
-export const GeographicDistribution = ({ topRegions, totalClicks }: GeographicProps) => {
+export const GeographicDistribution = ({ topCountries, totalClicks }: GeographicProps) => {
   return (
     <div className="mb-6">
-      <h3 className="text-base font-medium mb-3">Geographic Distribution (By Region)</h3>
+      <h3 className="text-base font-medium mb-3">Geographic Distribution</h3>
       <div className="bg-gray-50 p-4 rounded-lg">
         <div className="space-y-3">
-          {topRegions.map(([region, count], index) => (
+          {topCountries.map(([country, count], index) => (
             <div key={index}>
               <div className="flex justify-between items-center mb-1">
-                <span className="font-medium">{region || 'Unknown'}</span>
+                <span className="font-medium">{country}</span>
                 <span className="text-gray-500">
                   {count} clicks ({Math.round((count / totalClicks) * 100)}%)
                 </span>
