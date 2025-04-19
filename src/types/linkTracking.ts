@@ -28,6 +28,7 @@ export interface ClickData {
   browser?: string;
   device?: string;
   location?: string;
+  buttonName?: string; // Added to track which button was clicked
 }
 
 export interface LinkStats {
