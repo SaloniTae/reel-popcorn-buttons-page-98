@@ -1,4 +1,3 @@
-
 export interface TrackedLink {
   id: string;
   originalUrl: string;
@@ -28,7 +27,8 @@ export interface ClickData {
   browser?: string;
   device?: string;
   location?: string;
-  buttonName?: string; // Added to track which button was clicked
+  buttonName?: string;
+  stateCode?: string; // Added for state/region tracking
 }
 
 export interface LinkStats {

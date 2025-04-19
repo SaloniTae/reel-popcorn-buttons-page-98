@@ -22,24 +22,30 @@ serve(async (req) => {
       );
     }
     
-    // Use ip-api.com service to get geolocation data as requested
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city`);
+    // Using ip-api.com with more detailed fields for better region data
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,region`);
     const data = await response.json();
     
     if (data.status !== 'success') {
       console.error('IP lookup failed:', data.message);
       return new Response(
-        JSON.stringify({ country: 'India', region: 'Unknown', city: 'Unknown' }),
+        JSON.stringify({ 
+          country: 'India',
+          region: 'Unknown',
+          city: 'Unknown',
+          stateCode: 'UN'
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
     
-    // Always return India as country as per requirements
+    // Return detailed location data
     return new Response(
       JSON.stringify({
-        country: 'India', 
+        country: 'India',
         region: data.regionName || 'Unknown',
-        city: data.city || 'Unknown'
+        city: data.city || 'Unknown',
+        stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

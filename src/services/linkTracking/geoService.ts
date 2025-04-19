@@ -13,7 +13,7 @@ export const getClientIP = async (): Promise<string> => {
   }
 };
 
-// Get geolocation from IP
+// Get geolocation from IP with improved state/region data
 export const getGeoLocation = async (ip: string) => {
   try {
     const { data, error } = await supabase.functions.invoke('geo-lookup', {
@@ -22,12 +22,22 @@ export const getGeoLocation = async (ip: string) => {
 
     if (error) {
       console.error("Error getting geolocation:", error);
-      return { country: 'India', region: 'Unknown', city: 'Unknown' };
+      return { 
+        country: 'India', 
+        region: 'Unknown', 
+        city: 'Unknown',
+        stateCode: 'UN'
+      };
     }
 
     return data;
   } catch (error) {
     console.error("Error invoking geo-lookup function:", error);
-    return { country: 'India', region: 'Unknown', city: 'Unknown' };
+    return { 
+      country: 'India', 
+      region: 'Unknown', 
+      city: 'Unknown',
+      stateCode: 'UN'
+    };
   }
 };
