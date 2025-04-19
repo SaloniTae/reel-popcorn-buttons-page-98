@@ -1,3 +1,4 @@
+
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
@@ -136,13 +137,27 @@ const LinkDetailPage = () => {
 
   const totalClicks = link.clicks + childLinks.reduce((total, button) => total + button.clicks, 0);
 
-  const clicksByCountry = consolidatedClicks.reduce((acc, click) => {
-    const country = click.location?.split(',').pop()?.trim() || 'Unknown';
-    acc[country] = (acc[country] || 0) + 1;
+  // Change from country to region statistics
+  const clicksByRegion = consolidatedClicks.reduce((acc, click) => {
+    // First try to use stateCode/region, fallback to using location and extracting the middle part
+    let region = click.region || '';
+    
+    if (!region && click.location) {
+      const parts = click.location.split(',');
+      if (parts.length > 1) {
+        region = parts[1].trim();
+      }
+    }
+    
+    if (!region) {
+      region = 'Unknown';
+    }
+    
+    acc[region] = (acc[region] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const topCountries = Object.entries(clicksByCountry)
+  const topRegions = Object.entries(clicksByRegion)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
@@ -218,8 +233,9 @@ const LinkDetailPage = () => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete this link and all its click data.
-                    This action cannot be undone.
+                    {link.linkType === 'landing' 
+                      ? "This will permanently delete this landing page and all its associated buttons. This action cannot be undone."
+                      : "This will permanently delete this link and all its click data. This action cannot be undone."}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -269,7 +285,7 @@ const LinkDetailPage = () => {
             </div>
 
             <ButtonPerformance landingPage={link} childLinks={childLinks} />
-            <GeographicDistribution topCountries={topCountries} totalClicks={totalClicks} />
+            <GeographicDistribution topRegions={topRegions} totalClicks={totalClicks} />
             <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={totalClicks} />
           </div>
         )}

@@ -141,10 +141,39 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
 
   const handleDeleteLink = async (id: string) => {
     try {
+      // First, let's check if this is a landing page
+      const linkToDelete = links.find(link => link.id === id);
+      
+      if (linkToDelete && linkToDelete.linkType === 'landing') {
+        // If it's a landing page, get its associated buttons
+        const landingPageSlug = linkToDelete.shortUrl.split('/').pop() || '';
+        const associatedButtons = links.filter(link => {
+          return link.shortUrl.includes(`${landingPageSlug}-`) || 
+                 (link.parentLandingPage === landingPageSlug);
+        });
+        
+        // Delete all associated buttons first
+        for (const button of associatedButtons) {
+          await removeLink(button.id);
+          console.log(`Deleted associated button: ${button.title}`);
+        }
+        
+        // Update local state to remove the buttons
+        setLinks(prev => prev.filter(link => 
+          !associatedButtons.some(button => button.id === link.id)
+        ));
+        
+        toast.success("Deleted all associated buttons");
+      }
+      
+      // Now delete the main link
       const success = await removeLink(id);
       
       if (success) {
         setLinks(prev => prev.filter(link => link.id !== id));
+        toast.success(linkToDelete?.linkType === 'landing' 
+          ? "Landing page and all associated buttons deleted" 
+          : "Link deleted successfully");
       }
     } catch (error) {
       console.error("Error deleting link:", error);
@@ -161,10 +190,16 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getButtonsForLandingPage = (landingPageSlug: string) => {
-    return links.filter(link => 
-      link.parentLandingPage === landingPageSlug || 
-      (link.originalUrl && link.originalUrl.includes(landingPageSlug))
-    );
+    return links.filter(link => {
+      // Match links that have the landing page slug in their shortUrl or as parentLandingPage
+      const isAssociated = link.shortUrl.includes(`${landingPageSlug}-`) || 
+                         (link.parentLandingPage === landingPageSlug);
+      
+      // Filter out the landing page itself
+      const isNotLandingPage = link.linkType !== 'landing';
+      
+      return isAssociated && isNotLandingPage;
+    });
   };
 
   return (
