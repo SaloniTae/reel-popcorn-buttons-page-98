@@ -136,7 +136,7 @@ const LinkDetailPage = () => {
 
   const totalClicks = link.clicks + childLinks.reduce((total, button) => total + button.clicks, 0);
 
-  const clicksByRegion = consolidatedClicks.reduce((acc, click) => {
+  const clicksByRegion = link.clickHistory.reduce((acc, click) => {
     let region = click.region || '';
     
     if (!region && click.location) {
@@ -155,8 +155,7 @@ const LinkDetailPage = () => {
   }, {} as Record<string, number>);
 
   const topRegions = Object.entries(clicksByRegion)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+    .sort((a, b) => b[1] - a[1]);
 
   const referrerStats = consolidatedClicks.reduce((acc, click) => {
     const referrer = click.referrer || "direct";
@@ -309,7 +308,7 @@ const LinkDetailPage = () => {
               </div>
             </div>
 
-            <GeographicDistribution topRegions={topRegions} totalClicks={totalClicks} />
+            <GeographicDistribution topRegions={topRegions} totalClicks={link.clicks} />
             <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={totalClicks} />
           </div>
         )}
