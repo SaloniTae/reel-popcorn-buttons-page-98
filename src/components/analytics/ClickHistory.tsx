@@ -28,9 +28,9 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
 
   return (
     <div>
-      <ScrollArea className="h-[280px] rounded-md">
+      <ScrollArea className="h-[280px] rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 bg-white">
             <TableRow>
               <TableHead>Date & Time</TableHead>
               <TableHead>Button</TableHead>
