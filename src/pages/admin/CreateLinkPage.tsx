@@ -17,9 +17,9 @@ const CreateLinkPage = () => {
       </div>
       
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-2xl font-bold mb-4">Create New Link</h1>
+        <h1 className="text-2xl font-bold mb-4">Create Landing Page</h1>
         <p className="text-gray-500 mb-8">
-          Create a new tracked link with optional UTM parameters to measure campaign performance
+          Create a new landing page with auto-generated tracking buttons
         </p>
         
         <CreateLinkForm />

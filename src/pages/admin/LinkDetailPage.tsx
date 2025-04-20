@@ -157,8 +157,14 @@ const LinkDetailPage = () => {
   const topRegions = Object.entries(clicksByRegion)
     .sort((a, b) => b[1] - a[1]);
 
-  const referrerStats = consolidatedClicks.reduce((acc, click) => {
-    const referrer = click.referrer || "direct";
+  const handleRefresh = async () => {
+    setLoading(true);
+    await getAllLinks();
+    setLoading(false);
+  };
+
+  const referrerStats = link.clickHistory.reduce((acc, click) => {
+    const referrer = "direct";
     acc[referrer] = (acc[referrer] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -167,7 +173,7 @@ const LinkDetailPage = () => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
 
-  const deviceStats = consolidatedClicks.reduce((acc, click) => {
+  const deviceStats = link.clickHistory.reduce((acc, click) => {
     const device = click.device || "unknown";
     acc[device] = (acc[device] || 0) + 1;
     return acc;
@@ -308,8 +314,8 @@ const LinkDetailPage = () => {
               </div>
             </div>
 
-            <GeographicDistribution topRegions={topRegions} totalClicks={link.clicks} />
-            <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={totalClicks} />
+            <GeographicDistribution topRegions={topRegions} onRefresh={handleRefresh} />
+            <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={link.clicks} />
           </div>
         )}
         
