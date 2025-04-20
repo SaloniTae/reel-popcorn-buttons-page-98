@@ -157,12 +157,6 @@ const LinkDetailPage = () => {
   const topRegions = Object.entries(clicksByRegion)
     .sort((a, b) => b[1] - a[1]);
 
-  const handleRefresh = async () => {
-    setLoading(true);
-    await getAllLinks();
-    setLoading(false);
-  };
-
   const referrerStats = link.clickHistory.reduce((acc, click) => {
     const referrer = "direct";
     acc[referrer] = (acc[referrer] || 0) + 1;
@@ -314,7 +308,7 @@ const LinkDetailPage = () => {
               </div>
             </div>
 
-            <GeographicDistribution topRegions={topRegions} onRefresh={handleRefresh} />
+            <GeographicDistribution topRegions={topRegions} />
             <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={link.clicks} />
           </div>
         )}
@@ -391,10 +385,7 @@ const LinkDetailPage = () => {
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">Consolidated Click History</h2>
               <ClickHistory 
-                clicks={recentConsolidatedClicks.map(click => ({
-                  ...click,
-                  referrer: click.buttonName ? 'button' : (click.referrer || 'direct')
-                }))} 
+                clicks={recentConsolidatedClicks} 
                 formatDate={formatDate} 
               />
             </div>
