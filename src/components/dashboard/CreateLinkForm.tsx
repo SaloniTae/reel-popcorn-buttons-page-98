@@ -60,24 +60,39 @@ const CreateLinkForm = () => {
   
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <p className="text-sm text-gray-500 mb-4">
-          Create a unique landing page with its own set of tracking links. Each landing page automatically includes Buy Now, Netflix, Prime, and Crunchyroll buttons.
-        </p>
-      </div>
+      <Tabs defaultValue="redirect" onValueChange={(value) => setLinkType(value)}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="redirect">Redirect Link</TabsTrigger>
+          <TabsTrigger value="landing">Landing Page</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="redirect">
+          <p className="text-sm text-gray-500 mb-4">
+            Create a redirect link that sends visitors to Telegram when clicked.
+          </p>
+        </TabsContent>
+        
+        <TabsContent value="landing">
+          <p className="text-sm text-gray-500 mb-4">
+            Create a unique landing page with its own set of tracking links. Each landing page automatically includes Buy Now, Netflix, Prime, and Crunchyroll buttons.
+          </p>
+        </TabsContent>
+      </Tabs>
       
       <div className="space-y-4">
         <div>
-          <Label htmlFor="title">Landing Page Title</Label>
+          <Label htmlFor="title">
+            {linkType === "landing" ? "Landing Page Title" : "Link Title"}
+          </Label>
           <Input
             id="title"
-            placeholder="E.g., Facebook Campaign"
+            placeholder={linkType === "landing" ? "E.g., Facebook Campaign" : "E.g., Instagram Campaign"}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="mt-1"
           />
           <p className="text-xs text-gray-500 mt-1">
-            A descriptive name to help you identify this landing page
+            A descriptive name to help you identify this {linkType === "landing" ? "landing page" : "traffic source"}
           </p>
         </div>
         

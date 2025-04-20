@@ -1,20 +1,26 @@
 
 import React, { useState } from 'react';
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChevronUp, ChevronDown, RefreshCw } from "lucide-react";
 
 interface GeographicProps {
   topRegions: [string, number][];
+  onRefresh: () => void;
 }
 
-export const GeographicDistribution = ({ topRegions }: GeographicProps) => {
+export const GeographicDistribution = ({ topRegions, onRefresh }: GeographicProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const displayRegions = isExpanded ? topRegions : topRegions.slice(0, 5);
 
   return (
     <div className="mb-6">
-      <h3 className="text-base font-medium mb-3">Geographic Distribution (By Region)</h3>
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-base font-medium">Geographic Distribution (By Region)</h3>
+        <Button variant="outline" size="sm" onClick={onRefresh}>
+          <RefreshCw className="h-4 w-4" />
+        </Button>
+      </div>
       <div className="bg-gray-50 p-4 rounded-lg">
         <ScrollArea className="max-h-[300px]">
           <div className="space-y-4">
@@ -50,7 +56,7 @@ export const GeographicDistribution = ({ topRegions }: GeographicProps) => {
             {isExpanded ? (
               <>Show Less <ChevronUp className="ml-2 h-4 w-4" /></>
             ) : (
-              <>Show More <ChevronDown className="ml-2 h-4 w-4" /></>
+              <>Show More <ChevronDown className="ml-2 h-4 w-4" /></> 
             )}
           </Button>
         )}
