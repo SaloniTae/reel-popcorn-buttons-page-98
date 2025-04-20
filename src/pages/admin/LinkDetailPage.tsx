@@ -28,6 +28,7 @@ import { GeographicDistribution } from "@/components/analytics/GeographicDistrib
 import { DeviceDistribution } from "@/components/analytics/DeviceDistribution";
 import { ClickHistory } from "@/components/analytics/ClickHistory";
 import { TopReferrers } from "@/components/analytics/TopReferrers";
+import { supabase } from "@/lib/supabase";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -74,6 +75,30 @@ const LinkDetailPage = () => {
       setConsolidatedClicks(allClickData);
     }
   }, [link, links, getButtonsForLandingPage]);
+
+  useEffect(() => {
+    if (link?.id) {
+      const channel = supabase
+        .channel('link-updates')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'click_events',
+            filter: `link_id=eq.${link.id}`
+          },
+          () => {
+            getAllLinks();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [link?.id, getAllLinks]);
 
   if (loading) {
     return (
@@ -390,13 +415,12 @@ const LinkDetailPage = () => {
           <TabsContent value="clicks">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">Consolidated Click History</h2>
-              <ClickHistory 
-                clicks={recentConsolidatedClicks.map(click => ({
-                  ...click,
-                  referrer: click.buttonName ? 'button' : (click.referrer || 'direct')
-                }))} 
-                formatDate={formatDate} 
-              />
+              <div className="h-[200px] overflow-y-auto">
+                <ClickHistory 
+                  clicks={recentConsolidatedClicks} 
+                  formatDate={formatDate} 
+                />
+              </div>
             </div>
           </TabsContent>
 
