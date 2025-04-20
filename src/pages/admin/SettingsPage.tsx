@@ -8,23 +8,33 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+interface Settings {
+  domain_name: string;
+  telegram_link: string;
+  show_footer_images: boolean;
+  background_video: string;
+  business_profile_image: string;
+}
+
 const SettingsPage = () => {
   const { toast } = useToast();
-  const [domainName, setDomainName] = useState("oor.link");
-  const [telegramLink, setTelegramLink] = useState("https://telegram.me/ott_on_rent");
-  const [showFooterImages, setShowFooterImages] = useState(true);
-  const [backgroundVideo, setBackgroundVideo] = useState("https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4");
-  const [businessProfileImage, setBusinessProfileImage] = useState("https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg");
   const [isSaving, setIsSaving] = useState(false);
+  const [settings, setSettings] = useState<Settings>({
+    domain_name: "oor.link",
+    telegram_link: "https://telegram.me/ott_on_rent",
+    show_footer_images: true,
+    background_video: "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
+    business_profile_image: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg"
+  });
   
   // Fetch current settings on component mount
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        // Get the settings from the database
-        const { data: settings, error } = await supabase
+        const { data: settingsData, error } = await supabase
           .from('settings')
           .select('*')
+          .eq('id', 1)
           .single();
           
         if (error) {
@@ -32,12 +42,14 @@ const SettingsPage = () => {
           return;
         }
         
-        if (settings) {
-          setDomainName(settings.domain_name || "oor.link");
-          setTelegramLink(settings.telegram_link || "https://telegram.me/ott_on_rent");
-          setShowFooterImages(settings.show_footer_images !== false);
-          setBackgroundVideo(settings.background_video || "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4");
-          setBusinessProfileImage(settings.business_profile_image || "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg");
+        if (settingsData) {
+          setSettings({
+            domain_name: settingsData.domain_name || "oor.link",
+            telegram_link: settingsData.telegram_link || "https://telegram.me/ott_on_rent",
+            show_footer_images: settingsData.show_footer_images !== false,
+            background_video: settingsData.background_video || "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
+            business_profile_image: settingsData.business_profile_image || "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg"
+          });
         }
       } catch (error) {
         console.error('Error in fetchSettings:', error);
@@ -53,7 +65,7 @@ const SettingsPage = () => {
       // Update all streaming button links to the new telegram link
       const { error: linksError } = await supabase
         .from('links')
-        .update({ redirect_url: telegramLink })
+        .update({ redirect_url: settings.telegram_link })
         .in('button_type', ['streaming', 'primary']);
         
       if (linksError) throw linksError;
@@ -62,12 +74,12 @@ const SettingsPage = () => {
       const { error: settingsError } = await supabase
         .from('settings')
         .upsert({
-          id: 1, // Using a constant ID for the settings record
-          domain_name: domainName,
-          telegram_link: telegramLink,
-          show_footer_images: showFooterImages,
-          background_video: backgroundVideo,
-          business_profile_image: businessProfileImage,
+          id: 1,
+          domain_name: settings.domain_name,
+          telegram_link: settings.telegram_link,
+          show_footer_images: settings.show_footer_images,
+          background_video: settings.background_video,
+          business_profile_image: settings.business_profile_image,
           updated_at: new Date().toISOString()
         });
         
@@ -108,8 +120,8 @@ const SettingsPage = () => {
               </p>
               <Input
                 id="domainName"
-                value={domainName}
-                onChange={(e) => setDomainName(e.target.value)}
+                value={settings.domain_name}
+                onChange={(e) => setSettings(prev => ({ ...prev, domain_name: e.target.value }))}
                 placeholder="yourdomain.com"
               />
             </div>
@@ -127,8 +139,8 @@ const SettingsPage = () => {
               </p>
               <Input
                 id="businessProfileImage"
-                value={businessProfileImage}
-                onChange={(e) => setBusinessProfileImage(e.target.value)}
+                value={settings.business_profile_image}
+                onChange={(e) => setSettings(prev => ({ ...prev, business_profile_image: e.target.value }))}
                 placeholder="https://example.com/image.jpg"
               />
             </div>
@@ -140,8 +152,8 @@ const SettingsPage = () => {
               </p>
               <Input
                 id="telegramLink"
-                value={telegramLink}
-                onChange={(e) => setTelegramLink(e.target.value)}
+                value={settings.telegram_link}
+                onChange={(e) => setSettings(prev => ({ ...prev, telegram_link: e.target.value }))}
                 placeholder="https://telegram.me/your_username"
               />
             </div>
@@ -155,8 +167,8 @@ const SettingsPage = () => {
               </p>
               <Input
                 id="backgroundVideo"
-                value={backgroundVideo}
-                onChange={(e) => setBackgroundVideo(e.target.value)}
+                value={settings.background_video}
+                onChange={(e) => setSettings(prev => ({ ...prev, background_video: e.target.value }))}
                 placeholder="https://your-video-url.mp4"
               />
             </div>
@@ -172,8 +184,8 @@ const SettingsPage = () => {
               </div>
               <Switch
                 id="showFooterImages"
-                checked={showFooterImages}
-                onCheckedChange={setShowFooterImages}
+                checked={settings.show_footer_images}
+                onCheckedChange={(checked) => setSettings(prev => ({ ...prev, show_footer_images: checked }))}
               />
             </div>
           </div>

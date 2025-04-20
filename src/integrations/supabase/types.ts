@@ -92,6 +92,39 @@ export type Database = {
         }
         Relationships: []
       }
+      settings: {
+        Row: {
+          background_video: string | null
+          business_profile_image: string | null
+          created_at: string | null
+          domain_name: string | null
+          id: number
+          show_footer_images: boolean | null
+          telegram_link: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          background_video?: string | null
+          business_profile_image?: string | null
+          created_at?: string | null
+          domain_name?: string | null
+          id: number
+          show_footer_images?: boolean | null
+          telegram_link?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          background_video?: string | null
+          business_profile_image?: string | null
+          created_at?: string | null
+          domain_name?: string | null
+          id?: number
+          show_footer_images?: boolean | null
+          telegram_link?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
