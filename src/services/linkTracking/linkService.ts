@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { TrackedLink, UtmParameters, ClickData } from "@/types/linkTracking";
 import { ClickDataFromDB, LinkData } from "./types";
@@ -8,7 +9,8 @@ export const createShortUrl = async (
   title: string,
   utmParameters?: UtmParameters,
   customSlug?: string,
-  linkType?: string
+  linkType?: string,
+  parentLandingPage?: string
 ): Promise<TrackedLink | null> => {
   try {
     // Use custom slug if provided, otherwise generate one from title + random chars
@@ -28,14 +30,15 @@ export const createShortUrl = async (
     let redirectUrl = originalUrl;
     
     // Determine button type
-    const buttonType = linkType === 'landing' ? 'landing' : 'custom';
+    const buttonType = linkType === 'landing' ? 'landing' : (linkType || 'custom');
     
     // Insert the new link into Supabase
     const { data, error } = await supabase.from('links').insert({
       slug: shortSlug,
       title: title,
       redirect_url: redirectUrl,
-      button_type: buttonType
+      button_type: buttonType,
+      parent_landing_page: parentLandingPage || null
     }).select().single();
 
     if (error) {
@@ -61,7 +64,9 @@ export const createShortUrl = async (
       utmParameters: utmParameters || {},
       clicks: 0,
       clickHistory: [],
-      linkType: linkType || 'redirect'
+      linkType: linkType || 'redirect',
+      parentLandingPage: data.parent_landing_page || undefined,
+      isButton: !!data.parent_landing_page
     };
 
     return trackedLink;

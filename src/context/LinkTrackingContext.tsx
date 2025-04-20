@@ -68,15 +68,18 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
         setLinks(prev => [newLink, ...prev]);
         toast.success(`${linkType === "landing" ? "Landing page" : "Link"} created successfully`);
         
-        if (linkType === "landing" && customSlug) {
-          // Ensure we're using the exact custom slug for button creation
-          const exactSlug = customSlug;
+        // If this is a landing page, create associated tracking buttons
+        if (linkType === "landing") {
+          // Extract the slug from the shortUrl - this is more reliable than using customSlug
+          const landingSlug = newLink.shortUrl.split('/').pop() || customSlug || '';
+          
+          console.log("Creating associated buttons for landing page with slug:", landingSlug);
           
           const trackingButtons = [
-            { slug: `${exactSlug}-buy`, title: 'Buy Now Button', type: 'primary' },
-            { slug: `${exactSlug}-netflix`, title: 'Netflix Button', type: 'streaming' },
-            { slug: `${exactSlug}-prime`, title: 'Prime Video Button', type: 'streaming' },
-            { slug: `${exactSlug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
+            { slug: `${landingSlug}-buy`, title: 'Buy Now Button', type: 'primary' },
+            { slug: `${landingSlug}-netflix`, title: 'Netflix Button', type: 'streaming' },
+            { slug: `${landingSlug}-prime`, title: 'Prime Video Button', type: 'streaming' },
+            { slug: `${landingSlug}-crunchyroll`, title: 'Crunchyroll Button', type: 'streaming' }
           ];
           
           for (const button of trackingButtons) {
@@ -85,7 +88,8 @@ export const LinkTrackingProvider = ({ children }: { children: ReactNode }) => {
               button.title,
               undefined,
               button.slug,
-              button.type
+              button.type,
+              landingSlug  // Pass the parent landing page slug
             );
           }
           
