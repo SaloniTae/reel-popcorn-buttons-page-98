@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,12 +11,6 @@ import { supabase } from "@/integrations/supabase/client";
 const SettingsPage = () => {
   const { toast } = useToast();
   const [domainName, setDomainName] = useState("oor.link");
-  const [redirectDelay, setRedirectDelay] = useState("0");
-  const [showLogo, setShowLogo] = useState(true);
-  const [passwordProtection, setPasswordProtection] = useState(false);
-  const [notifyNewLinks, setNotifyNewLinks] = useState(true);
-  const [notifyClickMilestones, setNotifyClickMilestones] = useState(true);
-  
   const [telegramLink, setTelegramLink] = useState("https://telegram.me/ott_on_rent");
   const [showFooterImages, setShowFooterImages] = useState(true);
   const [backgroundVideo, setBackgroundVideo] = useState("https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4");
@@ -67,56 +62,6 @@ const SettingsPage = () => {
                 placeholder="yourdomain.com"
               />
             </div>
-            
-            <Separator className="my-6" />
-            
-            <div>
-              <Label htmlFor="redirectDelay" className="text-base">Redirect Delay</Label>
-              <p className="text-sm text-gray-500 mb-2">
-                How many seconds to wait before redirecting visitors (0 for immediate redirect)
-              </p>
-              <Input
-                id="redirectDelay"
-                type="number"
-                min="0"
-                max="10"
-                value={redirectDelay}
-                onChange={(e) => setRedirectDelay(e.target.value)}
-                className="w-24"
-              />
-            </div>
-            
-            <Separator className="my-6" />
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <Label htmlFor="showLogo" className="text-base">Show Logo on Redirect</Label>
-                <p className="text-sm text-gray-500">
-                  Display your logo on the redirect page
-                </p>
-              </div>
-              <Switch
-                id="showLogo"
-                checked={showLogo}
-                onCheckedChange={setShowLogo}
-              />
-            </div>
-            
-            <Separator className="my-6" />
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <Label htmlFor="passwordProtection" className="text-base">Password Protection</Label>
-                <p className="text-sm text-gray-500">
-                  Require a password to access protected links
-                </p>
-              </div>
-              <Switch
-                id="passwordProtection"
-                checked={passwordProtection}
-                onCheckedChange={setPasswordProtection}
-              />
-            </div>
           </div>
         </div>
         
@@ -165,42 +110,6 @@ const SettingsPage = () => {
                 id="showFooterImages"
                 checked={showFooterImages}
                 onCheckedChange={setShowFooterImages}
-              />
-            </div>
-          </div>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-6">Notification Settings</h2>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <Label htmlFor="notifyNewLinks" className="text-base">New Links</Label>
-                <p className="text-sm text-gray-500">
-                  Receive notifications when new links are created
-                </p>
-              </div>
-              <Switch
-                id="notifyNewLinks"
-                checked={notifyNewLinks}
-                onCheckedChange={setNotifyNewLinks}
-              />
-            </div>
-            
-            <Separator className="my-6" />
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <Label htmlFor="notifyClickMilestones" className="text-base">Click Milestones</Label>
-                <p className="text-sm text-gray-500">
-                  Receive notifications when links reach click milestones
-                </p>
-              </div>
-              <Switch
-                id="notifyClickMilestones"
-                checked={notifyClickMilestones}
-                onCheckedChange={setNotifyClickMilestones}
               />
             </div>
           </div>

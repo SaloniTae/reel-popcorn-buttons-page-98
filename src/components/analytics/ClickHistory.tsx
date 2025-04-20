@@ -29,30 +29,32 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
   return (
     <div>
       <ScrollArea className="h-[280px] rounded-md border">
-        <Table>
-          <TableHeader className="sticky top-0 bg-white">
-            <TableRow>
-              <TableHead>Date & Time</TableHead>
-              <TableHead>Button</TableHead>
-              <TableHead>Referrer</TableHead>
-              <TableHead>Device</TableHead>
-              <TableHead>Browser</TableHead>
-              <TableHead>Location</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {displayedClicks.map((click, index) => (
-              <TableRow key={index}>
-                <TableCell>{formatDate(click.timestamp)}</TableCell>
-                <TableCell>{click.buttonName || "Landing Page"}</TableCell>
-                <TableCell>{click.referrer || "direct"}</TableCell>
-                <TableCell>{click.device || "unknown"}</TableCell>
-                <TableCell>{click.browser || "unknown"}</TableCell>
-                <TableCell>{click.location || "unknown"}</TableCell>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="sticky top-0 bg-white">
+              <TableRow>
+                <TableHead>Date & Time</TableHead>
+                <TableHead>Button</TableHead>
+                <TableHead>Referrer</TableHead>
+                <TableHead>Device</TableHead>
+                <TableHead>Browser</TableHead>
+                <TableHead>Location</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {displayedClicks.map((click, index) => (
+                <TableRow key={index}>
+                  <TableCell>{formatDate(click.timestamp)}</TableCell>
+                  <TableCell>{click.buttonName || "Landing Page"}</TableCell>
+                  <TableCell>{click.referrer || "direct"}</TableCell>
+                  <TableCell>{click.device || "unknown"}</TableCell>
+                  <TableCell>{click.browser || "unknown"}</TableCell>
+                  <TableCell>{click.location || "unknown"}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </ScrollArea>
       {clicks.length > 3 && (
         <Button
