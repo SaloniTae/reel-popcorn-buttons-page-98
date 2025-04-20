@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,15 +14,64 @@ const SettingsPage = () => {
   const [telegramLink, setTelegramLink] = useState("https://telegram.me/ott_on_rent");
   const [showFooterImages, setShowFooterImages] = useState(true);
   const [backgroundVideo, setBackgroundVideo] = useState("https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4");
+  const [businessProfileImage, setBusinessProfileImage] = useState("https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg");
+  const [isSaving, setIsSaving] = useState(false);
+  
+  // Fetch current settings on component mount
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        // Get the settings from the database
+        const { data: settings, error } = await supabase
+          .from('settings')
+          .select('*')
+          .single();
+          
+        if (error) {
+          console.error('Error fetching settings:', error);
+          return;
+        }
+        
+        if (settings) {
+          setDomainName(settings.domain_name || "oor.link");
+          setTelegramLink(settings.telegram_link || "https://telegram.me/ott_on_rent");
+          setShowFooterImages(settings.show_footer_images !== false);
+          setBackgroundVideo(settings.background_video || "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4");
+          setBusinessProfileImage(settings.business_profile_image || "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg");
+        }
+      } catch (error) {
+        console.error('Error in fetchSettings:', error);
+      }
+    };
+    
+    fetchSettings();
+  }, []);
   
   const handleSaveSettings = async () => {
+    setIsSaving(true);
     try {
+      // Update all streaming button links to the new telegram link
       const { error: linksError } = await supabase
         .from('links')
         .update({ redirect_url: telegramLink })
-        .eq('button_type', 'streaming');
+        .in('button_type', ['streaming', 'primary']);
         
       if (linksError) throw linksError;
+      
+      // Update or insert settings in the settings table
+      const { error: settingsError } = await supabase
+        .from('settings')
+        .upsert({
+          id: 1, // Using a constant ID for the settings record
+          domain_name: domainName,
+          telegram_link: telegramLink,
+          show_footer_images: showFooterImages,
+          background_video: backgroundVideo,
+          business_profile_image: businessProfileImage,
+          updated_at: new Date().toISOString()
+        });
+        
+      if (settingsError) throw settingsError;
       
       toast({
         title: "Settings saved",
@@ -35,6 +84,8 @@ const SettingsPage = () => {
         description: "Failed to save settings. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSaving(false);
     }
   };
   
@@ -68,7 +119,20 @@ const SettingsPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-lg font-semibold mb-6">Landing Page Settings</h2>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
+            <div>
+              <Label htmlFor="businessProfileImage" className="text-base">Business Profile Image (OOR Circle)</Label>
+              <p className="text-sm text-gray-500 mb-2">
+                URL for the OOR Circle image displayed at the top of the landing page
+              </p>
+              <Input
+                id="businessProfileImage"
+                value={businessProfileImage}
+                onChange={(e) => setBusinessProfileImage(e.target.value)}
+                placeholder="https://example.com/image.jpg"
+              />
+            </div>
+          
             <div>
               <Label htmlFor="telegramLink" className="text-base">Telegram Link</Label>
               <p className="text-sm text-gray-500 mb-2">
@@ -116,7 +180,12 @@ const SettingsPage = () => {
         </div>
         
         <div className="flex justify-end">
-          <Button onClick={handleSaveSettings}>Save Settings</Button>
+          <Button 
+            onClick={handleSaveSettings} 
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Settings"}
+          </Button>
         </div>
       </div>
     </div>

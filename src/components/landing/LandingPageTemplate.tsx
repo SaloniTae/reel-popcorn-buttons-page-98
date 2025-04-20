@@ -4,6 +4,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LandingPageTemplateProps {
   slug: string;
@@ -19,6 +20,38 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isMobile = useIsMobile();
+  const [settings, setSettings] = useState({
+    businessProfileImage: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
+    backgroundVideo: "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
+    telegramLink: "https://telegram.me/ott_on_rent",
+    showFooterImages: true
+  });
+
+  // Fetch settings from Supabase
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from('settings')
+        .select('*')
+        .maybeSingle();
+        
+      if (error) {
+        console.error('Error fetching settings:', error);
+        return;
+      }
+      
+      if (data) {
+        setSettings({
+          businessProfileImage: data.business_profile_image || settings.businessProfileImage,
+          backgroundVideo: data.background_video || settings.backgroundVideo,
+          telegramLink: data.telegram_link || settings.telegramLink,
+          showFooterImages: data.show_footer_images !== false
+        });
+      }
+    };
+    
+    fetchSettings();
+  }, []);
 
   // Video lazy loading
   useEffect(() => {
@@ -26,7 +59,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
       (entries) => {
         if (entries[0].isIntersecting) {
           if (videoRef.current) {
-            videoRef.current.src = "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4";
+            videoRef.current.src = settings.backgroundVideo;
             videoRef.current.load();
           }
         }
@@ -43,7 +76,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         observer.unobserve(videoRef.current);
       }
     };
-  }, []);
+  }, [settings.backgroundVideo]);
 
   const handleVideoLoaded = () => {
     setIsVideoLoaded(true);
@@ -68,7 +101,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <div className="mb-4 small-screen:mb-2 relative">
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
             <img 
-              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+              src={settings.businessProfileImage} 
               alt="OTT ON RENT" 
               className="w-24 h-24 small-screen:w-16 small-screen:h-16 rounded-full object-cover relative z-10"
             />
@@ -79,7 +112,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         </div>
 
         <a 
-          href="https://telegram.me/ott_on_rent"
+          href={settings.telegramLink}
           onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)}
           target="_blank"
           rel="noopener noreferrer"
@@ -99,7 +132,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
             alt="Netflix" 
-            link="https://telegram.me/ott_on_rent"
+            link={settings.telegramLink}
             trackingSlug={trackingSlugs.netflix}
             className="small-screen:py-2"
           />
@@ -107,7 +140,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
             alt="Prime Video" 
-            link="https://telegram.me/ott_on_rent"
+            link={settings.telegramLink}
             trackingSlug={trackingSlugs.prime}
             className="small-screen:py-2"
           />
@@ -115,7 +148,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
             alt="Crunchyroll" 
-            link="https://telegram.me/ott_on_rent"
+            link={settings.telegramLink}
             trackingSlug={trackingSlugs.crunchyroll}
             className="small-screen:py-2"
           />
@@ -131,7 +164,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         </div>
       </div>
 
-      {isMobile && (
+      {isMobile && settings.showFooterImages && (
         <>
           <div className="absolute bottom-4 left-0 w-[195px] max-w-[195px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-2 opacity-90 pointer-events-none overflow-hidden">
             <img 

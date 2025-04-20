@@ -29,7 +29,7 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
   return (
     <div>
       <ScrollArea className="h-[280px] rounded-md border">
-        <div className="overflow-x-auto">
+        <div className="w-full overflow-auto">
           <Table>
             <TableHeader className="sticky top-0 bg-white">
               <TableRow>
