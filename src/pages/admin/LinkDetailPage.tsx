@@ -1,4 +1,3 @@
-
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
@@ -137,9 +136,7 @@ const LinkDetailPage = () => {
 
   const totalClicks = link.clicks + childLinks.reduce((total, button) => total + button.clicks, 0);
 
-  // Change from country to region statistics
   const clicksByRegion = consolidatedClicks.reduce((acc, click) => {
-    // First try to use stateCode/region, fallback to using location and extracting the middle part
     let region = click.region || '';
     
     if (!region && click.location) {
@@ -166,7 +163,7 @@ const LinkDetailPage = () => {
     acc[referrer] = (acc[referrer] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  
+
   const topReferrers = Object.entries(referrerStats)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
@@ -270,21 +267,48 @@ const LinkDetailPage = () => {
                 <p>{formatDate(link.createdAt)}</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Total Clicks</h3>
-                <p className="text-2xl font-bold">{totalClicks}</p>
-                <p className="text-xs text-gray-500">Landing page + all buttons</p>
+                <h3 className="text-sm font-medium text-gray-500 mb-1">Landing Page Visits</h3>
+                <p className="text-2xl font-bold">{link.clicks}</p>
+                <p className="text-xs text-gray-500">Direct page visits</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Last Click</h3>
+                <h3 className="text-sm font-medium text-gray-500 mb-1">Last Visit</h3>
                 <p>
                   {consolidatedClicks.length > 0
                     ? formatDate(consolidatedClicks[0].timestamp)
-                    : "No clicks yet"}
+                    : "No visits yet"}
                 </p>
               </div>
             </div>
 
             <ButtonPerformance landingPage={link} childLinks={childLinks} />
+            
+            <div className="mb-6">
+              <h3 className="text-base font-medium mb-3">Button Clicks Distribution</h3>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                {childLinks.length > 0 ? (
+                  <div className="space-y-4">
+                    {childLinks.map((button) => (
+                      <div key={button.id} className="flex items-center gap-2">
+                        <div className="w-32 text-sm">{button.title.replace(' Button', '')}</div>
+                        <div className="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-blue-600 rounded-full"
+                            style={{
+                              width: `${(button.clicks / Math.max(...childLinks.map(b => b.clicks || 1)) * 100)}%`,
+                            }}
+                          />
+                        </div>
+                        <div className="w-12 text-sm text-right">{button.clicks}</div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-center py-4">No button clicks recorded yet.</p>
+                )}
+              </div>
+            </div>
+
             <GeographicDistribution topRegions={topRegions} totalClicks={totalClicks} />
             <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={totalClicks} />
           </div>
@@ -361,7 +385,13 @@ const LinkDetailPage = () => {
           <TabsContent value="clicks">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">Consolidated Click History</h2>
-              <ClickHistory clicks={recentConsolidatedClicks} formatDate={formatDate} />
+              <ClickHistory 
+                clicks={recentConsolidatedClicks.map(click => ({
+                  ...click,
+                  referrer: click.buttonName ? 'button' : (click.referrer || 'direct')
+                }))} 
+                formatDate={formatDate} 
+              />
             </div>
           </TabsContent>
 
