@@ -14,9 +14,9 @@ const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Record click with 'button' as referrer
+    // Record click with 'button' as referrer and 'Buy Now' as button name
     if (trackingSlug) {
-      await recordClick(trackingSlug, 'button', navigator.userAgent);
+      await recordClick(trackingSlug, 'button', navigator.userAgent, 'Buy Now');
     }
     
     // Open link in new tab
