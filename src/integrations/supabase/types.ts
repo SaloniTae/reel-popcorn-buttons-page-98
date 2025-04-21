@@ -96,9 +96,13 @@ export type Database = {
         Row: {
           background_video: string | null
           business_profile_image: string | null
+          buy_now_button_link: string | null
           created_at: string | null
+          crunchyroll_button_link: string | null
           domain_name: string | null
           id: number
+          netflix_button_link: string | null
+          prime_button_link: string | null
           show_footer_images: boolean | null
           telegram_link: string | null
           updated_at: string | null
@@ -106,9 +110,13 @@ export type Database = {
         Insert: {
           background_video?: string | null
           business_profile_image?: string | null
+          buy_now_button_link?: string | null
           created_at?: string | null
+          crunchyroll_button_link?: string | null
           domain_name?: string | null
           id: number
+          netflix_button_link?: string | null
+          prime_button_link?: string | null
           show_footer_images?: boolean | null
           telegram_link?: string | null
           updated_at?: string | null
@@ -116,9 +124,13 @@ export type Database = {
         Update: {
           background_video?: string | null
           business_profile_image?: string | null
+          buy_now_button_link?: string | null
           created_at?: string | null
+          crunchyroll_button_link?: string | null
           domain_name?: string | null
           id?: number
+          netflix_button_link?: string | null
+          prime_button_link?: string | null
           show_footer_images?: boolean | null
           telegram_link?: string | null
           updated_at?: string | null

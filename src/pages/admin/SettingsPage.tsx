@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,8 +33,7 @@ const SettingsPage = () => {
     crunchyroll_button_link: "https://telegram.me/ott_on_rent",
     buy_now_button_link: "https://telegram.me/ott_on_rent"
   });
-  
-  // Fetch current settings on component mount
+
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -70,11 +68,10 @@ const SettingsPage = () => {
     
     fetchSettings();
   }, []);
-  
+
   const handleSaveSettings = async () => {
     setIsSaving(true);
     try {
-      // Update all streaming button links
       const { error: buttonsError } = await supabase
         .from('links')
         .update({ 
@@ -84,7 +81,6 @@ const SettingsPage = () => {
         
       if (buttonsError) throw buttonsError;
       
-      // Update specific button links if needed
       const buttons = [
         { title: 'Netflix Button', redirect_url: settings.netflix_button_link },
         { title: 'Prime Video Button', redirect_url: settings.prime_button_link },
@@ -101,7 +97,6 @@ const SettingsPage = () => {
         if (error) console.error(`Error updating ${button.title}:`, error);
       }
       
-      // Update or insert settings in the settings table
       const { error: settingsError } = await supabase
         .from('settings')
         .upsert({
@@ -135,7 +130,7 @@ const SettingsPage = () => {
       setIsSaving(false);
     }
   };
-  
+
   return (
     <div className="max-w-4xl">
       <div>

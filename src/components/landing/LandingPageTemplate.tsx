@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
@@ -42,7 +41,6 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
     show_footer_images: true
   });
 
-  // Fetch settings from Supabase
   useEffect(() => {
     const fetchSettings = async () => {
       const { data: settingsData, error } = await supabase
@@ -73,7 +71,6 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
     fetchSettings();
   }, []);
 
-  // Video lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
