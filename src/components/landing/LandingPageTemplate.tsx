@@ -30,7 +30,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isMobile = useIsMobile();
-  const [settings, setSettings] = useState<Settings>({
+  const [settings, setSettings] = useState<Settings & { business_name: string }>({
     business_profile_image: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
     background_video: "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
     telegram_link: "https://telegram.me/ott_on_rent",
@@ -38,7 +38,8 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
     prime_button_link: "https://telegram.me/ott_on_rent",
     crunchyroll_button_link: "https://telegram.me/ott_on_rent",
     buy_now_button_link: "https://telegram.me/ott_on_rent",
-    show_footer_images: true
+    show_footer_images: true,
+    business_name: "OTT ON RENT"
   });
 
   useEffect(() => {
@@ -63,7 +64,8 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           prime_button_link: settingsData.prime_button_link || settingsData.telegram_link,
           crunchyroll_button_link: settingsData.crunchyroll_button_link || settingsData.telegram_link,
           buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link,
-          show_footer_images: settingsData.show_footer_images
+          show_footer_images: settingsData.show_footer_images,
+          business_name: settingsData.business_name
         });
       }
     };
@@ -124,7 +126,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
             />
           </div>
           <h1 className="text-base small-screen:text-sm font-light tracking-wider text-gray-300">
-            OTT ON RENT
+            {settings.business_name}
           </h1>
         </div>
 

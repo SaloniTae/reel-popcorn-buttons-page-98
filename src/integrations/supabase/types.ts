@@ -95,6 +95,7 @@ export type Database = {
       settings: {
         Row: {
           background_video: string | null
+          business_name: string
           business_profile_image: string | null
           buy_now_button_link: string | null
           created_at: string | null
@@ -109,6 +110,7 @@ export type Database = {
         }
         Insert: {
           background_video?: string | null
+          business_name?: string
           business_profile_image?: string | null
           buy_now_button_link?: string | null
           created_at?: string | null
@@ -123,6 +125,7 @@ export type Database = {
         }
         Update: {
           background_video?: string | null
+          business_name?: string
           business_profile_image?: string | null
           buy_now_button_link?: string | null
           created_at?: string | null

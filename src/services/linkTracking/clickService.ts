@@ -5,14 +5,14 @@ import { detectBrowser, detectDevice } from "./deviceDetection";
 
 export const recordClick = async (
   slug: string,
-  referrer?: string,
+  referrer: string = "direct",
   userAgent?: string
 ): Promise<void> => {
   try {
     // Get the link details
     const { data: linkData, error: linkError } = await supabase
       .from('links')
-      .select('id, button_type')
+      .select('id, title, button_type')
       .eq('slug', slug)
       .single();
 
@@ -31,17 +31,20 @@ export const recordClick = async (
     // Get geolocation data
     const { country, region, city, stateCode } = await getGeoLocation(ip);
 
+    // Set referrer as button type if it exists
+    const effectiveReferrer = linkData.button_type ? `${linkData.button_type} button` : referrer || 'direct';
+
     // Record the click
     const { error: clickError } = await supabase.from('click_events').insert({
       link_id: linkData.id,
       ip,
       country,
-      region,
-      city,
-      referrer: referrer || 'direct',
+      region: region || 'Unknown',
+      city: city || 'Unknown',
+      referrer: effectiveReferrer,
       browser,
       device,
-      button_name: linkData.button_type
+      button_name: linkData.title
     });
 
     if (clickError) {

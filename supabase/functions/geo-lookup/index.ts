@@ -43,7 +43,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         country: data.country || 'India',
-        region: data.regionName || 'Unknown',
+        region: data.regionName || 'Unknown', // Using regionName instead of region for full name
         city: data.city || 'Unknown',
         stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)
       }),
