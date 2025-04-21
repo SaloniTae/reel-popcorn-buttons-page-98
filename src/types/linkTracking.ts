@@ -31,6 +31,8 @@ export interface ClickData {
   buttonName?: string;
   stateCode?: string; // Added for state/region tracking
   region?: string;    // Added for region tracking
+  city?: string;      // Add city property
+  country?: string;   // Add country property
 }
 
 export interface LinkStats {
