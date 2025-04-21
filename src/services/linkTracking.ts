@@ -1,6 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { getBrowserInfo, getDeviceInfo } from "./linkTracking/deviceDetection";
+import { detectBrowser as getBrowserInfo, detectDevice as getDeviceInfo } from "./linkTracking/deviceDetection";
 
 export const recordClick = async (
   slug: string,

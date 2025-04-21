@@ -67,7 +67,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
       (entries) => {
         if (entries[0].isIntersecting) {
           if (videoRef.current) {
-            videoRef.current.src = settings.backgroundVideo;
+            videoRef.current.src = settings.background_video;
             videoRef.current.load();
           }
         }
@@ -84,7 +84,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         observer.unobserve(videoRef.current);
       }
     };
-  }, [settings.backgroundVideo]);
+  }, [settings.background_video]);
 
   const handleVideoLoaded = () => {
     setIsVideoLoaded(true);
