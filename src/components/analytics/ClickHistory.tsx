@@ -26,6 +26,16 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
     return <p className="text-gray-500 text-center py-8">No clicks recorded yet.</p>;
   }
 
+  // Format location information combining city, region, and country
+  const formatLocation = (click: ClickData) => {
+    const parts = [];
+    if (click.city && click.city !== 'Unknown') parts.push(click.city);
+    if (click.region && click.region !== 'Unknown') parts.push(click.region);
+    if (click.country) parts.push(click.country);
+    
+    return parts.join(', ') || 'Unknown';
+  };
+
   return (
     <div>
       <ScrollArea className="h-[280px] rounded-md border">
@@ -49,7 +59,7 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
                   <TableCell>{click.referrer || "direct"}</TableCell>
                   <TableCell>{click.device || "unknown"}</TableCell>
                   <TableCell>{click.browser || "unknown"}</TableCell>
-                  <TableCell>{click.location || "unknown"}</TableCell>
+                  <TableCell>{formatLocation(click)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

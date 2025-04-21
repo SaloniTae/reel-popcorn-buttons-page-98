@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ interface Settings {
   prime_button_link: string;
   crunchyroll_button_link: string;
   buy_now_button_link: string;
+  business_name: string;
 }
 
 const SettingsPage = () => {
@@ -31,7 +33,8 @@ const SettingsPage = () => {
     netflix_button_link: "https://telegram.me/ott_on_rent",
     prime_button_link: "https://telegram.me/ott_on_rent",
     crunchyroll_button_link: "https://telegram.me/ott_on_rent",
-    buy_now_button_link: "https://telegram.me/ott_on_rent"
+    buy_now_button_link: "https://telegram.me/ott_on_rent",
+    business_name: "OTT ON RENT"
   });
 
   useEffect(() => {
@@ -58,7 +61,8 @@ const SettingsPage = () => {
             netflix_button_link: settingsData.netflix_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
             prime_button_link: settingsData.prime_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
             crunchyroll_button_link: settingsData.crunchyroll_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
-            buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent"
+            buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
+            business_name: settingsData.business_name || "OTT ON RENT"
           });
         }
       } catch (error) {
@@ -110,6 +114,7 @@ const SettingsPage = () => {
           prime_button_link: settings.prime_button_link,
           crunchyroll_button_link: settings.crunchyroll_button_link,
           buy_now_button_link: settings.buy_now_button_link,
+          business_name: settings.business_name,
           updated_at: new Date().toISOString()
         });
         
@@ -162,6 +167,19 @@ const SettingsPage = () => {
           <h2 className="text-lg font-semibold mb-6">Landing Page Settings</h2>
           
           <div className="space-y-6">
+            <div>
+              <Label htmlFor="businessName" className="text-base">Business Name</Label>
+              <p className="text-sm text-gray-500 mb-2">
+                Set the name that appears at the top of your landing page
+              </p>
+              <Input
+                id="businessName"
+                value={settings.business_name}
+                onChange={(e) => setSettings(prev => ({ ...prev, business_name: e.target.value }))}
+                placeholder="OTT ON RENT"
+              />
+            </div>
+            
             <div>
               <Label htmlFor="businessProfileImage" className="text-base">Business Profile Image (OOR Circle)</Label>
               <p className="text-sm text-gray-500 mb-2">
