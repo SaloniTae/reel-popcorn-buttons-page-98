@@ -1,6 +1,10 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { detectBrowser as getBrowserInfo, detectDevice as getDeviceInfo } from "./linkTracking/deviceDetection";
+import { detectBrowser, detectDevice } from "./linkTracking/deviceDetection";
+import { createShortUrl, getAllLinks, deleteLink } from "./linkTracking/linkService";
+
+// Re-export functions from linkService
+export { createShortUrl, getAllLinks, deleteLink };
 
 export const recordClick = async (
   slug: string,
@@ -21,8 +25,8 @@ export const recordClick = async (
     }
 
     // Extract device and browser information
-    const device = getDeviceInfo(userAgent);
-    const browser = getBrowserInfo(userAgent);
+    const device = detectDevice(userAgent);
+    const browser = detectBrowser(userAgent);
     
     // Record the click in the database
     const { error: clickError } = await supabase.from('click_events').insert({
