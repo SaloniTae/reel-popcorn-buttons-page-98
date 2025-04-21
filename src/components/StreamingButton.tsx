@@ -23,7 +23,7 @@ const StreamingButton = ({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Record the tracking click if a slug is provided, explicitly noting it's a button
+    // Record the tracking click if a slug is provided, explicitly specifying 'button' as referrer
     if (trackingSlug) {
       await recordClick(trackingSlug, 'button', navigator.userAgent);
     }

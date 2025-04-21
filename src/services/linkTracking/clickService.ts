@@ -34,17 +34,17 @@ export const recordClick = async (
 
     console.log("Geo data for click:", { country, region, city, stateCode });
 
-    // Set referrer based on button type - prioritize button type for streaming/primary buttons
+    // Explicitly set referrer to 'button' for streaming buttons and buy now buttons
     let effectiveReferrer = referrer || 'direct';
-    if (linkData.button_type && (linkData.button_type === 'primary' || linkData.button_type === 'streaming')) {
+    if (referrer === 'button' || (linkData.button_type && ['primary', 'streaming'].includes(linkData.button_type))) {
       effectiveReferrer = 'button';
     }
 
-    // Record the click
+    // Record the click with improved location data
     const { error: clickError } = await supabase.from('click_events').insert({
       link_id: linkData.id,
       ip,
-      country,
+      country: country || 'Unknown',
       region: region || 'Unknown',
       city: city || 'Unknown',
       referrer: effectiveReferrer,

@@ -32,7 +32,7 @@ serve(async (req) => {
       console.error('IP lookup failed:', data.message);
       return new Response(
         JSON.stringify({ 
-          country: 'India',
+          country: 'Unknown',
           region: 'Unknown',
           city: 'Unknown',
           stateCode: 'UN'
@@ -41,10 +41,10 @@ serve(async (req) => {
       );
     }
     
-    // Return detailed location data
+    // Return detailed location data, ensuring we have valid values
     return new Response(
       JSON.stringify({
-        country: data.country || 'India',
+        country: data.country || 'Unknown',
         region: data.regionName || 'Unknown', // Using regionName for full name
         city: data.city || 'Unknown',
         stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)
@@ -55,7 +55,13 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in geo-lookup function:', error);
     return new Response(
-      JSON.stringify({ error: 'Failed to lookup IP location' }),
+      JSON.stringify({ 
+        error: 'Failed to lookup IP location',
+        country: 'Unknown',
+        region: 'Unknown',
+        city: 'Unknown',
+        stateCode: 'UN'
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
     );
   }
