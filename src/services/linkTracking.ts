@@ -18,14 +18,25 @@ export const recordClick = async (
     // Simulate location data for now
     const locationData = await fetchLocation();
     
-    // Insert click data into the database
+    // Find the link_id from slug
+    const { data: linkData, error: linkError } = await supabase
+      .from('links')
+      .select('id')
+      .eq('slug', slug)
+      .single();
+      
+    if (linkError) {
+      console.error('Error finding link:', linkError);
+      return false;
+    }
+    
+    // Insert click data into the database using click_events table
     const { data, error } = await supabase
-      .from('clicks')
+      .from('click_events')
       .insert({
-        slug,
+        link_id: linkData.id,
         timestamp,
         referrer,
-        user_agent: userAgent,
         browser,
         device,
         button_name: buttonName,
@@ -37,19 +48,6 @@ export const recordClick = async (
       
     if (error) {
       console.error('Error recording click:', error);
-      return false;
-    }
-    
-    // Update the link's click count
-    const { error: updateError } = await supabase
-      .from('links')
-      .update({ 
-        clicks: supabase.rpc('increment', { row_id: slug, table_name: 'links' }) 
-      })
-      .eq('slug', slug);
-    
-    if (updateError) {
-      console.error('Error updating click count:', updateError);
       return false;
     }
     
@@ -79,12 +77,6 @@ export const createShortUrl = async (
       title,
       redirect_url: originalUrl,
       created_at: new Date().toISOString(),
-      clicks: 0,
-      utm_source: utmParameters?.source || null,
-      utm_medium: utmParameters?.medium || null,
-      utm_campaign: utmParameters?.campaign || null,
-      utm_content: utmParameters?.content || null,
-      utm_term: utmParameters?.term || null,
       button_type: linkType,
       parent_landing_page: parentLandingPage || null
     };
@@ -108,17 +100,11 @@ export const createShortUrl = async (
       shortUrl: `${window.location.origin}/${data.slug}`,
       title: data.title,
       createdAt: data.created_at,
-      clicks: data.clicks,
+      clicks: 0, // We don't have clicks in the links table, initialize to 0
       clickHistory: [],
       linkType: data.button_type,
       parentLandingPage: data.parent_landing_page,
-      utmParameters: data.utm_source ? {
-        source: data.utm_source,
-        medium: data.utm_medium,
-        campaign: data.utm_campaign,
-        content: data.utm_content,
-        term: data.utm_term
-      } : undefined
+      utmParameters: utmParameters // Use passed utm parameters
     };
     
     return trackedLink;
@@ -144,7 +130,7 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
     
     // Fetch all clicks
     const { data: clicks, error: clicksError } = await supabase
-      .from('clicks')
+      .from('click_events')
       .select('*');
       
     if (clicksError) {
@@ -155,19 +141,20 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
     // Transform to TrackedLink format
     return links.map(link => {
       // Get clicks for this link
-      const linkClicks = clicks.filter(click => click.slug === link.slug);
+      const linkClicks = clicks.filter(click => click.link_id === link.id);
       
       // Transform clicks to ClickData format
       const clickHistory: ClickData[] = linkClicks.map(click => ({
         timestamp: click.timestamp,
-        referrer: click.referrer,
+        referrer: click.referrer || 'direct',
         browser: click.browser,
         device: click.device,
-        location: click.location,
+        location: `${click.city || ''}, ${click.region || ''}, ${click.country || 'India'}`,
         city: click.city,
         region: click.region,
         country: click.country,
-        buttonName: click.button_name
+        buttonName: click.button_name,
+        ip: click.ip
       }));
       
       // Create TrackedLink object
@@ -177,17 +164,11 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
         shortUrl: `${window.location.origin}/${link.slug}`,
         title: link.title,
         createdAt: link.created_at,
-        clicks: link.clicks,
+        clicks: linkClicks.length,
         clickHistory,
         linkType: link.button_type,
         parentLandingPage: link.parent_landing_page,
-        utmParameters: link.utm_source ? {
-          source: link.utm_source,
-          medium: link.utm_medium,
-          campaign: link.utm_campaign,
-          content: link.utm_content,
-          term: link.utm_term
-        } : undefined
+        utmParameters: {}  // Initialize empty utmParameters since they're not in the DB table
       };
     });
   } catch (error) {
@@ -199,23 +180,11 @@ export const getAllLinks = async (): Promise<TrackedLink[]> => {
 // Delete a link
 export const deleteLink = async (id: string): Promise<boolean> => {
   try {
-    // First get the link to find its slug
-    const { data: link, error: linkError } = await supabase
-      .from('links')
-      .select('slug')
-      .eq('id', id)
-      .single();
-      
-    if (linkError) {
-      console.error('Error finding link to delete:', linkError);
-      return false;
-    }
-    
-    // Delete clicks for this link
+    // First delete all click_events for this link
     const { error: clicksError } = await supabase
-      .from('clicks')
+      .from('click_events')
       .delete()
-      .eq('slug', link.slug);
+      .eq('link_id', id);
       
     if (clicksError) {
       console.error('Error deleting clicks:', clicksError);

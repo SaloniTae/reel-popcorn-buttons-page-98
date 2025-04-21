@@ -29,39 +29,37 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <LinkTrackingProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                
-                {/* Admin Dashboard Routes */}
-                <Route path="/OOR" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path="links" element={<LinksPage />} />
-                  <Route path="links/:id" element={<LinkDetailPage />} />
-                  <Route path="create" element={<CreateLinkPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                </Route>
-                
-                {/* Link Redirect Route */}
-                <Route path="/r/:shortCode" element={<RedirectPage />} />
-                
-                {/* Landing Page Route */}
-                <Route path="/:slug" element={<LandingPage />} />
-                
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </LinkTrackingProvider>
-      </QueryClientProvider>
-    </React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <LinkTrackingProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              
+              {/* Admin Dashboard Routes */}
+              <Route path="/OOR" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="links" element={<LinksPage />} />
+                <Route path="links/:id" element={<LinkDetailPage />} />
+                <Route path="create" element={<CreateLinkPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
+              
+              {/* Link Redirect Route */}
+              <Route path="/r/:shortCode" element={<RedirectPage />} />
+              
+              {/* Landing Page Route */}
+              <Route path="/:slug" element={<LandingPage />} />
+              
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LinkTrackingProvider>
+    </QueryClientProvider>
   );
 };
 
