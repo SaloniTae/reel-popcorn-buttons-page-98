@@ -9,5 +9,5 @@ export { getClientIP, getGeoLocation } from "./geoService";
 export { detectBrowser, detectDevice } from "./deviceDetection";
 export { recordClick } from "./clickService";
 
-// Export these from the parent service to avoid duplication
+// Export the main link tracking functions from the linkTracking.ts file
 export { createShortUrl, getAllLinks, deleteLink } from "../linkTracking";

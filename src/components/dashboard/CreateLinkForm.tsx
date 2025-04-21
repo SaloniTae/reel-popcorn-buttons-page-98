@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
@@ -45,6 +44,7 @@ const CreateLinkForm = () => {
       console.error(error);
     }
   };
+  
   
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
