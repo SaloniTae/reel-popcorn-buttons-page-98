@@ -1,11 +1,8 @@
 
-// Re-export all types
-export * from '@/types/linkTracking';
-
-// Re-export the services but avoid duplicating exports from the linkTracking file
-export { recordClick } from './linkTracking/clickService';
-export { detectBrowser, detectDevice } from './linkTracking/deviceDetection';
-export { getClientIP, getGeoLocation } from './linkTracking/geoService';
-export { createShortUrl, getAllLinks, deleteLink } from './linkTracking';
-
-// You can add any additional helper methods specific to this service here
+// This file re-exports everything from the new modular structure
+// This ensures backward compatibility with existing code
+export * from "./linkTracking";
+export * from "./linkTracking/linkService";
+export * from "./linkTracking/deviceDetection";
+export * from "./linkTracking/geoService";
+export * from "./linkTracking/types";

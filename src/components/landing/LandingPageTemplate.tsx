@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
@@ -133,11 +132,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
 
         <a 
           href={settings.buy_now_button_link}
-          onClick={(e) => {
-            e.preventDefault();
-            recordClick(trackingSlugs.buyNow, 'button', navigator.userAgent, 'Buy Now');
-            window.open(settings.buy_now_button_link, '_blank', 'noopener,noreferrer');
-          }}
+          onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3"

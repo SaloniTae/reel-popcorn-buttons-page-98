@@ -25,7 +25,7 @@ const StreamingButton = ({
     
     // Record the tracking click if a slug is provided, explicitly noting it's a button
     if (trackingSlug) {
-      await recordClick(trackingSlug, 'button', navigator.userAgent, alt);
+      await recordClick(trackingSlug, 'button', navigator.userAgent);
     }
     
     // Call the onClick callback if provided
