@@ -14,6 +14,10 @@ interface Settings {
   show_footer_images: boolean;
   background_video: string;
   business_profile_image: string;
+  netflix_button_link: string;
+  prime_button_link: string;
+  crunchyroll_button_link: string;
+  buy_now_button_link: string;
 }
 
 const SettingsPage = () => {
@@ -24,7 +28,11 @@ const SettingsPage = () => {
     telegram_link: "https://telegram.me/ott_on_rent",
     show_footer_images: true,
     background_video: "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
-    business_profile_image: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg"
+    business_profile_image: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
+    netflix_button_link: "https://telegram.me/ott_on_rent",
+    prime_button_link: "https://telegram.me/ott_on_rent",
+    crunchyroll_button_link: "https://telegram.me/ott_on_rent",
+    buy_now_button_link: "https://telegram.me/ott_on_rent"
   });
   
   // Fetch current settings on component mount
@@ -48,7 +56,11 @@ const SettingsPage = () => {
             telegram_link: settingsData.telegram_link || "https://telegram.me/ott_on_rent",
             show_footer_images: settingsData.show_footer_images !== false,
             background_video: settingsData.background_video || "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
-            business_profile_image: settingsData.business_profile_image || "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg"
+            business_profile_image: settingsData.business_profile_image || "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
+            netflix_button_link: settingsData.netflix_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
+            prime_button_link: settingsData.prime_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
+            crunchyroll_button_link: settingsData.crunchyroll_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent",
+            buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link || "https://telegram.me/ott_on_rent"
           });
         }
       } catch (error) {
@@ -62,13 +74,32 @@ const SettingsPage = () => {
   const handleSaveSettings = async () => {
     setIsSaving(true);
     try {
-      // Update all streaming button links to the new telegram link
-      const { error: linksError } = await supabase
+      // Update all streaming button links
+      const { error: buttonsError } = await supabase
         .from('links')
-        .update({ redirect_url: settings.telegram_link })
-        .in('button_type', ['streaming', 'primary']);
+        .update({ 
+          redirect_url: settings.telegram_link 
+        })
+        .eq('button_type', 'primary');
         
-      if (linksError) throw linksError;
+      if (buttonsError) throw buttonsError;
+      
+      // Update specific button links if needed
+      const buttons = [
+        { title: 'Netflix Button', redirect_url: settings.netflix_button_link },
+        { title: 'Prime Video Button', redirect_url: settings.prime_button_link },
+        { title: 'Crunchyroll Button', redirect_url: settings.crunchyroll_button_link },
+        { title: 'Buy Now Button', redirect_url: settings.buy_now_button_link }
+      ];
+      
+      for (const button of buttons) {
+        const { error } = await supabase
+          .from('links')
+          .update({ redirect_url: button.redirect_url })
+          .eq('title', button.title);
+          
+        if (error) console.error(`Error updating ${button.title}:`, error);
+      }
       
       // Update or insert settings in the settings table
       const { error: settingsError } = await supabase
@@ -80,6 +111,10 @@ const SettingsPage = () => {
           show_footer_images: settings.show_footer_images,
           background_video: settings.background_video,
           business_profile_image: settings.business_profile_image,
+          netflix_button_link: settings.netflix_button_link,
+          prime_button_link: settings.prime_button_link,
+          crunchyroll_button_link: settings.crunchyroll_button_link,
+          buy_now_button_link: settings.buy_now_button_link,
           updated_at: new Date().toISOString()
         });
         
@@ -146,9 +181,9 @@ const SettingsPage = () => {
             </div>
           
             <div>
-              <Label htmlFor="telegramLink" className="text-base">Telegram Link</Label>
+              <Label htmlFor="telegramLink" className="text-base">Default Telegram Link</Label>
               <p className="text-sm text-gray-500 mb-2">
-                The URL where users will be redirected when clicking buttons
+                The default URL where users will be redirected when clicking buttons
               </p>
               <Input
                 id="telegramLink"
@@ -156,6 +191,61 @@ const SettingsPage = () => {
                 onChange={(e) => setSettings(prev => ({ ...prev, telegram_link: e.target.value }))}
                 placeholder="https://telegram.me/your_username"
               />
+            </div>
+            
+            <Separator className="my-6" />
+            
+            <div>
+              <Label className="text-base">Individual Button Links</Label>
+              <p className="text-sm text-gray-500 mb-4">
+                Configure specific links for each button (these will override the default link)
+              </p>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="buyNowLink" className="text-sm">Buy Now Button Link</Label>
+                  <Input
+                    id="buyNowLink"
+                    value={settings.buy_now_button_link}
+                    onChange={(e) => setSettings(prev => ({ ...prev, buy_now_button_link: e.target.value }))}
+                    placeholder="https://telegram.me/your_username"
+                    className="mt-1"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="netflixLink" className="text-sm">Netflix Button Link</Label>
+                  <Input
+                    id="netflixLink"
+                    value={settings.netflix_button_link}
+                    onChange={(e) => setSettings(prev => ({ ...prev, netflix_button_link: e.target.value }))}
+                    placeholder="https://telegram.me/your_username"
+                    className="mt-1"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="primeLink" className="text-sm">Prime Video Button Link</Label>
+                  <Input
+                    id="primeLink"
+                    value={settings.prime_button_link}
+                    onChange={(e) => setSettings(prev => ({ ...prev, prime_button_link: e.target.value }))}
+                    placeholder="https://telegram.me/your_username"
+                    className="mt-1"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="crunchyrollLink" className="text-sm">Crunchyroll Button Link</Label>
+                  <Input
+                    id="crunchyrollLink"
+                    value={settings.crunchyroll_button_link}
+                    onChange={(e) => setSettings(prev => ({ ...prev, crunchyroll_button_link: e.target.value }))}
+                    placeholder="https://telegram.me/your_username"
+                    className="mt-1"
+                  />
+                </div>
+              </div>
             </div>
             
             <Separator className="my-6" />

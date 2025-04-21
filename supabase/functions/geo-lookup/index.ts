@@ -42,7 +42,7 @@ serve(async (req) => {
     // Return detailed location data
     return new Response(
       JSON.stringify({
-        country: 'India',
+        country: data.country || 'India',
         region: data.regionName || 'Unknown',
         city: data.city || 'Unknown',
         stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)

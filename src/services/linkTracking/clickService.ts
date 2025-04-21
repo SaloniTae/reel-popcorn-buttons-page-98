@@ -29,7 +29,7 @@ export const recordClick = async (
     const device = detectDevice(userAgent);
     
     // Get geolocation data
-    const { country, region, city } = await getGeoLocation(ip);
+    const { country, region, city, stateCode } = await getGeoLocation(ip);
 
     // Record the click
     const { error: clickError } = await supabase.from('click_events').insert({

@@ -20,6 +20,10 @@ interface Settings {
   business_profile_image: string;
   background_video: string;
   telegram_link: string;
+  netflix_button_link: string;
+  prime_button_link: string;
+  crunchyroll_button_link: string;
+  buy_now_button_link: string;
   show_footer_images: boolean;
 }
 
@@ -31,6 +35,10 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
     business_profile_image: "https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg",
     background_video: "https://res.cloudinary.com/djzfoukhz/video/upload/v1744838090/lv_0_20250417022904_sigks8.mp4",
     telegram_link: "https://telegram.me/ott_on_rent",
+    netflix_button_link: "https://telegram.me/ott_on_rent",
+    prime_button_link: "https://telegram.me/ott_on_rent",
+    crunchyroll_button_link: "https://telegram.me/ott_on_rent",
+    buy_now_button_link: "https://telegram.me/ott_on_rent",
     show_footer_images: true
   });
 
@@ -53,6 +61,10 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           business_profile_image: settingsData.business_profile_image,
           background_video: settingsData.background_video,
           telegram_link: settingsData.telegram_link,
+          netflix_button_link: settingsData.netflix_button_link || settingsData.telegram_link,
+          prime_button_link: settingsData.prime_button_link || settingsData.telegram_link,
+          crunchyroll_button_link: settingsData.crunchyroll_button_link || settingsData.telegram_link,
+          buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link,
           show_footer_images: settingsData.show_footer_images
         });
       }
@@ -120,7 +132,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
         </div>
 
         <a 
-          href={settings.telegram_link}
+          href={settings.buy_now_button_link}
           onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)}
           target="_blank"
           rel="noopener noreferrer"
@@ -140,7 +152,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
             alt="Netflix" 
-            link={settings.telegram_link}
+            link={settings.netflix_button_link}
             trackingSlug={trackingSlugs.netflix}
             className="small-screen:py-2"
           />
@@ -148,7 +160,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
             alt="Prime Video" 
-            link={settings.telegram_link}
+            link={settings.prime_button_link}
             trackingSlug={trackingSlugs.prime}
             className="small-screen:py-2"
           />
@@ -156,7 +168,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
             alt="Crunchyroll" 
-            link={settings.telegram_link}
+            link={settings.crunchyroll_button_link}
             trackingSlug={trackingSlugs.crunchyroll}
             className="small-screen:py-2"
           />

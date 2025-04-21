@@ -9,3 +9,4 @@ export { getClientIP, getGeoLocation } from "./geoService";
 export { detectBrowser, detectDevice } from "./deviceDetection";
 export { recordClick } from "../linkTracking";
 export { createShortUrl, getAllLinks, deleteLink } from "./linkService";
+export { recordClick as trackClick } from "./clickService";
