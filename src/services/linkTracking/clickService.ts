@@ -34,7 +34,8 @@ export const recordClick = async (
 
     console.log("Geo data for click:", { country, region, city, stateCode });
 
-    // Explicitly set referrer to 'button' for streaming buttons and buy now buttons
+    // Ensure referrer is correctly set to 'button' for button clicks
+    // This is critical for properly tracking button interactions
     let effectiveReferrer = referrer || 'direct';
     if (referrer === 'button' || (linkData.button_type && ['primary', 'streaming'].includes(linkData.button_type))) {
       effectiveReferrer = 'button';
