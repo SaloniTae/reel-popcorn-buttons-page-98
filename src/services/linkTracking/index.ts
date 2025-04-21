@@ -7,5 +7,5 @@ export * from "./types";
 // Re-export services
 export { getClientIP, getGeoLocation } from "./geoService";
 export { detectBrowser, detectDevice } from "./deviceDetection";
-export { recordClick } from "./clickService";
+export { recordClick } from "../linkTracking";
 export { createShortUrl, getAllLinks, deleteLink } from "./linkService";
