@@ -22,9 +22,11 @@ serve(async (req) => {
       );
     }
     
-    // Using ip-api.com with more detailed fields for better region data
+    // Using ip-api.com with more detailed fields for better region and city data
     const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,region`);
     const data = await response.json();
+    
+    console.log("IP Lookup response:", JSON.stringify(data));
     
     if (data.status !== 'success') {
       console.error('IP lookup failed:', data.message);
@@ -43,7 +45,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         country: data.country || 'India',
-        region: data.regionName || 'Unknown', // Using regionName instead of region for full name
+        region: data.regionName || 'Unknown', // Using regionName for full name
         city: data.city || 'Unknown',
         stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)
       }),

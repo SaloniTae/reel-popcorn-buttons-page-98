@@ -29,9 +29,16 @@ export const ClickHistory = ({ clicks, formatDate }: ClickHistoryProps) => {
   // Format location information combining city, region, and country
   const formatLocation = (click: ClickData) => {
     const parts = [];
+    
+    // First try using the dedicated fields
     if (click.city && click.city !== 'Unknown') parts.push(click.city);
     if (click.region && click.region !== 'Unknown') parts.push(click.region);
-    if (click.country) parts.push(click.country);
+    if (click.country && click.country !== 'Unknown') parts.push(click.country);
+    
+    // If we have no parts but have a legacy location string, use that
+    if (parts.length === 0 && click.location) {
+      return click.location;
+    }
     
     return parts.join(', ') || 'Unknown';
   };

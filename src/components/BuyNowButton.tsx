@@ -1,13 +1,27 @@
 
 import React, { useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { recordClick } from "@/services/linkTracking";
 
 interface BuyNowButtonProps {
   link: string;
+  trackingSlug?: string;
 }
 
-const BuyNowButton = ({ link }: BuyNowButtonProps) => {
+const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  
+  const handleClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Record click with 'button' as referrer
+    if (trackingSlug) {
+      await recordClick(trackingSlug, 'button', navigator.userAgent);
+    }
+    
+    // Open link in new tab
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
   
   return (
     <div className="relative w-full max-w-[400px]">
@@ -15,6 +29,7 @@ const BuyNowButton = ({ link }: BuyNowButtonProps) => {
         href={link} 
         target="_blank" 
         rel="noopener noreferrer"
+        onClick={handleClick}
         className="w-full py-4 px-6 bg-[#0086ff] text-white rounded-full flex items-center justify-center hover:bg-[#0073e0] transition-all duration-300 transform hover:scale-105"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}

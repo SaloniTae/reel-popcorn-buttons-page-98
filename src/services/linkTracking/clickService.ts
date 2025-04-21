@@ -29,10 +29,16 @@ export const recordClick = async (
     const device = detectDevice(userAgent);
     
     // Get geolocation data
-    const { country, region, city, stateCode } = await getGeoLocation(ip);
+    const geoData = await getGeoLocation(ip);
+    const { country, region, city, stateCode } = geoData;
 
-    // Set referrer as button type if it exists
-    const effectiveReferrer = linkData.button_type ? `${linkData.button_type} button` : referrer || 'direct';
+    console.log("Geo data for click:", { country, region, city, stateCode });
+
+    // Set referrer based on button type - prioritize button type for streaming/primary buttons
+    let effectiveReferrer = referrer || 'direct';
+    if (linkData.button_type && (linkData.button_type === 'primary' || linkData.button_type === 'streaming')) {
+      effectiveReferrer = 'button';
+    }
 
     // Record the click
     const { error: clickError } = await supabase.from('click_events').insert({
