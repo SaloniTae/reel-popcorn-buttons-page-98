@@ -16,20 +16,24 @@ serve(async (req) => {
     const { ip } = await req.json();
     
     if (!ip) {
+      console.error('IP address is missing in request');
       return new Response(
         JSON.stringify({ error: 'IP address is required' }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
     
-    // Using ip-api.com with more detailed fields for better region and city data
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,region`);
+    console.log("Looking up IP:", ip);
+    
+    // Using ipapi.co as an alternative service with better region data
+    const response = await fetch(`https://ipapi.co/${ip}/json/`);
     const data = await response.json();
     
     console.log("IP Lookup response:", JSON.stringify(data));
     
-    if (data.status !== 'success') {
-      console.error('IP lookup failed:', data.message);
+    // Check if the response contains an error message
+    if (data.error) {
+      console.error('IP lookup failed:', data.error);
       return new Response(
         JSON.stringify({ 
           country: 'Unknown',
@@ -41,13 +45,13 @@ serve(async (req) => {
       );
     }
     
-    // Return detailed location data, ensuring we have valid values
+    // Return detailed location data with meaningful fallbacks
     return new Response(
       JSON.stringify({
-        country: data.country || 'Unknown',
-        region: data.regionName || 'Unknown', // Using regionName for full name
+        country: data.country_name || data.country || 'Unknown',
+        region: data.region || data.region_code || 'Unknown',
         city: data.city || 'Unknown',
-        stateCode: data.region || 'UN' // This gives us the state code (e.g., 'MH' for Maharashtra)
+        stateCode: data.region_code || 'UN'
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

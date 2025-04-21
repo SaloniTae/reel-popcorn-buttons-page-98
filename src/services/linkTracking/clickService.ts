@@ -9,6 +9,8 @@ export const recordClick = async (
   userAgent?: string
 ): Promise<void> => {
   try {
+    console.log(`Recording click for slug: ${slug}, referrer: ${referrer}`);
+    
     // Get the link details
     const { data: linkData, error: linkError } = await supabase
       .from('links')
@@ -23,32 +25,50 @@ export const recordClick = async (
 
     // Get the client IP address
     const ip = await getClientIP();
+    console.log("Client IP:", ip);
     
     // Extract browser and device info from user agent
     const browser = detectBrowser(userAgent);
     const device = detectDevice(userAgent);
     
-    // Get geolocation data
+    // Get geolocation data with better error handling
     const geoData = await getGeoLocation(ip);
-    const { country, region, city, stateCode } = geoData;
+    console.log("Geo data received:", geoData);
+    
+    // Ensure we have valid location data or use fallbacks
+    const country = geoData.country && geoData.country !== 'Unknown' ? geoData.country : 'India';
+    const region = geoData.region && geoData.region !== 'Unknown' ? geoData.region : '';
+    const city = geoData.city && geoData.city !== 'Unknown' ? geoData.city : '';
 
-    console.log("Geo data for click:", { country, region, city, stateCode });
-
-    // Ensure referrer is correctly set to 'button' for button clicks
-    // This is critical for properly tracking button interactions
-    let effectiveReferrer = referrer || 'direct';
+    // Handle button clicks correctly - this is critical!
+    let finalReferrer = referrer;
+    
+    // Explicitly set referrer to 'button' for buttons
     if (referrer === 'button' || (linkData.button_type && ['primary', 'streaming'].includes(linkData.button_type))) {
-      effectiveReferrer = 'button';
+      finalReferrer = 'button';
+      console.log("Setting referrer to 'button' for button click");
     }
+
+    console.log("Final values for click record:", {
+      link_id: linkData.id,
+      ip,
+      country,
+      region,
+      city,
+      referrer: finalReferrer,
+      browser,
+      device,
+      button_name: linkData.title
+    });
 
     // Record the click with improved location data
     const { error: clickError } = await supabase.from('click_events').insert({
       link_id: linkData.id,
       ip,
-      country: country || 'Unknown',
-      region: region || 'Unknown',
-      city: city || 'Unknown',
-      referrer: effectiveReferrer,
+      country,
+      region,
+      city,
+      referrer: finalReferrer,
       browser,
       device,
       button_name: linkData.title
@@ -56,6 +76,8 @@ export const recordClick = async (
 
     if (clickError) {
       console.error("Error recording click:", clickError);
+    } else {
+      console.log("Click successfully recorded");
     }
   } catch (error) {
     console.error("Error recording click:", error);

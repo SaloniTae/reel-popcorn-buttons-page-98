@@ -1,7 +1,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { recordClick } from "@/services/linkTracking";
+import { recordClick } from "@/services/linkTracking/clickService";
 
 interface StreamingButtonProps {
   imageUrl: string;
@@ -23,8 +23,9 @@ const StreamingButton = ({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Record the tracking click if a slug is provided, explicitly specifying 'button' as referrer
+    // Always explicitly use 'button' as the referrer for streaming buttons
     if (trackingSlug) {
+      console.log("StreamingButton click - tracking with slug:", trackingSlug);
       await recordClick(trackingSlug, 'button', navigator.userAgent);
     }
     

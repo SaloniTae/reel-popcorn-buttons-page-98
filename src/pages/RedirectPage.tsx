@@ -29,16 +29,23 @@ const RedirectPage = () => {
           return;
         }
         
+        // Determine the referrer type based on the button_type
+        const referrerType = data.button_type && ['primary', 'streaming'].includes(data.button_type) 
+          ? 'button' 
+          : document.referrer;
+        
+        console.log("Redirect page - recording click with referrer:", referrerType);
+        
         // Record the click with browser info
-        await recordClick(data.slug, document.referrer, navigator.userAgent);
+        await recordClick(data.slug, referrerType, navigator.userAgent);
         
         // Also record a click on the parent landing page if this is a button
         if (data.parent_landing_page) {
-          await recordClick(data.parent_landing_page, document.referrer, navigator.userAgent);
+          await recordClick(data.parent_landing_page, referrerType, navigator.userAgent);
         }
 
         // Redirect immediately
-        window.location.href = data.redirect_url;
+        window.open(data.redirect_url, '_self');
       } catch (err) {
         console.error("Error in redirect:", err);
         navigate("/not-found");

@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { ShoppingCart } from "lucide-react";
-import { recordClick } from "@/services/linkTracking";
+import { recordClick } from "@/services/linkTracking/clickService";
 
 interface BuyNowButtonProps {
   link: string;
@@ -14,8 +14,9 @@ const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Record click with 'button' as referrer explicitly
+    // Always explicitly use 'button' as the referrer
     if (trackingSlug) {
+      console.log("BuyNowButton click - tracking with slug:", trackingSlug);
       await recordClick(trackingSlug, 'button', navigator.userAgent);
     }
     
