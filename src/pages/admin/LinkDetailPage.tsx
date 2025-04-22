@@ -1,6 +1,6 @@
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
-import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
+import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -38,6 +38,7 @@ const LinkDetailPage = () => {
   const [childLinks, setChildLinks] = useState<TrackedLink[]>([]);
   const [consolidatedClicks, setConsolidatedClicks] = useState<ClickData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [resetting, setResetting] = useState(false);
 
   const link = links.find((l) => l.id === id);
 
@@ -123,6 +124,43 @@ const LinkDetailPage = () => {
     }
   };
 
+  const handleResetClicks = async () => {
+    if (!id || !link) return;
+    setResetting(true);
+    try {
+      const res = await fetch(
+        "https://frffrnqzibkhhrknohlu.functions.supabase.co/reset-link-clicks",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        toast({
+          title: "Clicks reset",
+          description: "All click data for this page and its buttons has been reset.",
+        });
+        window.location.reload();
+      } else {
+        toast({
+          title: "Reset failed",
+          description: data?.error || "Could not reset click data.",
+          variant: "destructive"
+        });
+      }
+    } catch (e) {
+      toast({
+        title: "Reset failed",
+        description: "Error reaching server.",
+        variant: "destructive"
+      });
+    } finally {
+      setResetting(false);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -183,8 +221,7 @@ const LinkDetailPage = () => {
       <div className="flex items-center mb-6">
         <Button variant="ghost" size="sm" asChild className="mr-2">
           <RouterLink to="/OOR/links">
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back to Links
+            <ArrowLeft className="h-4 w-4" />
           </RouterLink>
         </Button>
       </div>
@@ -208,21 +245,27 @@ const LinkDetailPage = () => {
               </Button>
             </div>
           </div>
-
           <div className="flex items-center gap-2 mt-2 md:mt-0">
-            <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)}>
-              <QrCode className="h-4 w-4 mr-2" />
-              {showQrCode ? "Hide QR" : "Show QR"}
+            <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)} title="Show QR" aria-label="Show QR">
+              <QrCode className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="outline" onClick={handleTestLink}>
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Test Link
+            <Button size="sm" variant="outline" onClick={handleTestLink} title="Test link" aria-label="Test link">
+              <ExternalLink className="h-4 w-4" />
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleResetClicks}
+              disabled={resetting}
+              title="Reset click stats"
+              aria-label="Reset click stats"
+            >
+              <RotateCcw className={`h-4 w-4 ${resetting ? "animate-spin" : ""}`} />
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button size="sm" variant="destructive">
-                  <Trash className="h-4 w-4 mr-2" />
-                  Delete
+                <Button size="sm" variant="destructive" title="Delete" aria-label="Delete">
+                  <Trash className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
