@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { TrackedLink, UtmParameters, ClickData } from "@/types/linkTracking";
 import { ClickDataFromDB, LinkData } from "./types";
@@ -187,34 +188,6 @@ export const deleteLink = async (id: string): Promise<boolean> => {
   } catch (error) {
     console.error("Error deleting link:", error);
     toast.error("Failed to delete link");
-    return false;
-  }
-};
-
-/**
- * Resets (deletes) all click events for the given link ids.
- */
-export const resetClicks = async (linkIds: string[]): Promise<boolean> => {
-  try {
-    if (linkIds.length === 0) return true;
-
-    // Remove click_events for all given link ids
-    const { error } = await supabase
-      .from('click_events')
-      .delete()
-      .in('link_id', linkIds);
-
-    if (error) {
-      console.error("Error deleting click_events:", error);
-      toast.error("Failed to reset click data");
-      return false;
-    }
-
-    toast.success("Click data reset successfully");
-    return true;
-  } catch (error) {
-    console.error("Error resetting clicks:", error);
-    toast.error("Failed to reset click data");
     return false;
   }
 };

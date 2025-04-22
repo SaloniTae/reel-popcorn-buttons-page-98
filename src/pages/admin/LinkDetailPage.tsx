@@ -1,7 +1,6 @@
-
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
-import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, RotateCcw } from "lucide-react";
+import { ArrowLeft, Copy, ExternalLink, QrCode, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -29,15 +28,13 @@ import { GeographicDistribution } from "@/components/analytics/GeographicDistrib
 import { DeviceDistribution } from "@/components/analytics/DeviceDistribution";
 import { ClickHistory } from "@/components/analytics/ClickHistory";
 import { TopReferrers } from "@/components/analytics/TopReferrers";
-import { resetClicks } from "@/services/linkTracking/linkService";
 
 const LinkDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { links, deleteLink, getButtonsForLandingPage, getAllLinks, refreshLinks } = useLinkTracking();
+  const { links, deleteLink, getButtonsForLandingPage, getAllLinks } = useLinkTracking();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [showQrCode, setShowQrCode] = useState(false);
-  const [showResetDialog, setShowResetDialog] = useState(false);
   const [childLinks, setChildLinks] = useState<TrackedLink[]>([]);
   const [consolidatedClicks, setConsolidatedClicks] = useState<ClickData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -126,25 +123,6 @@ const LinkDetailPage = () => {
     }
   };
 
-  // ---- RESET CLICK DATA LOGIC ----
-  const handleResetClickData = async () => {
-    const linkIdsToReset =
-      link.linkType === "landing"
-        ? [link.id, ...childLinks.map((btn) => btn.id)]
-        : [link.id];
-    const success = await resetClicks(linkIdsToReset);
-    if (success) {
-      await refreshLinks();
-      setShowResetDialog(false);
-      toast({
-        title: "Click data reset",
-        description:
-          "All click data for this landing page and associated buttons has been reset.",
-      });
-    }
-  };
-  // ---- END RESET CLICK DATA LOGIC ----
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -205,7 +183,8 @@ const LinkDetailPage = () => {
       <div className="flex items-center mb-6">
         <Button variant="ghost" size="sm" asChild className="mr-2">
           <RouterLink to="/OOR/links">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back to Links
           </RouterLink>
         </Button>
       </div>
@@ -231,43 +210,19 @@ const LinkDetailPage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-2 md:mt-0">
-            {/* QR Icon button */}
             <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)}>
-              <QrCode className="h-4 w-4" />
+              <QrCode className="h-4 w-4 mr-2" />
+              {showQrCode ? "Hide QR" : "Show QR"}
             </Button>
-            {/* Test link icon button */}
             <Button size="sm" variant="outline" onClick={handleTestLink}>
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Test Link
             </Button>
-            {/* Reset click data icon button */}
-            <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
-              <AlertDialogTrigger asChild>
-                <Button size="sm" variant="outline" className="text-blue-500" onClick={() => setShowResetDialog(true)}>
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Reset Click Data?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to reset the click data for {link.linkType === "landing" ? "this landing page and its associated buttons" : "this link"}? This will delete all click events and cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleResetClickData}>
-                    Reset
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            {/* Delete icon button */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button size="sm" variant="destructive">
-                  <Trash className="h-4 w-4" />
+                  <Trash className="h-4 w-4 mr-2" />
+                  Delete
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
