@@ -5,17 +5,20 @@ import LandingPageTemplate from "@/components/landing/LandingPageTemplate";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  const [loading, setLoading] = useState(true);
   const [trackingSlugs, setTrackingSlugs] = useState({
-    buyNow: "",
-    netflix: "",
-    prime: "",
-    crunchyroll: ""
+    buyNow: "buynow",  // Default values prevent undefined errors
+    netflix: "netflix",
+    prime: "prime",
+    crunchyroll: "crunchyroll"
   });
 
   // Set up tracking links
   useEffect(() => {
     const setupTrackingLinks = async () => {
       try {
+        setLoading(true);
+        
         // Check if tracking links already exist
         const { data: existingLinks, error } = await supabase
           .from('links')
@@ -24,6 +27,8 @@ const Index = () => {
           
         if (error) {
           console.error("Error fetching tracking links:", error);
+          // Still use default slugs - don't block rendering
+          setLoading(false);
           return;
         }
         
@@ -50,13 +55,26 @@ const Index = () => {
           prime: slugMap.prime || "prime",
           crunchyroll: slugMap.crunchyroll || "crunchyroll"
         });
+        
+        setLoading(false);
       } catch (err) {
         console.error("Error setting up tracking links:", err);
+        setLoading(false);
       }
     };
     
     setupTrackingLinks();
   }, []);
+
+  // Show a loading indicator if needed
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black">
+        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white mt-4">Loading OTT ON RENT...</p>
+      </div>
+    );
+  }
 
   return (
     <LandingPageTemplate 

@@ -23,63 +23,71 @@ export const recordClick = async (
       return;
     }
 
-    // Get the client IP address
-    const ip = await getClientIP();
-    console.log("Client IP:", ip);
-    
-    // Extract browser and device info from user agent
-    const browser = detectBrowser(userAgent);
-    const device = detectDevice(userAgent);
-    
-    // Get geolocation data with better error handling
-    const geoData = await getGeoLocation(ip);
-    console.log("Geo data received for click:", geoData);
-    
-    // Ensure we have valid location data or use fallbacks
-    const country = geoData.country && geoData.country !== 'Unknown' ? geoData.country : 'India';
-    const region = geoData.region && geoData.region !== 'Unknown' ? geoData.region : '';
-    const city = geoData.city && geoData.city !== 'Unknown' ? geoData.city : '';
+    // Make this function non-blocking by executing the analytics tracking in the background
+    // This way page rendering won't be delayed by analytics
+    setTimeout(async () => {
+      try {
+        // Get the client IP address
+        const ip = await getClientIP();
+        console.log("Client IP:", ip);
+        
+        // Extract browser and device info from user agent
+        const browser = detectBrowser(userAgent);
+        const device = detectDevice(userAgent);
+        
+        // Get geolocation data with better error handling
+        const geoData = await getGeoLocation(ip);
+        console.log("Geo data received for click:", geoData);
+        
+        // Ensure we have valid location data or use fallbacks
+        const country = geoData.country && geoData.country !== 'Unknown' ? geoData.country : 'India';
+        const region = geoData.region && geoData.region !== 'Unknown' ? geoData.region : '';
+        const city = geoData.city && geoData.city !== 'Unknown' ? geoData.city : '';
 
-    // Handle button clicks correctly - this is critical!
-    let finalReferrer = referrer;
-    
-    // Explicitly set referrer to 'button' for buttons
-    if (referrer === 'button' || (linkData.button_type && ['primary', 'streaming'].includes(linkData.button_type))) {
-      finalReferrer = 'button';
-      console.log("Setting referrer to 'button' for button click");
-    }
+        // Handle button clicks correctly - this is critical!
+        let finalReferrer = referrer;
+        
+        // Explicitly set referrer to 'button' for buttons
+        if (referrer === 'button' || (linkData.button_type && ['primary', 'streaming'].includes(linkData.button_type))) {
+          finalReferrer = 'button';
+          console.log("Setting referrer to 'button' for button click");
+        }
 
-    console.log("Final values for click record:", {
-      link_id: linkData.id,
-      ip,
-      country,
-      region,
-      city,
-      referrer: finalReferrer,
-      browser,
-      device,
-      button_name: linkData.title
-    });
+        console.log("Final values for click record:", {
+          link_id: linkData.id,
+          ip,
+          country,
+          region,
+          city,
+          referrer: finalReferrer,
+          browser,
+          device,
+          button_name: linkData.title
+        });
 
-    // Record the click with improved location data
-    const { error: clickError } = await supabase.from('click_events').insert({
-      link_id: linkData.id,
-      ip,
-      country,
-      region,
-      city,
-      referrer: finalReferrer,
-      browser,
-      device,
-      button_name: linkData.title
-    });
+        // Record the click with improved location data
+        const { error: clickError } = await supabase.from('click_events').insert({
+          link_id: linkData.id,
+          ip,
+          country,
+          region,
+          city,
+          referrer: finalReferrer,
+          browser,
+          device,
+          button_name: linkData.title
+        });
 
-    if (clickError) {
-      console.error("Error recording click:", clickError);
-    } else {
-      console.log("Click successfully recorded");
-    }
+        if (clickError) {
+          console.error("Error recording click:", clickError);
+        } else {
+          console.log("Click successfully recorded");
+        }
+      } catch (err) {
+        console.error("Error in background click tracking:", err);
+      }
+    }, 0);
   } catch (error) {
-    console.error("Error recording click:", error);
+    console.error("Error in recordClick initial execution:", error);
   }
 };

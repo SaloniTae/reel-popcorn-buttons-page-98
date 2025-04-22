@@ -11,6 +11,7 @@ const LandingPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [landingPageData, setLandingPageData] = useState<any>(null);
   const [trackingSlugs, setTrackingSlugs] = useState({
     buyNow: "",
     netflix: "",
@@ -20,15 +21,17 @@ const LandingPage = () => {
 
   // Fetch landing page data and set up tracking links
   useEffect(() => {
+    if (!slug) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
+    
     const fetchLandingPage = async () => {
-      if (!slug) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-      
       try {
-        // First, fetch the landing page data
+        setLoading(true);
+        
+        // Fetch the landing page data
         const { data: landingPage, error: landingError } = await supabase
           .from('links')
           .select('id, title, slug')
@@ -36,14 +39,24 @@ const LandingPage = () => {
           .eq('button_type', 'landing')
           .single();
           
-        if (landingError || !landingPage) {
+        if (landingError) {
           console.error("Landing page not found:", landingError);
           setNotFound(true);
           setLoading(false);
           return;
         }
         
-        // Record a visit to this landing page
+        if (!landingPage) {
+          console.error("No landing page data returned");
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        
+        setLandingPageData(landingPage);
+        
+        // Record a visit to this landing page in the background
+        // Non-blocking so it won't delay page load
         if (landingPage.slug) {
           recordClick(landingPage.slug, document.referrer, navigator.userAgent);
         }
@@ -71,9 +84,10 @@ const LandingPage = () => {
             prime: slugMap.prime || `${slug}-prime`,
             crunchyroll: slugMap.crunchyroll || `${slug}-crunchyroll`
           });
+          
+          setLoading(false);
         } else {
           // Generate unique tracking slugs for this landing page
-          // Make sure to use the exact slug from the landing page
           const exactSlug = landingPage.slug;
           const trackingButtons = [
             { slug: `${exactSlug}-buy`, title: 'Buy Now Button', type: 'primary' },
@@ -83,25 +97,39 @@ const LandingPage = () => {
           ];
           
           // Create tracking links
-          for (const button of trackingButtons) {
-            await supabase.from('links').insert({
-              slug: button.slug,
-              title: button.title,
-              redirect_url: 'https://telegram.me/ott_on_rent',
-              button_type: button.type,
-              parent_landing_page: exactSlug
+          try {
+            const creationPromises = trackingButtons.map(button => 
+              supabase.from('links').insert({
+                slug: button.slug,
+                title: button.title,
+                redirect_url: 'https://telegram.me/ott_on_rent',
+                button_type: button.type,
+                parent_landing_page: exactSlug
+              })
+            );
+            
+            await Promise.all(creationPromises);
+            
+            setTrackingSlugs({
+              buyNow: `${exactSlug}-buy`,
+              netflix: `${exactSlug}-netflix`,
+              prime: `${exactSlug}-prime`,
+              crunchyroll: `${exactSlug}-crunchyroll`
             });
+            
+            setLoading(false);
+          } catch (err) {
+            console.error("Error creating tracking buttons:", err);
+            // Still set default slugs even if creation fails
+            setTrackingSlugs({
+              buyNow: `${exactSlug}-buy`,
+              netflix: `${exactSlug}-netflix`,
+              prime: `${exactSlug}-prime`,
+              crunchyroll: `${exactSlug}-crunchyroll`
+            });
+            setLoading(false);
           }
-          
-          setTrackingSlugs({
-            buyNow: `${exactSlug}-buy`,
-            netflix: `${exactSlug}-netflix`,
-            prime: `${exactSlug}-prime`,
-            crunchyroll: `${exactSlug}-crunchyroll`
-          });
         }
-        
-        setLoading(false);
       } catch (err) {
         console.error("Error loading landing page:", err);
         setNotFound(true);
@@ -112,15 +140,22 @@ const LandingPage = () => {
     fetchLandingPage();
   }, [slug]);
 
+  // Show improved loader while content is loading
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-black">
         <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white mt-4">Loading OTT ON RENT experience...</p>
       </div>
     );
   }
 
   if (notFound) {
+    return <NotFound />;
+  }
+
+  // Only render the template once all data is loaded
+  if (!landingPageData) {
     return <NotFound />;
   }
 
