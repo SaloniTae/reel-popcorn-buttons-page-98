@@ -1,6 +1,1 @@
-
 project_id = "frffrnqzibkhhrknohlu"
-
-[functions.reset-link-clicks]
-verify_jwt = false
-
