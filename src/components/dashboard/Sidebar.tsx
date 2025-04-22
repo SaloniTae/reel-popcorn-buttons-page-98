@@ -42,8 +42,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   const isMobile = typeof closeSidebar === 'function';
   
   return (
-    <aside className="min-h-screen w-full bg-gray-900 text-white flex flex-col">
-      <div className="p-4 border-b border-gray-800 flex justify-between items-center">
+    <aside className="min-h-screen w-full bg-sidebar text-sidebar-foreground flex flex-col">
+      <div className="p-4 border-b border-sidebar-border flex justify-between items-center">
         <Link to="/OOR" className="flex items-center gap-3" onClick={closeSidebar}>
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
@@ -51,7 +51,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
             className="w-10 h-10 rounded-full"
           />
           <div>
-            <h1 className="font-semibold">OTT ON RENT</h1>
+            <h1 className="font-semibold text-white">OTT ON RENT</h1>
             <p className="text-xs text-gray-400">Admin Dashboard</p>
           </div>
         </Link>
@@ -61,7 +61,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
             variant="ghost" 
             size="icon" 
             onClick={closeSidebar}
-            className="text-gray-400 hover:text-white"
+            className="text-gray-400 hover:text-white hover:bg-sidebar-accent"
           >
             <X className="h-5 w-5" />
           </Button>
@@ -74,8 +74,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
             <li key={item.path}>
               <Link
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-800 transition-colors ${
-                  location.pathname === item.path ? "bg-blue-600" : ""
+                className={`flex items-center gap-3 px-4 py-3 hover:bg-sidebar-accent/50 transition-colors ${
+                  location.pathname === item.path ? "bg-primary text-white" : "text-gray-300"
                 }`}
                 onClick={closeSidebar}
               >
@@ -87,7 +87,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
         </ul>
       </nav>
       
-      <div className="p-4 border-t border-gray-800">
+      <div className="p-4 border-t border-sidebar-border">
         <Link
           to="/"
           className="flex items-center gap-3 text-gray-400 hover:text-white"

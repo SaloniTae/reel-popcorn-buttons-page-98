@@ -19,14 +19,14 @@ const StatCard = ({
   icon: any; 
   className?: string;
 }) => (
-  <div className={`bg-white rounded-lg p-6 shadow-sm ${className}`}>
+  <div className={`glass-card rounded-lg p-6 ${className}`}>
     <div className="flex items-start justify-between">
       <div>
-        <p className="text-sm font-medium text-gray-500">{title}</p>
-        <h3 className="text-2xl font-bold mt-1">{value}</h3>
+        <p className="text-sm font-medium text-gray-400">{title}</p>
+        <h3 className="text-2xl font-bold mt-1 text-white">{value}</h3>
       </div>
-      <div className="p-2 bg-blue-100 rounded-md">
-        <Icon className="text-blue-600" size={20} />
+      <div className="p-2 bg-primary/20 rounded-md">
+        <Icon className="text-primary" size={20} />
       </div>
     </div>
   </div>

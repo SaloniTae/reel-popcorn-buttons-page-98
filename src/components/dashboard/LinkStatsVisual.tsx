@@ -19,7 +19,7 @@ interface ChartDataPoint {
   value: number;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
+const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 const LinkStatsVisual = () => {
   const { links } = useLinkTracking();
@@ -147,31 +147,19 @@ const LinkStatsVisual = () => {
       .map(([name, value]) => ({ name, value }));
   }, [links, timeRange]);
 
-  const campaignData = useMemo(() => {
-    const campaigns: {[key: string]: number} = {};
-    
-    links.forEach(link => {
-      const campaign = link.utmParameters?.campaign || 'no_campaign';
-      campaigns[campaign] = (campaigns[campaign] || 0) + link.clicks;
-    });
-    
-    return Object.entries(campaigns)
-      .map(([name, value]) => ({ name, value }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 5);
-  }, [links]);
+  const hasSourceData = sourcesData.length > 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="glass-card rounded-lg p-6">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-semibold">Link Performance</h3>
+        <h3 className="text-lg font-semibold text-white">Link Performance</h3>
         
         <Tabs 
           value={timeRange} 
           onValueChange={setTimeRange} 
           className="w-[250px]"
         >
-          <TabsList className="grid grid-cols-3">
+          <TabsList className="grid grid-cols-3 bg-secondary/50">
             <TabsTrigger value="24h">24h</TabsTrigger>
             <TabsTrigger value="7days">7 days</TabsTrigger>
             <TabsTrigger value="30days">30 days</TabsTrigger>
@@ -184,48 +172,50 @@ const LinkStatsVisual = () => {
           <BarChart data={clicksOverTime}>
             <XAxis 
               dataKey="name" 
-              tick={{ fontSize: 12 }} 
+              tick={{ fontSize: 12, fill: "#94a3b8" }} 
               tickMargin={10}
             />
             <YAxis 
-              tick={{ fontSize: 12 }} 
+              tick={{ fontSize: 12, fill: "#94a3b8" }} 
               tickMargin={10}
             />
-            <Tooltip />
+            <Tooltip contentStyle={{ backgroundColor: "#1e293b", color: "#fff", border: "1px solid #334155" }} />
             <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        <div>
-          <h4 className="text-base font-medium mb-4">Top Traffic Sources</h4>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={sourcesData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  dataKey="value"
-                  label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                >
-                  {sourcesData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+        {hasSourceData && (
+          <div>
+            <h4 className="text-base font-medium mb-4 text-white">Top Traffic Sources</h4>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={sourcesData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    paddingAngle={5}
+                    dataKey="value"
+                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                  >
+                    {sourcesData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ backgroundColor: "#1e293b", color: "#fff", border: "1px solid #334155" }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </div>
+        )}
         
         <div>
-          <h4 className="text-base font-medium mb-4">Devices</h4>
+          <h4 className="text-base font-medium mb-4 text-white">Devices</h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -244,29 +234,10 @@ const LinkStatsVisual = () => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ backgroundColor: "#1e293b", color: "#fff", border: "1px solid #334155" }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
-        </div>
-      </div>
-      
-      <div className="mt-8">
-        <h4 className="text-base font-medium mb-4">Campaign Performance</h4>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={campaignData} layout="vertical">
-              <XAxis type="number" />
-              <YAxis 
-                dataKey="name" 
-                type="category" 
-                tick={{ fontSize: 12 }} 
-                width={150}
-              />
-              <Tooltip />
-              <Bar dataKey="value" fill="#8884d8" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
         </div>
       </div>
     </div>
