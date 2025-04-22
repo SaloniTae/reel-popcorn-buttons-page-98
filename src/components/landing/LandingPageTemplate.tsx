@@ -24,8 +24,6 @@ interface Settings {
   crunchyroll_button_link: string;
   buy_now_button_link: string;
   show_footer_images: boolean;
-  step_banner_text: string;
-  offer_banner_text: string;
 }
 
 const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) => {
@@ -41,9 +39,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
     crunchyroll_button_link: "https://telegram.me/ott_on_rent",
     buy_now_button_link: "https://telegram.me/ott_on_rent",
     show_footer_images: true,
-    business_name: "OTT ON RENT",
-    step_banner_text: 'START THE BOT • CHOOSE SLOT • PAY',
-    offer_banner_text: 'GET YOUR NETFLIX OR CRUNCHYROLL ACCOUNT!'
+    business_name: "OTT ON RENT"
   });
 
   useEffect(() => {
@@ -69,9 +65,7 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           crunchyroll_button_link: settingsData.crunchyroll_button_link || settingsData.telegram_link,
           buy_now_button_link: settingsData.buy_now_button_link || settingsData.telegram_link,
           show_footer_images: settingsData.show_footer_images,
-          business_name: settingsData.business_name,
-          step_banner_text: settingsData.step_banner_text || 'START THE BOT • CHOOSE SLOT • PAY',
-          offer_banner_text: settingsData.offer_banner_text || 'GET YOUR NETFLIX OR CRUNCHYROLL ACCOUNT!'
+          business_name: settingsData.business_name
         });
       }
     };
@@ -149,12 +143,42 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           <span className="text-center flex-1 pl-2">BUY NOW</span>
         </a>
 
+        <div className="mb-4 small-screen:mb-2 text-sm small-screen:text-xs font-light text-gray-300">
+          OR
+        </div>
+
+        <div className="w-full max-w-xs small-screen:max-w-[75%] space-y-4 small-screen:space-y-2 mb-8 small-screen:mb-3">
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png"
+            alt="Netflix" 
+            link={settings.netflix_button_link}
+            trackingSlug={trackingSlugs.netflix}
+            className="small-screen:py-2"
+          />
+          
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png"
+            alt="Prime Video" 
+            link={settings.prime_button_link}
+            trackingSlug={trackingSlugs.prime}
+            className="small-screen:py-2"
+          />
+          
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png"
+            alt="Crunchyroll" 
+            link={settings.crunchyroll_button_link}
+            trackingSlug={trackingSlugs.crunchyroll}
+            className="small-screen:py-2"
+          />
+        </div>
+
         <div className="text-center mb-4 small-screen:mb-2 px-4">
           <p className="text-xs small-screen:text-[10px] text-gray-300 tracking-wider mb-1 small-screen:mb-0.5">
-            {settings.step_banner_text}
+            START THE BOT • CHOOSE SLOT • PAY
           </p>
           <p className="text-xs small-screen:text-[10px] text-gray-300 tracking-wider">
-            {settings.offer_banner_text}
+            GET YOUR NETFLIX OR CRUNCHYROLL ACCOUNT!
           </p>
         </div>
       </div>
