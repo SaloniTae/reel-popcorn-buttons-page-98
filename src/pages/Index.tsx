@@ -1,4 +1,3 @@
-
 import "../styles/landing-page.css";
 import { useEffect, useState } from "react";
 import LandingPageTemplate from "@/components/landing/LandingPageTemplate";

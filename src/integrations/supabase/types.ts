@@ -103,8 +103,10 @@ export type Database = {
           domain_name: string | null
           id: number
           netflix_button_link: string | null
+          offer_banner_text: string | null
           prime_button_link: string | null
           show_footer_images: boolean | null
+          step_banner_text: string | null
           telegram_link: string | null
           updated_at: string | null
         }
@@ -118,8 +120,10 @@ export type Database = {
           domain_name?: string | null
           id: number
           netflix_button_link?: string | null
+          offer_banner_text?: string | null
           prime_button_link?: string | null
           show_footer_images?: boolean | null
+          step_banner_text?: string | null
           telegram_link?: string | null
           updated_at?: string | null
         }
@@ -133,8 +137,10 @@ export type Database = {
           domain_name?: string | null
           id?: number
           netflix_button_link?: string | null
+          offer_banner_text?: string | null
           prime_button_link?: string | null
           show_footer_images?: boolean | null
+          step_banner_text?: string | null
           telegram_link?: string | null
           updated_at?: string | null
         }
