@@ -1,4 +1,3 @@
-
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { ArrowLeft, Copy, ExternalLink, QrCode, Trash, RotateCcw } from "lucide-react";
@@ -126,24 +125,38 @@ const LinkDetailPage = () => {
     }
   };
 
-  // ---- RESET CLICK DATA LOGIC ----
   const handleResetClickData = async () => {
+    setLoading(true);
+    
     const linkIdsToReset =
       link.linkType === "landing"
         ? [link.id, ...childLinks.map((btn) => btn.id)]
         : [link.id];
+        
+    console.log("Attempting to reset clicks for links:", linkIdsToReset);
+    
     const success = await resetClicks(linkIdsToReset);
+    
     if (success) {
       await refreshLinks();
+      console.log("Links refreshed after reset");
+      
+      if (link.linkType === 'landing') {
+        setConsolidatedClicks([]);
+      }
+      
       setShowResetDialog(false);
       toast({
         title: "Click data reset",
         description:
-          "All click data for this landing page and associated buttons has been reset.",
+          "All click data for this " + 
+          (link.linkType === "landing" ? "landing page and associated buttons has" : "link has") + 
+          " been reset.",
       });
     }
+    
+    setLoading(false);
   };
-  // ---- END RESET CLICK DATA LOGIC ----
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -231,18 +244,21 @@ const LinkDetailPage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-2 md:mt-0">
-            {/* QR Icon button */}
             <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)}>
               <QrCode className="h-4 w-4" />
             </Button>
-            {/* Test link icon button */}
             <Button size="sm" variant="outline" onClick={handleTestLink}>
               <ExternalLink className="h-4 w-4" />
             </Button>
-            {/* Reset click data icon button */}
             <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
               <AlertDialogTrigger asChild>
-                <Button size="sm" variant="outline" className="text-blue-500" onClick={() => setShowResetDialog(true)}>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="text-blue-500" 
+                  onClick={() => setShowResetDialog(true)}
+                  disabled={loading}
+                >
                   <RotateCcw className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
@@ -256,14 +272,16 @@ const LinkDetailPage = () => {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleResetClickData}>
-                    Reset
+                  <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={handleResetClickData}
+                    disabled={loading}
+                  >
+                    {loading ? "Resetting..." : "Reset"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            {/* Delete icon button */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button size="sm" variant="destructive">

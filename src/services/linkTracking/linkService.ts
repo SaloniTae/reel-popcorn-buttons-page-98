@@ -198,6 +198,8 @@ export const resetClicks = async (linkIds: string[]): Promise<boolean> => {
   try {
     if (linkIds.length === 0) return true;
 
+    console.log("Resetting clicks for link IDs:", linkIds);
+
     // Remove click_events for all given link ids
     const { error } = await supabase
       .from('click_events')
@@ -210,6 +212,7 @@ export const resetClicks = async (linkIds: string[]): Promise<boolean> => {
       return false;
     }
 
+    console.log("Successfully reset clicks for links:", linkIds);
     toast.success("Click data reset successfully");
     return true;
   } catch (error) {

@@ -33,7 +33,7 @@ export const recordClick = async (
     
     // Get geolocation data with better error handling
     const geoData = await getGeoLocation(ip);
-    console.log("Geo data received:", geoData);
+    console.log("Geo data received for click:", geoData);
     
     // Ensure we have valid location data or use fallbacks
     const country = geoData.country && geoData.country !== 'Unknown' ? geoData.country : 'India';
