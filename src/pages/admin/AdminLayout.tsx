@@ -29,15 +29,15 @@ const AdminLayout = () => {
 
   return (
     <LinkTrackingProvider>
-      <div className="min-h-screen bg-background flex flex-col md:flex-row">
+      <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
         {/* Mobile sidebar toggle */}
         {isMobile && (
-          <div className="sticky top-0 z-40 flex items-center px-4 h-14 bg-secondary border-b border-white/5 shadow-md">
+          <div className="sticky top-0 z-40 flex items-center px-4 h-14 bg-white border-b shadow-sm">
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={toggleSidebar}
-              className="md:hidden text-gray-400 hover:text-white"
+              className="md:hidden"
             >
               <Menu className="h-5 w-5" />
             </Button>
@@ -48,7 +48,7 @@ const AdminLayout = () => {
                 className="w-8 h-8 rounded-full"
               />
               <div>
-                <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
+                <h1 className="font-semibold text-sm">OTT ON RENT</h1>
                 <p className="text-xs text-gray-400">Admin Dashboard</p>
               </div>
             </div>
@@ -66,12 +66,12 @@ const AdminLayout = () => {
           {/* Backdrop for mobile */}
           {isMobile && isSidebarOpen && (
             <div 
-              className="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-sm"
+              className="absolute inset-0 bg-black bg-opacity-50"
               onClick={() => setIsSidebarOpen(false)}
             />
           )}
           
-          <div className={`${isMobile ? 'w-64 h-full' : 'w-64 min-h-screen'} bg-sidebar z-10 relative`}>
+          <div className={`${isMobile ? 'w-64 h-full' : 'w-64 min-h-screen'} bg-gray-900 z-10 relative`}>
             <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
           </div>
         </div>
