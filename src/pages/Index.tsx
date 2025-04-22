@@ -3,7 +3,6 @@ import "../styles/landing-page.css";
 import { useEffect, useState } from "react";
 import LandingPageTemplate from "@/components/landing/LandingPageTemplate";
 import { supabase } from "@/integrations/supabase/client";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -71,7 +70,8 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-black">
-        <LoadingSpinner color="white" size="lg" />
+        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-white mt-4">Loading OTT ON RENT...</p>
       </div>
     );
   }
