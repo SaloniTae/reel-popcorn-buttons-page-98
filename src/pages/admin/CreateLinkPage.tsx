@@ -12,7 +12,7 @@ const CreateLinkPage = () => {
           variant="ghost" 
           size="sm" 
           asChild 
-          className="mr-2 text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
+          className="mr-2 text-apple-light hover:text-white transition-colors"
         >
           <Link to="/OOR/links">
             <ArrowLeft className="h-4 w-4 mr-1" />

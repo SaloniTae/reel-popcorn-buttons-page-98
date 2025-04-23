@@ -30,7 +30,7 @@ const Dashboard = () => {
           </h2>
           <Button 
             asChild
-            className="bg-apple-accent hover:bg-apple-accent/90 text-white"
+            className="bg-apple-accent hover:bg-apple-accent/90 text-contrast"
           >
             <Link to="/OOR/create">
               <Layout className="mr-2 h-4 w-4" />
