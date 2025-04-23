@@ -16,10 +16,10 @@ const LinksPage = () => {
       
       <div className="glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-contrast">All Links</h2>
+          <h2 className="text-xl font-semibold text-white">All Links</h2>
           <Button 
             asChild
-            className="bg-apple-accent hover:bg-apple-accent/90 text-contrast"
+            className="bg-apple-accent hover:bg-apple-accent/90 text-white"
           >
             <Link to="/OOR/create">
               <PlusCircle className="mr-2 h-4 w-4" />

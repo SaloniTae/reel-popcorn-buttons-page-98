@@ -133,4 +133,81 @@
   .card-container {
     @apply glass-morphism p-6 border border-apple-border;
   }
+  
+  /* New table styles for dark glass morphism */
+  .dark-table {
+    @apply w-full text-sm text-white;
+  }
+  
+  .dark-table thead tr {
+    @apply border-b border-apple-border;
+  }
+  
+  .dark-table th {
+    @apply px-4 py-3 font-medium text-apple-light text-left;
+  }
+  
+  .dark-table tbody tr {
+    @apply border-b border-apple-border hover:bg-apple-hover/30 transition-colors;
+  }
+  
+  .dark-table td {
+    @apply px-4 py-3;
+  }
+  
+  .dark-table a {
+    @apply text-apple-accent hover:text-apple-accent/90 transition-colors;
+  }
+  
+  .dark-card {
+    @apply glass-morphism-light rounded-lg p-4 border border-apple-border mb-3;
+  }
+  
+  .stat-card {
+    @apply glass-morphism-light p-4 rounded-lg border border-apple-border;
+  }
 }
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+

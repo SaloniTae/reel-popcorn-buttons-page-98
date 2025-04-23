@@ -112,11 +112,11 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
 
   if (loading) {
     return (
-      <div className="w-full overflow-auto rounded-lg border">
+      <div className="glass-morphism-light w-full overflow-auto rounded-lg border">
         <div className="p-8 text-center">
           <div className="animate-pulse flex flex-col items-center">
-            <div className="h-8 w-32 bg-gray-200 rounded mb-4"></div>
-            <div className="h-4 w-48 bg-gray-200 rounded"></div>
+            <div className="h-8 w-32 bg-apple-hover rounded mb-4"></div>
+            <div className="h-4 w-48 bg-apple-hover rounded"></div>
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
     return (
       <div className="space-y-4">
         {sortedLinks.length === 0 ? (
-          <div className="bg-white rounded-lg p-6 text-center text-gray-500">
+          <div className="glass-morphism-light rounded-lg p-6 text-center text-apple-light">
             {landingPageSlug ? 
               "No buttons added to this landing page yet." :
               filter === 'landing' ? 
@@ -141,44 +141,44 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
         ) : (
           <>
             {sortedLinks.map((link) => (
-              <div key={link.id} className="bg-white rounded-lg shadow-sm p-4 mb-3">
+              <div key={link.id} className="dark-card">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center">
-                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-blue-600 hover:underline">
+                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-apple-accent hover:underline">
                       {link.title}
                     </Link>
                     {link.linkType === 'landing' && (
-                      <Badge variant="outline" className="ml-2 bg-purple-50">Landing</Badge>
+                      <Badge variant="outline" className="ml-2 bg-apple-hover/30 text-white border-apple-border">Landing</Badge>
                     )}
                     {link.parentLandingPage && (
-                      <Badge variant="outline" className="ml-2 bg-blue-50">Button</Badge>
+                      <Badge variant="outline" className="ml-2 bg-apple-hover/30 text-white border-apple-border">Button</Badge>
                     )}
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-apple-hover text-apple-light hover:text-white">
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="bg-apple-card border-apple-border text-white">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="bg-apple-border" />
                       <DropdownMenuItem
                         onClick={() => handleOpenLink(link)}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         <span>{link.linkType === 'landing' ? 'Open page' : 'Test link'}</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => copyToClipboard(link.shortUrl)}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <Copy className="mr-2 h-4 w-4" />
                         <span>Copy URL</span>
                       </DropdownMenuItem>
                       {link.linkType === 'landing' && (
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                        <DropdownMenuItem asChild className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover">
                           <Link to={`/OOR/links/${link.id}`}>
                             <FolderOpen className="mr-2 h-4 w-4" />
                             <span>View buttons</span>
@@ -187,7 +187,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                       )}
                       <DropdownMenuItem
                         onClick={() => handleDeleteLink(link.id)}
-                        className="cursor-pointer text-red-600 focus:text-red-600"
+                        className="cursor-pointer text-red-400 focus:text-red-400 hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <Trash className="mr-2 h-4 w-4" />
                         <span>Delete</span>
@@ -197,26 +197,26 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                 </div>
                 
                 {!link.parentLandingPage && (
-                  <p className="text-xs text-gray-500 truncate" title={link.originalUrl}>
+                  <p className="text-xs text-apple-gray truncate" title={link.originalUrl}>
                     {link.originalUrl}
                   </p>
                 )}
                 
                 <div className="flex justify-between items-center text-sm mt-3">
                   <div className="flex items-center">
-                    <span className="text-gray-600 mr-1">{link.shortUrl}</span>
+                    <span className="text-apple-accent mr-1">{link.shortUrl}</span>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6"
+                      className="h-6 w-6 hover:bg-apple-hover hover:text-white text-apple-light"
                       onClick={() => copyToClipboard(link.shortUrl)}
                     >
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                   <div className="flex gap-4">
-                    <span className="text-gray-600">{link.clicks} clicks</span>
-                    <span className="text-gray-400">{formatDate(link.createdAt)}</span>
+                    <span className="text-apple-light">{link.clicks} clicks</span>
+                    <span className="text-apple-gray">{formatDate(link.createdAt)}</span>
                   </div>
                 </div>
               </div>
@@ -229,12 +229,12 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
 
   // Desktop view
   return (
-    <div className="w-full overflow-auto rounded-lg border">
+    <div className="glass-morphism-light w-full overflow-auto rounded-lg border">
       {sortedLinks.length === 0 ? (
-        <table className="w-full text-sm">
+        <table className="dark-table w-full">
           <tbody>
             <tr>
-              <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+              <td colSpan={5} className="px-4 py-8 text-center text-apple-light">
                 {landingPageSlug ? 
                   "No buttons added to this landing page yet." :
                   filter === 'landing' ? 
@@ -248,11 +248,11 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
           </tbody>
         </table>
       ) : (
-        <table className="w-full text-sm">
+        <table className="dark-table w-full">
           <thead>
-            <tr className="bg-gray-100 text-left">
+            <tr>
               <th
-                className="px-4 py-3 font-medium text-gray-600 cursor-pointer"
+                className="px-4 py-3 font-medium text-apple-light cursor-pointer hover:text-white transition-colors"
                 onClick={() => handleSort("title")}
               >
                 {landingPageSlug ? "Button Title" : "Title"}
@@ -262,9 +262,9 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                   </span>
                 )}
               </th>
-              <th className="px-4 py-3 font-medium text-gray-600">URL</th>
+              <th className="px-4 py-3 font-medium text-apple-light">URL</th>
               <th
-                className="px-4 py-3 font-medium text-gray-600 cursor-pointer"
+                className="px-4 py-3 font-medium text-apple-light cursor-pointer hover:text-white transition-colors"
                 onClick={() => handleSort("clicks")}
               >
                 Clicks
@@ -275,7 +275,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                 )}
               </th>
               <th
-                className="px-4 py-3 font-medium text-gray-600 cursor-pointer"
+                className="px-4 py-3 font-medium text-apple-light cursor-pointer hover:text-white transition-colors"
                 onClick={() => handleSort("createdAt")}
               >
                 Created
@@ -285,71 +285,71 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                   </span>
                 )}
               </th>
-              <th className="px-4 py-3 font-medium text-gray-600 text-right">Actions</th>
+              <th className="px-4 py-3 font-medium text-apple-light text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y">
+          <tbody>
             {sortedLinks.map((link) => (
-              <tr key={link.id} className="hover:bg-gray-50">
+              <tr key={link.id}>
                 <td className="px-4 py-3">
                   <div className="flex items-center">
-                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-blue-600 hover:underline">
+                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-apple-accent hover:text-apple-accent/90 transition-colors">
                       {link.title}
                     </Link>
                     {link.linkType === 'landing' && (
-                      <Badge variant="outline" className="ml-2 bg-purple-50">Landing</Badge>
+                      <Badge variant="outline" className="ml-2 bg-apple-hover/30 text-white border-apple-border">Landing</Badge>
                     )}
                     {link.parentLandingPage && (
-                      <Badge variant="outline" className="ml-2 bg-blue-50">Button</Badge>
+                      <Badge variant="outline" className="ml-2 bg-apple-hover/30 text-white border-apple-border">Button</Badge>
                     )}
                   </div>
                   {!link.parentLandingPage && !landingPageSlug && (
-                    <p className="text-xs text-gray-500 truncate max-w-xs" title={link.originalUrl}>
+                    <p className="text-xs text-apple-gray truncate max-w-xs" title={link.originalUrl}>
                       {link.originalUrl}
                     </p>
                   )}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600">{link.shortUrl}</span>
+                    <span className="text-apple-accent">{link.shortUrl}</span>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6"
+                      className="h-6 w-6 hover:bg-apple-hover text-apple-light hover:text-white"
                       onClick={() => copyToClipboard(link.shortUrl)}
                     >
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </td>
-                <td className="px-4 py-3 font-medium">{link.clicks}</td>
-                <td className="px-4 py-3 text-gray-600">{formatDate(link.createdAt)}</td>
+                <td className="px-4 py-3 font-medium text-white">{link.clicks}</td>
+                <td className="px-4 py-3 text-apple-light">{formatDate(link.createdAt)}</td>
                 <td className="px-4 py-3 text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-apple-hover text-apple-light hover:text-white">
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="bg-apple-card border-apple-border text-white">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="bg-apple-border" />
                       <DropdownMenuItem
                         onClick={() => handleOpenLink(link)}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <ExternalLink className="mr-2 h-4 w-4" />
                         <span>{link.linkType === 'landing' ? 'Open page' : 'Test link'}</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => copyToClipboard(link.shortUrl)}
-                        className="cursor-pointer"
+                        className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <Copy className="mr-2 h-4 w-4" />
                         <span>Copy URL</span>
                       </DropdownMenuItem>
                       {link.linkType === 'landing' && (
-                        <DropdownMenuItem asChild className="cursor-pointer">
+                        <DropdownMenuItem asChild className="cursor-pointer hover:bg-apple-hover focus:bg-apple-hover">
                           <Link to={`/OOR/links/${link.id}`}>
                             <FolderOpen className="mr-2 h-4 w-4" />
                             <span>View buttons</span>
@@ -358,7 +358,7 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
                       )}
                       <DropdownMenuItem
                         onClick={() => handleDeleteLink(link.id)}
-                        className="cursor-pointer text-red-600 focus:text-red-600"
+                        className="cursor-pointer text-red-400 hover:text-red-400 hover:bg-apple-hover focus:bg-apple-hover"
                       >
                         <Trash className="mr-2 h-4 w-4" />
                         <span>Delete</span>
@@ -376,3 +376,4 @@ const LinkTable = ({ filter = 'all', landingPageSlug }: LinkTableProps) => {
 };
 
 export default LinkTable;
+
