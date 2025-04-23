@@ -42,8 +42,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   const isMobile = typeof closeSidebar === 'function';
   
   return (
-    <aside className="min-h-screen w-full bg-gray-900 text-white flex flex-col">
-      <div className="p-4 border-b border-gray-800 flex justify-between items-center">
+    <aside className="min-h-screen w-full bg-apple-glass backdrop-blur-xl border-r border-apple-border">
+      <div className="p-4 border-b border-apple-border flex justify-between items-center">
         <Link to="/OOR" className="flex items-center gap-3" onClick={closeSidebar}>
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
@@ -51,8 +51,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
             className="w-10 h-10 rounded-full"
           />
           <div>
-            <h1 className="font-semibold">OTT ON RENT</h1>
-            <p className="text-xs text-gray-400">Admin Dashboard</p>
+            <h1 className="font-semibold text-white">OTT ON RENT</h1>
+            <p className="text-xs text-apple-gray">Admin Dashboard</p>
           </div>
         </Link>
         
@@ -61,7 +61,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
             variant="ghost" 
             size="icon" 
             onClick={closeSidebar}
-            className="text-gray-400 hover:text-white"
+            className="text-apple-gray hover:text-white"
           >
             <X className="h-5 w-5" />
           </Button>
@@ -69,13 +69,15 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
       </div>
       
       <nav className="flex-1 pt-6">
-        <ul className="space-y-1">
+        <ul className="space-y-1 px-2">
           {sidebarItems.map((item) => (
             <li key={item.path}>
               <Link
                 to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 hover:bg-gray-800 transition-colors ${
-                  location.pathname === item.path ? "bg-blue-600" : ""
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  location.pathname === item.path 
+                    ? "bg-apple-accent text-white" 
+                    : "text-apple-gray hover:bg-apple-hover hover:text-white"
                 }`}
                 onClick={closeSidebar}
               >
@@ -87,10 +89,10 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
         </ul>
       </nav>
       
-      <div className="p-4 border-t border-gray-800">
+      <div className="p-4 border-t border-apple-border">
         <Link
           to="/"
-          className="flex items-center gap-3 text-gray-400 hover:text-white"
+          className="flex items-center gap-3 text-apple-gray hover:text-white transition-colors"
           onClick={closeSidebar}
         >
           <Home size={18} />

@@ -62,16 +62,18 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
         },
-        // Adding Apple-like dark theme colors
         apple: {
-          dark: "#1D1D1F",
+          dark: "#1A1A1A",
           darker: "#000000",
           gray: "#86868B",
           light: "#F5F5F7",
           accent: "#2997FF",
-          muted: "#424245",
-          card: "#161617",
-          hover: "#2A2A2C"
+          muted: "#3A3A3C",
+          card: "#1C1C1E",
+          hover: "#2C2C2E",
+          glass: "rgba(28, 28, 30, 0.8)",
+          'glass-darker': "rgba(0, 0, 0, 0.8)",
+          border: "rgba(255, 255, 255, 0.1)"
         }
       },
       borderRadius: {

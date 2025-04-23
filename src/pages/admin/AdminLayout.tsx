@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -29,10 +28,9 @@ const AdminLayout = () => {
 
   return (
     <LinkTrackingProvider>
-      <div className="min-h-screen bg-apple-darker flex flex-col md:flex-row">
-        {/* Mobile sidebar toggle */}
+      <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-0 z-40 flex items-center px-4 h-14 bg-apple-dark border-b border-apple-muted/10 backdrop-blur-lg">
+          <div className="sticky top-0 z-40 flex items-center px-4 h-14 bg-apple-glass backdrop-blur-xl border-b border-apple-border">
             <Button 
               variant="ghost" 
               size="icon" 
@@ -55,7 +53,6 @@ const AdminLayout = () => {
           </div>
         )}
         
-        {/* Sidebar for larger screens */}
         <div 
           className={`${
             isMobile 
@@ -63,20 +60,18 @@ const AdminLayout = () => {
               : 'relative'
           }`}
         >
-          {/* Backdrop for mobile */}
           {isMobile && isSidebarOpen && (
             <div 
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+              className="absolute inset-0 bg-apple-glass-darker backdrop-blur-sm"
               onClick={() => setIsSidebarOpen(false)}
             />
           )}
           
-          <div className={`${isMobile ? 'w-64 h-full' : 'w-64 min-h-screen'} bg-apple-dark relative z-10`}>
+          <div className={`${isMobile ? 'w-64 h-full' : 'w-64 min-h-screen'} relative z-10`}>
             <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
           </div>
         </div>
         
-        {/* Main content */}
         <main className="flex-1 p-4 md:p-6 overflow-auto bg-apple-darker">
           <Outlet />
         </main>
