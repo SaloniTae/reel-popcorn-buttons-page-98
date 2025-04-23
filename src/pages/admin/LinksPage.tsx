@@ -9,11 +9,14 @@ const LinksPage = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold mb-1">Links</h1>
-          <p className="text-gray-500">Manage and monitor all your tracked links</p>
+          <h1 className="text-2xl font-bold mb-1 text-white">Links</h1>
+          <p className="text-apple-gray">Manage and monitor all your tracked links</p>
         </div>
         
-        <Button asChild>
+        <Button 
+          asChild
+          className="bg-apple-accent hover:bg-apple-accent/90 text-white"
+        >
           <Link to="/OOR/create">
             <PlusCircle className="mr-2 h-4 w-4" />
             Create New Link

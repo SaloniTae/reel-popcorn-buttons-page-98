@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,7 +19,7 @@ interface ChartDataPoint {
   visits: number;
 }
 
-const COLORS = ['#1D1D1F', '#424245', '#6E6E73', '#86868B', '#A1A1A6'];
+const COLORS = ['#2997FF', '#86868B', '#424245', '#1D1D1F', '#2A2A2C'];
 
 const LinkStatsVisual = () => {
   const { links } = useLinkTracking();
@@ -150,19 +151,34 @@ const LinkStatsVisual = () => {
   }, [links, timeRange]);
 
   return (
-    <div className="space-y-8 bg-white rounded-2xl p-8 shadow-sm">
+    <div className="space-y-8 bg-apple-card rounded-2xl p-8 shadow-lg border border-apple-muted/10">
       <div className="flex justify-between items-center">
-        <h3 className="text-2xl font-medium text-[#1D1D1F]">Link Performance</h3>
+        <h3 className="text-2xl font-medium text-white">Link Performance</h3>
         
         <Tabs 
           value={timeRange} 
           onValueChange={setTimeRange} 
           className="w-[250px]"
         >
-          <TabsList className="grid grid-cols-3 bg-[#F5F5F7]">
-            <TabsTrigger value="24h" className="data-[state=active]:bg-white">24h</TabsTrigger>
-            <TabsTrigger value="7days" className="data-[state=active]:bg-white">7 days</TabsTrigger>
-            <TabsTrigger value="30days" className="data-[state=active]:bg-white">30 days</TabsTrigger>
+          <TabsList className="grid grid-cols-3 bg-apple-dark">
+            <TabsTrigger 
+              value="24h" 
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+            >
+              24h
+            </TabsTrigger>
+            <TabsTrigger 
+              value="7days" 
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+            >
+              7 days
+            </TabsTrigger>
+            <TabsTrigger 
+              value="30days" 
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+            >
+              30 days
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -174,29 +190,30 @@ const LinkStatsVisual = () => {
               dataKey="name" 
               tick={{ fontSize: 12, fill: '#86868B' }} 
               tickMargin={10}
-              axisLine={{ stroke: '#E5E5E5' }}
+              axisLine={{ stroke: '#424245' }}
             />
             <YAxis 
               tick={{ fontSize: 12, fill: '#86868B' }} 
               tickMargin={10}
-              axisLine={{ stroke: '#E5E5E5' }}
+              axisLine={{ stroke: '#424245' }}
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #E5E5E5',
-                borderRadius: '8px'
+                backgroundColor: '#1D1D1F',
+                border: '1px solid #424245',
+                borderRadius: '8px',
+                color: '#F5F5F7'
               }}
-              labelStyle={{ color: '#1D1D1F' }}
+              labelStyle={{ color: '#F5F5F7' }}
             />
-            <Bar dataKey="visits" fill="#1D1D1F" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="visits" fill="#2997FF" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-[#F5F5F7] rounded-2xl p-6">
-          <h4 className="text-lg font-medium mb-6 text-[#1D1D1F]">Top Traffic Sources</h4>
+        <div className="bg-apple-dark rounded-2xl p-6 border border-apple-muted/10">
+          <h4 className="text-lg font-medium mb-6 text-white">Top Traffic Sources</h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -211,17 +228,28 @@ const LinkStatsVisual = () => {
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                 >
                   {sourcesData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={COLORS[index % COLORS.length]} 
+                      stroke="transparent"
+                    />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1D1D1F',
+                    border: '1px solid #424245',
+                    borderRadius: '8px',
+                    color: '#F5F5F7'
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
         
-        <div className="bg-[#F5F5F7] rounded-2xl p-6">
-          <h4 className="text-lg font-medium mb-6 text-[#1D1D1F]">Devices</h4>
+        <div className="bg-apple-dark rounded-2xl p-6 border border-apple-muted/10">
+          <h4 className="text-lg font-medium mb-6 text-white">Devices</h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -236,10 +264,21 @@ const LinkStatsVisual = () => {
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                 >
                   {deviceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={COLORS[index % COLORS.length]} 
+                      stroke="transparent"
+                    />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1D1D1F',
+                    border: '1px solid #424245',
+                    borderRadius: '8px',
+                    color: '#F5F5F7'
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>

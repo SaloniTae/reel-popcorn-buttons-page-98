@@ -10,8 +10,8 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
-        <p className="text-gray-500">Monitor your link performance and track user engagement</p>
+        <h1 className="text-2xl font-bold mb-1 text-white">Dashboard</h1>
+        <p className="text-apple-gray">Monitor your link performance and track user engagement</p>
       </div>
       
       <TopStats />
@@ -20,8 +20,11 @@ const Dashboard = () => {
       
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Links</h2>
-          <Button asChild>
+          <h2 className="text-xl font-semibold text-white">Links</h2>
+          <Button 
+            asChild
+            className="bg-apple-accent hover:bg-apple-accent/90 text-white"
+          >
             <Link to="/OOR/create">
               <Layout className="mr-2 h-4 w-4" />
               Create Landing Page
@@ -29,10 +32,20 @@ const Dashboard = () => {
           </Button>
         </div>
         
-        <Tabs defaultValue="all">
-          <TabsList className="mb-4">
-            <TabsTrigger value="all">All Links</TabsTrigger>
-            <TabsTrigger value="landing">Landing Pages</TabsTrigger>
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="mb-4 bg-apple-dark">
+            <TabsTrigger 
+              value="all" 
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+            >
+              All Links
+            </TabsTrigger>
+            <TabsTrigger 
+              value="landing" 
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+            >
+              Landing Pages
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="all">
