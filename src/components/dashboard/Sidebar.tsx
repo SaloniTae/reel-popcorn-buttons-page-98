@@ -42,30 +42,19 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   const isMobile = typeof closeSidebar === 'function';
   
   return (
-    <aside className="min-h-screen w-full bg-apple-glass backdrop-blur-xl border-r border-apple-border">
+    <aside className="min-h-screen w-full glass-morphism-light">
       <div className="p-4 border-b border-apple-border flex justify-between items-center">
         <Link to="/OOR" className="flex items-center gap-3" onClick={closeSidebar}>
           <img 
             src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
             alt="OTT ON RENT" 
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full border border-apple-border shadow-md"
           />
           <div>
             <h1 className="font-semibold text-white">OTT ON RENT</h1>
-            <p className="text-xs text-apple-gray">Admin Dashboard</p>
+            <p className="text-xs text-apple-light/80">Admin Dashboard</p>
           </div>
         </Link>
-        
-        {isMobile && (
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={closeSidebar}
-            className="text-apple-gray hover:text-white"
-          >
-            <X className="h-5 w-5" />
-          </Button>
-        )}
       </div>
       
       <nav className="flex-1 pt-6">
@@ -76,8 +65,8 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                   location.pathname === item.path 
-                    ? "bg-apple-accent text-white" 
-                    : "text-apple-gray hover:bg-apple-hover hover:text-white"
+                    ? "bg-apple-accent/20 text-apple-accent font-medium" 
+                    : "text-apple-light hover:bg-apple-hover hover:text-white"
                 }`}
                 onClick={closeSidebar}
               >
@@ -92,7 +81,7 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
       <div className="p-4 border-t border-apple-border">
         <Link
           to="/"
-          className="flex items-center gap-3 text-apple-gray hover:text-white transition-colors"
+          className="flex items-center gap-3 text-apple-light hover:text-white transition-colors"
           onClick={closeSidebar}
         >
           <Home size={18} />

@@ -139,18 +139,18 @@ const SettingsPage = () => {
   return (
     <div className="max-w-4xl">
       <div>
-        <h1 className="text-2xl font-bold mb-1">Settings</h1>
-        <p className="text-gray-500">Configure your link tracking and dashboard preferences</p>
+        <h1 className="text-2xl font-bold mb-1 text-gradient">Settings</h1>
+        <p className="text-muted-contrast">Configure your link tracking and dashboard preferences</p>
       </div>
       
       <div className="mt-8 space-y-10">
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-6">Link Settings</h2>
+        <div className="glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border">
+          <h2 className="text-lg font-semibold mb-6 text-contrast">Link Settings</h2>
           
           <div className="space-y-4">
             <div>
-              <Label htmlFor="domainName" className="text-base">Custom Domain Name</Label>
-              <p className="text-sm text-gray-500 mb-2">
+              <Label htmlFor="domainName" className="text-base text-contrast">Custom Domain Name</Label>
+              <p className="text-sm text-muted-contrast mb-2">
                 Set the domain name that will be used for your short links
               </p>
               <Input
@@ -158,18 +158,19 @@ const SettingsPage = () => {
                 value={settings.domain_name}
                 onChange={(e) => setSettings(prev => ({ ...prev, domain_name: e.target.value }))}
                 placeholder="yourdomain.com"
+                className="bg-apple-card border-apple-border text-white"
               />
             </div>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-6">Landing Page Settings</h2>
+        <div className="glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border">
+          <h2 className="text-lg font-semibold mb-6 text-contrast">Landing Page Settings</h2>
           
           <div className="space-y-6">
             <div>
-              <Label htmlFor="businessName" className="text-base">Business Name</Label>
-              <p className="text-sm text-gray-500 mb-2">
+              <Label htmlFor="businessName" className="text-base text-contrast">Business Name</Label>
+              <p className="text-sm text-muted-contrast mb-2">
                 Set the name that appears at the top of your landing page
               </p>
               <Input
@@ -177,12 +178,13 @@ const SettingsPage = () => {
                 value={settings.business_name}
                 onChange={(e) => setSettings(prev => ({ ...prev, business_name: e.target.value }))}
                 placeholder="OTT ON RENT"
+                className="bg-apple-card border-apple-border text-white"
               />
             </div>
             
             <div>
-              <Label htmlFor="businessProfileImage" className="text-base">Business Profile Image (OOR Circle)</Label>
-              <p className="text-sm text-gray-500 mb-2">
+              <Label htmlFor="businessProfileImage" className="text-base text-contrast">Business Profile Image (OOR Circle)</Label>
+              <p className="text-sm text-muted-contrast mb-2">
                 URL for the OOR Circle image displayed at the top of the landing page
               </p>
               <Input
@@ -190,12 +192,13 @@ const SettingsPage = () => {
                 value={settings.business_profile_image}
                 onChange={(e) => setSettings(prev => ({ ...prev, business_profile_image: e.target.value }))}
                 placeholder="https://example.com/image.jpg"
+                className="bg-apple-card border-apple-border text-white"
               />
             </div>
           
             <div>
-              <Label htmlFor="telegramLink" className="text-base">Default Telegram Link</Label>
-              <p className="text-sm text-gray-500 mb-2">
+              <Label htmlFor="telegramLink" className="text-base text-contrast">Default Telegram Link</Label>
+              <p className="text-sm text-muted-contrast mb-2">
                 The default URL where users will be redirected when clicking buttons
               </p>
               <Input
@@ -203,69 +206,70 @@ const SettingsPage = () => {
                 value={settings.telegram_link}
                 onChange={(e) => setSettings(prev => ({ ...prev, telegram_link: e.target.value }))}
                 placeholder="https://telegram.me/your_username"
+                className="bg-apple-card border-apple-border text-white"
               />
             </div>
             
-            <Separator className="my-6" />
+            <Separator className="my-6 bg-apple-border" />
             
             <div>
-              <Label className="text-base">Individual Button Links</Label>
-              <p className="text-sm text-gray-500 mb-4">
+              <Label className="text-base text-contrast">Individual Button Links</Label>
+              <p className="text-sm text-muted-contrast mb-4">
                 Configure specific links for each button (these will override the default link)
               </p>
               
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="buyNowLink" className="text-sm">Buy Now Button Link</Label>
+                  <Label htmlFor="buyNowLink" className="text-sm text-contrast">Buy Now Button Link</Label>
                   <Input
                     id="buyNowLink"
                     value={settings.buy_now_button_link}
                     onChange={(e) => setSettings(prev => ({ ...prev, buy_now_button_link: e.target.value }))}
                     placeholder="https://telegram.me/your_username"
-                    className="mt-1"
+                    className="mt-1 bg-apple-card border-apple-border text-white"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="netflixLink" className="text-sm">Netflix Button Link</Label>
+                  <Label htmlFor="netflixLink" className="text-sm text-contrast">Netflix Button Link</Label>
                   <Input
                     id="netflixLink"
                     value={settings.netflix_button_link}
                     onChange={(e) => setSettings(prev => ({ ...prev, netflix_button_link: e.target.value }))}
                     placeholder="https://telegram.me/your_username"
-                    className="mt-1"
+                    className="mt-1 bg-apple-card border-apple-border text-white"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="primeLink" className="text-sm">Prime Video Button Link</Label>
+                  <Label htmlFor="primeLink" className="text-sm text-contrast">Prime Video Button Link</Label>
                   <Input
                     id="primeLink"
                     value={settings.prime_button_link}
                     onChange={(e) => setSettings(prev => ({ ...prev, prime_button_link: e.target.value }))}
                     placeholder="https://telegram.me/your_username"
-                    className="mt-1"
+                    className="mt-1 bg-apple-card border-apple-border text-white"
                   />
                 </div>
                 
                 <div>
-                  <Label htmlFor="crunchyrollLink" className="text-sm">Crunchyroll Button Link</Label>
+                  <Label htmlFor="crunchyrollLink" className="text-sm text-contrast">Crunchyroll Button Link</Label>
                   <Input
                     id="crunchyrollLink"
                     value={settings.crunchyroll_button_link}
                     onChange={(e) => setSettings(prev => ({ ...prev, crunchyroll_button_link: e.target.value }))}
                     placeholder="https://telegram.me/your_username"
-                    className="mt-1"
+                    className="mt-1 bg-apple-card border-apple-border text-white"
                   />
                 </div>
               </div>
             </div>
             
-            <Separator className="my-6" />
+            <Separator className="my-6 bg-apple-border" />
             
             <div>
-              <Label htmlFor="backgroundVideo" className="text-base">Background Video URL</Label>
-              <p className="text-sm text-gray-500 mb-2">
+              <Label htmlFor="backgroundVideo" className="text-base text-contrast">Background Video URL</Label>
+              <p className="text-sm text-muted-contrast mb-2">
                 Video that plays in the background of the landing page
               </p>
               <Input
@@ -273,15 +277,16 @@ const SettingsPage = () => {
                 value={settings.background_video}
                 onChange={(e) => setSettings(prev => ({ ...prev, background_video: e.target.value }))}
                 placeholder="https://your-video-url.mp4"
+                className="bg-apple-card border-apple-border text-white"
               />
             </div>
             
-            <Separator className="my-6" />
+            <Separator className="my-6 bg-apple-border" />
             
             <div className="flex items-center justify-between">
               <div>
-                <Label htmlFor="showFooterImages" className="text-base">Show Footer Images</Label>
-                <p className="text-sm text-gray-500">
+                <Label htmlFor="showFooterImages" className="text-base text-contrast">Show Footer Images</Label>
+                <p className="text-sm text-muted-contrast">
                   Display the film reel and popcorn images in the footer
                 </p>
               </div>
@@ -289,6 +294,7 @@ const SettingsPage = () => {
                 id="showFooterImages"
                 checked={settings.show_footer_images}
                 onCheckedChange={(checked) => setSettings(prev => ({ ...prev, show_footer_images: checked }))}
+                className="data-[state=checked]:bg-apple-accent"
               />
             </div>
           </div>
@@ -298,6 +304,7 @@ const SettingsPage = () => {
           <Button 
             onClick={handleSaveSettings} 
             disabled={isSaving}
+            className="bg-apple-accent hover:bg-apple-accent/90 text-contrast"
           >
             {isSaving ? "Saving..." : "Save Settings"}
           </Button>

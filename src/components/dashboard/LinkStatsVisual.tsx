@@ -151,9 +151,9 @@ const LinkStatsVisual = () => {
   }, [links, timeRange]);
 
   return (
-    <div className="space-y-8 bg-apple-card rounded-2xl p-8 shadow-lg border border-apple-muted/10">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-2xl font-medium text-white">Link Performance</h3>
+        <h3 className="text-2xl font-medium text-contrast">Link Performance</h3>
         
         <Tabs 
           value={timeRange} 
@@ -163,19 +163,19 @@ const LinkStatsVisual = () => {
           <TabsList className="grid grid-cols-3 bg-apple-dark">
             <TabsTrigger 
               value="24h" 
-              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light"
             >
               24h
             </TabsTrigger>
             <TabsTrigger 
               value="7days" 
-              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light"
             >
               7 days
             </TabsTrigger>
             <TabsTrigger 
               value="30days" 
-              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-gray"
+              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light"
             >
               30 days
             </TabsTrigger>
@@ -183,17 +183,17 @@ const LinkStatsVisual = () => {
         </Tabs>
       </div>
       
-      <div className="h-[400px]">
+      <div className="h-[400px] glass-morphism p-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={clicksOverTime}>
             <XAxis 
               dataKey="name" 
-              tick={{ fontSize: 12, fill: '#86868B' }} 
+              tick={{ fontSize: 12, fill: '#F5F5F7' }} 
               tickMargin={10}
               axisLine={{ stroke: '#424245' }}
             />
             <YAxis 
-              tick={{ fontSize: 12, fill: '#86868B' }} 
+              tick={{ fontSize: 12, fill: '#F5F5F7' }} 
               tickMargin={10}
               axisLine={{ stroke: '#424245' }}
             />
@@ -212,8 +212,8 @@ const LinkStatsVisual = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-apple-dark rounded-2xl p-6 border border-apple-muted/10">
-          <h4 className="text-lg font-medium mb-6 text-white">Top Traffic Sources</h4>
+        <div className="glass-morphism p-6">
+          <h4 className="text-lg font-medium mb-6 text-contrast">Top Traffic Sources</h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -226,6 +226,7 @@ const LinkStatsVisual = () => {
                   paddingAngle={5}
                   dataKey="visits"
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                  labelLine={{ stroke: '#F5F5F7', strokeWidth: 1 }}
                 >
                   {sourcesData.map((entry, index) => (
                     <Cell 
@@ -248,8 +249,8 @@ const LinkStatsVisual = () => {
           </div>
         </div>
         
-        <div className="bg-apple-dark rounded-2xl p-6 border border-apple-muted/10">
-          <h4 className="text-lg font-medium mb-6 text-white">Devices</h4>
+        <div className="glass-morphism p-6">
+          <h4 className="text-lg font-medium mb-6 text-contrast">Devices</h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -262,6 +263,7 @@ const LinkStatsVisual = () => {
                   paddingAngle={5}
                   dataKey="visits"
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                  labelLine={{ stroke: '#F5F5F7', strokeWidth: 1 }}
                 >
                   {deviceData.map((entry, index) => (
                     <Cell 

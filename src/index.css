@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -111,5 +112,25 @@
   
   .text-gradient {
     @apply bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent;
+  }
+  
+  .glass-morphism {
+    @apply bg-apple-glass-darker/70 backdrop-blur-xl border border-apple-border rounded-xl shadow-lg;
+  }
+  
+  .glass-morphism-light {
+    @apply bg-apple-glass backdrop-blur-xl border border-apple-border rounded-xl shadow-lg;
+  }
+  
+  .text-contrast {
+    @apply text-white;
+  }
+  
+  .text-muted-contrast {
+    @apply text-apple-light/80;
+  }
+  
+  .card-container {
+    @apply glass-morphism p-6 border border-apple-border;
   }
 }

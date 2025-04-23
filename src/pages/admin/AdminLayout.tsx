@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
@@ -30,51 +31,76 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-0 z-40 flex items-center px-4 h-14 bg-apple-glass backdrop-blur-xl border-b border-apple-border">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleSidebar}
-              className="md:hidden text-apple-gray hover:text-white transition-colors"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center gap-3 ml-3">
-              <img 
-                src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
-                alt="OTT ON RENT" 
-                className="w-8 h-8 rounded-full"
-              />
-              <div>
-                <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
-                <p className="text-xs text-apple-gray">Admin Dashboard</p>
+          <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-14 glass-morphism-light">
+            <div className="flex items-center">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={toggleSidebar}
+                className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+              
+              <div className="flex items-center gap-3 ml-3">
+                <img 
+                  src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+                  alt="OTT ON RENT" 
+                  className="w-8 h-8 rounded-full border border-apple-border"
+                />
+                <div>
+                  <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
+                  <p className="text-xs text-apple-light/80">Admin Dashboard</p>
+                </div>
               </div>
             </div>
           </div>
         )}
         
-        <div 
-          className={`${
-            isMobile 
-              ? `fixed inset-0 z-50 transform transition-transform duration-300 ease-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
-              : 'relative'
-          }`}
-        >
-          {isMobile && isSidebarOpen && (
-            <div 
-              className="absolute inset-0 bg-apple-glass-darker backdrop-blur-sm"
-              onClick={() => setIsSidebarOpen(false)}
-            />
+        <div className="flex h-screen">
+          {/* Sidebar for desktop */}
+          {!isMobile && (
+            <div className="w-64 min-h-screen">
+              <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
+            </div>
           )}
           
-          <div className={`${isMobile ? 'w-64 h-full' : 'w-64 min-h-screen'} relative z-10`}>
-            <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
-          </div>
+          {/* Mobile sidebar overlay */}
+          {isMobile && (
+            <div 
+              className={`fixed inset-0 z-50 transition-all duration-300 ${
+                isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+              }`}
+            >
+              <div 
+                className="absolute inset-0 bg-apple-glass-darker/80 backdrop-blur-sm"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+              
+              <div 
+                className={`absolute left-0 top-0 h-full w-64 transform transition-transform duration-300 ${
+                  isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
+              >
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="absolute right-2 top-2 text-apple-light hover:text-white"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                  <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <main className="flex-1 p-4 md:p-6 overflow-auto bg-apple-darker">
+            <Outlet />
+          </main>
         </div>
-        
-        <main className="flex-1 p-4 md:p-6 overflow-auto bg-apple-darker">
-          <Outlet />
-        </main>
       </div>
     </LinkTrackingProvider>
   );
