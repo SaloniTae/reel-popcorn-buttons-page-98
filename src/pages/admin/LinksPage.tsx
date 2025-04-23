@@ -9,7 +9,9 @@ const LinksPage = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold mb-1 text-white">Links</h1>
+          <h1 className="text-2xl font-bold mb-1 bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
+            Links
+          </h1>
           <p className="text-apple-gray">Manage and monitor all your tracked links</p>
         </div>
         

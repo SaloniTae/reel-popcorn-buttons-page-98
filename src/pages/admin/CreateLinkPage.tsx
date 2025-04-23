@@ -12,7 +12,7 @@ const CreateLinkPage = () => {
           variant="ghost" 
           size="sm" 
           asChild 
-          className="mr-2 text-apple-gray hover:text-white"
+          className="mr-2 text-apple-gray hover:text-white transition-colors"
         >
           <Link to="/OOR/links">
             <ArrowLeft className="h-4 w-4 mr-1" />
@@ -21,8 +21,10 @@ const CreateLinkPage = () => {
         </Button>
       </div>
       
-      <div className="bg-apple-card rounded-lg shadow-lg p-6 border border-apple-muted/10">
-        <h1 className="text-2xl font-bold mb-4 text-white">Create Landing Page</h1>
+      <div className="bg-apple-dark/50 backdrop-blur-xl rounded-2xl shadow-lg p-6 border border-apple-muted/10">
+        <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-white via-white/90 to-white/80 bg-clip-text text-transparent">
+          Create Landing Page
+        </h1>
         <p className="text-apple-gray mb-8">
           Create a new landing page with auto-generated tracking buttons
         </p>
