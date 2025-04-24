@@ -24,7 +24,7 @@ export const ButtonPerformance = ({
   };
   return <div className="mb-6">
       <h3 className="text-base font-medium mb-3">Button Performance</h3>
-      <div className="p-4 rounded-lg overflow-x-auto bg-neutral-700">
+      <div className="p-4 rounded-lg overflow-x-auto bg-white/[0.09]">
         <Table>
           <TableHeader>
             <TableRow>

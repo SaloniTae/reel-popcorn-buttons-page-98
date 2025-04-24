@@ -271,7 +271,7 @@ const LinkDetailPage = () => {
             
             <div className="mb-6">
               <h3 className="text-base font-medium mb-3">Button Clicks Distribution</h3>
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="p-4 rounded-lg bg-white/[0.09]">
                 {childLinks.length > 0 ? <div className="space-y-4">
                     {childLinks.map(button => <div key={button.id} className="flex items-center gap-2">
                         <div className="w-32 text-sm">{button.title.replace(' Button', '')}</div>
@@ -336,7 +336,7 @@ const LinkDetailPage = () => {
           </TabsList>
 
           <TabsContent value="clicks">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="rounded-lg shadow-sm p-6 bg-white/[0.09]">
               <h2 className="text-lg font-semibold mb-4">Consolidated Click History</h2>
               <ClickHistory clicks={recentConsolidatedClicks} formatDate={formatDate} />
             </div>
