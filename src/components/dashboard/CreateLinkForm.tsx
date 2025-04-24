@@ -56,7 +56,7 @@ const CreateLinkForm = () => {
         
         <div>
           <Label htmlFor="customSlug">Custom Link Slug (optional)</Label>
-          <Input id="customSlug" placeholder="E.g., instagram-2024" value={customSlug} onChange={e => setCustomSlug(e.target.value)} className="mt-1" />
+          <Input id="customSlug" placeholder="E.g., instagram-2024" value={customSlug} onChange={e => setCustomSlug(e.target.value)} className="mt-1 bg-zinc-800 rounded" />
           <p className="text-xs text-gray-500 mt-1">
             Create a custom link ending instead of a random one
           </p>
