@@ -292,15 +292,15 @@ const LinkDetailPage = () => {
         
         {link?.linkType !== 'landing' && <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="p-4 rounded-lg bg-neutral-700">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Created On</h3>
+              <h3 className="text-sm font-medium mb-1 text-gray-400">Created On</h3>
               <p>{formatDate(link.createdAt)}</p>
             </div>
             <div className="p-4 rounded-lg bg-neutral-700">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Total Clicks</h3>
+              <h3 className="text-sm font-medium mb-1 text-gray-400">Total Clicks</h3>
               <p className="text-2xl font-bold">{link.clicks}</p>
             </div>
             <div className="p-4 rounded-lg bg-neutral-700">
-              <h3 className="text-sm font-medium text-gray-500 mb-1">Last Click</h3>
+              <h3 className="text-sm font-medium mb-1 text-gray-400">Last Click</h3>
               <p>
                 {link.clickHistory.length > 0 ? formatDate(link.clickHistory.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0].timestamp) : "No clicks yet"}
               </p>
