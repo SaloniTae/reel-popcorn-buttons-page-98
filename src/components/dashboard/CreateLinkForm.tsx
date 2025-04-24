@@ -71,7 +71,7 @@ const CreateLinkForm = () => {
       </div>
       
       <div className="flex justify-end">
-        <Button type="submit">Create Landing Page</Button>
+        <Button type="submit" className="bg-[#2997ff]">Create Landing Page</Button>
       </div>
     </form>;
 };
