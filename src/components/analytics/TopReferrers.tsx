@@ -23,7 +23,7 @@ export const TopReferrers = ({ referrers, totalClicks }: TopReferrersProps) => {
           </div>
           <div className="mt-2 w-full bg-apple-muted rounded-full h-2.5">
             <div
-              className="bg-apple-accent h-2.5 rounded-full"
+              className="bg-blue-600 h-2.5 rounded-full"
               style={{
                 width: `${Math.round((count / totalClicks) * 100)}%`,
               }}
