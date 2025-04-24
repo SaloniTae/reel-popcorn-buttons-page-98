@@ -30,7 +30,7 @@ export const GeographicDistribution = ({
               </> : <div className="text-center py-4 text-gray-500">No region data available</div>}
           </div>
         </ScrollArea>
-        {topRegions.length > 5 && <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="mt-4 w-full flex items-center justify-center">
+        {topRegions.length > 5 && <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="mt-4 w-full flex items-center justify-center text-white bg-[t#ffffff17] bg-white/[0.09]">
             {isExpanded ? <>Show Less <ChevronUp className="ml-2 h-4 w-4" /></> : <>Show More <ChevronDown className="ml-2 h-4 w-4" /></>}
           </Button>}
       </div>
