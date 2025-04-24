@@ -357,7 +357,7 @@ const LinkDetailPage = () => {
           </TabsList>
 
           <TabsContent value="clicks">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="rounded-lg shadow-sm p-6 bg-white/[0.09]">
               <h2 className="text-lg font-semibold mb-4">Recent Click History</h2>
               <ClickHistory clicks={link.clickHistory} formatDate={formatDate} />
             </div>
