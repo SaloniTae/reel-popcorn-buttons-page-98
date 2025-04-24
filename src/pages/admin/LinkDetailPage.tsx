@@ -299,7 +299,7 @@ const LinkDetailPage = () => {
               <h3 className="text-sm font-medium text-gray-500 mb-1">Total Clicks</h3>
               <p className="text-2xl font-bold">{link.clicks}</p>
             </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="p-4 rounded-lg bg-neutral-700">
               <h3 className="text-sm font-medium text-gray-500 mb-1">Last Click</h3>
               <p>
                 {link.clickHistory.length > 0 ? formatDate(link.clickHistory.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0].timestamp) : "No clicks yet"}
