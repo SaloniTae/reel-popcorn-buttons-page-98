@@ -163,7 +163,7 @@ const LinkDetailPage = () => {
   return <div>
       <div className="flex items-center mb-6">
         <Button variant="ghost" size="sm" asChild className="mr-2">
-          <RouterLink to="/OOR/links">
+          <RouterLink to="/OOR/links" className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors">
             <ArrowLeft className="h-4 w-4" />
           </RouterLink>
         </Button>
