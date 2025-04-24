@@ -1,20 +1,12 @@
-
 import CreateLinkForm from "@/components/dashboard/CreateLinkForm";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
 const CreateLinkPage = () => {
-  return (
-    <div className="max-w-3xl mx-auto">
+  return <div className="max-w-3xl mx-auto">
       <div className="flex items-center mb-4">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          asChild 
-          className="mr-2 text-apple-light hover:text-white transition-colors"
-        >
-          <Link to="/OOR/links">
+        <Button variant="ghost" size="sm" asChild className="mr-2 text-apple-light hover:text-white transition-colors">
+          <Link to="/OOR/links" className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors">
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back to Links
           </Link>
@@ -31,8 +23,6 @@ const CreateLinkPage = () => {
         
         <CreateLinkForm />
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CreateLinkPage;
