@@ -156,7 +156,7 @@ const LinkTable = ({
                 
                 <div className="flex justify-between items-center text-sm mt-3">
                   <div className="flex items-center">
-                    <span className="text-gray-600 mr-1">{link.shortUrl}</span>
+                    <span className="text-white-600 mr-1">{link.shortUrl}</span>
                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard(link.shortUrl)}>
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
