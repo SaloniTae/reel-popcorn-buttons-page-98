@@ -188,15 +188,15 @@ const LinkDetailPage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-2 md:mt-0">
-            <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)}>
+            <Button size="sm" variant="outline" onClick={() => setShowQrCode(!showQrCode)} className="text-apple-darker">
               <QrCode className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="outline" onClick={handleTestLink}>
+            <Button size="sm" variant="outline" onClick={handleTestLink} className="text-apple-darker">
               <ExternalLink className="h-4 w-4" />
             </Button>
             <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
               <AlertDialogTrigger asChild>
-                <Button size="sm" variant="outline" className="text-blue-500" onClick={() => setShowResetDialog(true)} disabled={loading}>
+                <Button size="sm" variant="outline" onClick={() => setShowResetDialog(true)} disabled={loading} className="text-apple-accent">
                   <RotateCcw className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
