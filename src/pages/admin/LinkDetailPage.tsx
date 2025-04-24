@@ -295,7 +295,7 @@ const LinkDetailPage = () => {
               <h3 className="text-sm font-medium text-gray-500 mb-1">Created On</h3>
               <p>{formatDate(link.createdAt)}</p>
             </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="p-4 rounded-lg bg-neutral-700">
               <h3 className="text-sm font-medium text-gray-500 mb-1">Total Clicks</h3>
               <p className="text-2xl font-bold">{link.clicks}</p>
             </div>
