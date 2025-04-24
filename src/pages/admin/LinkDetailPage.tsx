@@ -250,17 +250,17 @@ const LinkDetailPage = () => {
             <h2 className="text-lg font-semibold mb-4">Analytics Dashboard</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Created On</h3>
+              <div className="p-4 rounded-lg bg-neutral-700">
+                <h3 className="text-sm font-medium mb-1 text-gray-400">Created On</h3>
                 <p>{formatDate(link.createdAt)}</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Landing Page Visits</h3>
+              <div className="p-4 rounded-lg bg-neutral-700">
+                <h3 className="text-sm font-medium mb-1 text-gray-400">Landing Page Visits</h3>
                 <p className="text-2xl font-bold">{link.clicks}</p>
-                <p className="text-xs text-gray-500">Direct page visits</p>
+                <p className="text-xs text-gray-400">Direct page visits</p>
               </div>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="text-sm font-medium text-gray-500 mb-1">Last Visit</h3>
+              <div className="p-4 rounded-lg bg-neutral-700">
+                <h3 className="text-sm font-medium mb-1 text-gray-400">Last Visit</h3>
                 <p>
                   {consolidatedClicks.length > 0 ? formatDate(consolidatedClicks[0].timestamp) : "No visits yet"}
                 </p>
