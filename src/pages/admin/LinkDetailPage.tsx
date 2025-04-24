@@ -291,7 +291,7 @@ const LinkDetailPage = () => {
           </div>}
         
         {link?.linkType !== 'landing' && <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="p-4 rounded-lg bg-neutral-700">
               <h3 className="text-sm font-medium text-gray-500 mb-1">Created On</h3>
               <p>{formatDate(link.createdAt)}</p>
             </div>
