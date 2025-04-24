@@ -162,7 +162,7 @@ const LinkTable = ({
                     </Button>
                   </div>
                   <div className="flex gap-4">
-                    <span className="text-gray-600">{link.clicks} clicks</span>
+                    <span className="text-white-600">{link.clicks} clicks</span>
                     <span className="text-gray-400">{formatDate(link.createdAt)}</span>
                   </div>
                 </div>
