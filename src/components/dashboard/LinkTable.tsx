@@ -113,7 +113,7 @@ const LinkTable = ({
             {sortedLinks.map(link => <div key={link.id} className="rounded-lg shadow-sm p-4 mb-3 bg-white/[0.09]">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center">
-                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-blue-600 hover:underline">
+                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-white-600 hover:underline">
                       {link.title}
                     </Link>
                     {link.linkType === 'landing' && <Badge variant="outline" className="ml-2 bg-purple-50">Landing</Badge>}
