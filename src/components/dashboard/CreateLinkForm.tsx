@@ -48,7 +48,7 @@ const CreateLinkForm = () => {
         
         <div>
           <Label htmlFor="source">Traffic Source</Label>
-          <Input id="source" placeholder="E.g., instagram, facebook, twitter" value={source} onChange={e => setSource(e.target.value)} className="mt-1" />
+          <Input id="source" placeholder="E.g., instagram, facebook, twitter" value={source} onChange={e => setSource(e.target.value)} className="mt-1 bg-zinc-800" />
           <p className="text-xs text-gray-500 mt-1">
             Identify where visitors are coming from (optional)
           </p>
