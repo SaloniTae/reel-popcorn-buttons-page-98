@@ -330,8 +330,8 @@ const LinkDetailPage = () => {
       </div>
 
       {link?.linkType === 'landing' && <Tabs defaultValue="clicks" className="w-full">
-          <TabsList className="mb-4">
-            <TabsTrigger value="clicks">Click History</TabsTrigger>
+          <TabsList className="mb-4 bg-[#1a1a1a]">
+            <TabsTrigger value="clicks" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">Click History</TabsTrigger>
             <TabsTrigger value="referrers">Top Referrers</TabsTrigger>
           </TabsList>
 
