@@ -352,7 +352,7 @@ const LinkDetailPage = () => {
 
       {link?.linkType !== 'landing' && <Tabs defaultValue="clicks" className="w-full">
           <TabsList className="mb-4">
-            <TabsTrigger value="clicks">Click History</TabsTrigger>
+            <TabsTrigger value="clicks" className="bg-white/[0.09] text-blue-600">Click History</TabsTrigger>
             <TabsTrigger value="referrers">Top Referrers</TabsTrigger>
           </TabsList>
 
