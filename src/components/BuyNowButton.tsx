@@ -38,7 +38,7 @@ const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
         <div className="bg-white rounded-full p-2 mr-4">
           <ShoppingCart className="h-5 w-5 text-black" />
         </div>
-        <span className="text-xl font-bold whitespace-nowrap">BUY NOW</span>
+        <span className="text-base font-bold whitespace-nowrap">Buy</span>
       </a>
       
       {showTooltip && (
