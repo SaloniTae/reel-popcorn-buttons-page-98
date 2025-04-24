@@ -63,7 +63,7 @@ const CreateLinkForm = () => {
         </div>
       </div>
       
-      <div className="p-3 bg-gray-100 rounded-md mt-4">
+      <div className="p-3 rounded-md mt-4 bg-zinc-800">
         <p className="text-xs font-medium text-gray-600">Preview URL:</p>
         <p className="text-xs break-all mt-1">
           {`${window.location.hostname}/${customSlug || "random-code"}`}
