@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { 
   BarChart3, 
@@ -41,12 +42,12 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   
   return (
     <aside className="min-h-screen w-full glass-morphism-light">
-      <div className="p-4 border-b border-apple-border flex justify-between items-center">
+      <div className="p-4 border-b border-apple-border flex justify-center items-center">
         <Link to="/OOR" className="flex items-center" onClick={closeSidebar}>
           <img 
             src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
             alt="OTT ON RENT" 
-            className="h-10 w-auto"
+            className="h-8 w-auto" // Reduced height from h-10 to h-8
           />
         </Link>
       </div>

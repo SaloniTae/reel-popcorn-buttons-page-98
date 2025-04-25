@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -30,7 +31,7 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-4 z-40 mx-4">
+          <div className="sticky top-0 z-40 mx-4 mb-4"> {/* Changed top-4 to top-0 and added mb-4 for spacing */}
             <div className="glass-morphism-light rounded-xl flex items-center justify-between px-4 h-14">
               <div className="flex items-center">
                 <Button 
@@ -46,7 +47,7 @@ const AdminLayout = () => {
                   <img 
                     src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
                     alt="OTT ON RENT" 
-                    className="h-8 w-auto"
+                    className="h-8 w-auto" // Reduced height from h-8 to h-8
                   />
                 </div>
               </div>
