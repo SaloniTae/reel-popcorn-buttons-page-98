@@ -40,7 +40,7 @@ const CreateLinkForm = () => {
       <div className="space-y-4">
         <div>
           <Label htmlFor="title">Landing Page Title</Label>
-          <Input id="title" placeholder="E.g., Facebook Campaign" value={title} onChange={e => setTitle(e.target.value)} className="mt-1 border-apple-border bg-zinc-800" />
+          <Input id="title" placeholder="E.g., Facebook Campaign" value={title} onChange={e => setTitle(e.target.value)} className="mt-1 border-apple-border bg-apple-card" />
           <p className="text-xs text-gray-500 mt-1">
             A descriptive name to help you identify this landing page
           </p>
@@ -48,7 +48,7 @@ const CreateLinkForm = () => {
         
         <div>
           <Label htmlFor="source">Traffic Source</Label>
-          <Input id="source" placeholder="E.g., instagram, facebook, twitter" value={source} onChange={e => setSource(e.target.value)} className="mt-1 border-apple-border bg-zinc-800" />
+          <Input id="source" placeholder="E.g., instagram, facebook, twitter" value={source} onChange={e => setSource(e.target.value)} className="mt-1 border-apple-border bg-apple-card" />
           <p className="text-xs text-gray-500 mt-1">
             Identify where visitors are coming from (optional)
           </p>
@@ -56,7 +56,7 @@ const CreateLinkForm = () => {
         
         <div>
           <Label htmlFor="customSlug">Custom Link Slug (optional)</Label>
-          <Input id="customSlug" placeholder="E.g., instagram-2024" value={customSlug} onChange={e => setCustomSlug(e.target.value)} className="mt-1 border-apple-border bg-zinc-800" />
+          <Input id="customSlug" placeholder="E.g., instagram-2024" value={customSlug} onChange={e => setCustomSlug(e.target.value)} className="mt-1 border-apple-border bg-apple-card" />
           <p className="text-xs text-gray-500 mt-1">
             Create a custom link ending instead of a random one
           </p>
