@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
