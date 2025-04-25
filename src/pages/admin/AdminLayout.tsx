@@ -31,26 +31,28 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-14 glass-morphism-light">
-            <div className="flex items-center">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={toggleSidebar}
-                className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-              
-              <div className="flex items-center gap-3 ml-3">
-                <img 
-                  src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
-                  alt="OTT ON RENT" 
-                  className="w-8 h-8 rounded-full border border-apple-border"
-                />
-                <div>
-                  <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
-                  <p className="text-xs text-apple-light/80">Admin Dashboard</p>
+          <div className="sticky top-4 z-40 mx-4">
+            <div className="glass-morphism-light rounded-xl flex items-center justify-between px-4 h-14">
+              <div className="flex items-center">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={toggleSidebar}
+                  className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+                
+                <div className="flex items-center gap-3 ml-3">
+                  <img 
+                    src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+                    alt="OTT ON RENT" 
+                    className="w-8 h-8 rounded-full border border-apple-border"
+                  />
+                  <div>
+                    <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
+                    <p className="text-xs text-apple-light/80">Admin Dashboard</p>
+                  </div>
                 </div>
               </div>
             </div>
