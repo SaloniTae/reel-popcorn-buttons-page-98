@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { Menu, X } from "lucide-react"; // Changed from AlignJustify to Menu
+import { AlignJustify, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
@@ -31,8 +31,8 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-4 z-40 mx-4"> {/* Restored top-4 value */}
-            <div className="glass-morphism-light bg-black/70 rounded-xl flex items-center justify-between px-4 h-14"> {/* Added bg-black/70 for better transparency */}
+          <div className="sticky top-0 z-40 mx-4 mb-4"> {/* Changed top-4 to top-0 and added mb-4 for spacing */}
+            <div className="glass-morphism-light rounded-xl flex items-center justify-between px-4 h-14">
               <div className="flex items-center">
                 <Button 
                   variant="ghost" 
@@ -40,14 +40,14 @@ const AdminLayout = () => {
                   onClick={toggleSidebar}
                   className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
                 >
-                  <Menu className="h-6 w-6" /> {/* Changed from AlignJustify to Menu */}
+                  <AlignJustify className="h-6 w-6" />
                 </Button>
                 
                 <div className="flex items-center ml-3">
                   <img 
                     src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
                     alt="OTT ON RENT" 
-                    className="h-6 w-auto" // Reduced height from h-8 to h-6 for better alignment
+                    className="h-8 w-auto" // Reduced height from h-8 to h-8
                   />
                 </div>
               </div>
@@ -69,7 +69,7 @@ const AdminLayout = () => {
               }`}
             >
               <div 
-                className="absolute inset-0 bg-black/80 backdrop-blur-sm" /* Changed from bg-apple-glass-darker/80 to bg-black/80 */
+                className="absolute inset-0 bg-apple-glass-darker/80 backdrop-blur-sm"
                 onClick={() => setIsSidebarOpen(false)}
               />
               

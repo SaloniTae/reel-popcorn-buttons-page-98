@@ -41,13 +41,13 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   const isMobile = typeof closeSidebar === 'function';
   
   return (
-    <aside className="min-h-screen w-full glass-morphism-light bg-black/70"> {/* Added bg-black/70 for better transparency */}
+    <aside className="min-h-screen w-full glass-morphism-light">
       <div className="p-4 border-b border-apple-border flex justify-center items-center">
         <Link to="/OOR" className="flex items-center" onClick={closeSidebar}>
           <img 
             src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
             alt="OTT ON RENT" 
-            className="h-6 w-auto" // Reduced height from h-8 to h-6 to match navbar
+            className="h-8 w-auto" // Reduced height from h-10 to h-8
           />
         </Link>
       </div>
