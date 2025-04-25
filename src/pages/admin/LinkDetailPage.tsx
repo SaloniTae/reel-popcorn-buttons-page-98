@@ -343,7 +343,7 @@ const LinkDetailPage = () => {
           </TabsContent>
 
           <TabsContent value="referrers">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="rounded-lg shadow-sm p-6 bg-white/[0.09]">
               <h2 className="text-lg font-semibold mb-4">Top Referrers</h2>
               <TopReferrers referrers={topReferrers} totalClicks={totalClicks} />
             </div>
