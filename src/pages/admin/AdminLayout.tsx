@@ -55,7 +55,7 @@ const AdminLayout = () => {
           </div>
         )}
         
-        <div className="flex h-screen pt-20">
+        <div className="flex h-screen">
           {!isMobile && (
             <div className="w-64 min-h-screen">
               <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
@@ -93,7 +93,7 @@ const AdminLayout = () => {
             </div>
           )}
           
-          <main className="flex-1 p-4 md:p-6 overflow-auto bg-apple-darker">
+          <main className={`flex-1 p-4 md:p-6 overflow-auto bg-apple-darker ${isMobile ? "pt-20" : ""}`}>
             <Outlet />
           </main>
         </div>
