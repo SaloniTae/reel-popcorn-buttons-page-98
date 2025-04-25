@@ -174,7 +174,7 @@ const LinkDetailPage = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-bold mb-1">{link.title}</h1>
-              {link.linkType === 'landing' && <Badge variant="outline" className="bg-purple-50">Landing Page</Badge>}
+              {link.linkType === 'landing' && <Badge variant="outline" className="text-white bg-transparent">Landing Page</Badge>}
             </div>
             <p className="text-gray-500 break-all">
               {link.linkType === 'landing' ? 'Landing Page URL' : 'Original URL'}: {link.originalUrl}
