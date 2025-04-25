@@ -271,7 +271,7 @@ const LinkDetailPage = () => {
             
             <div className="mb-6">
               <h3 className="text-base font-medium mb-3">Button Clicks Distribution</h3>
-              <div className="p-4 rounded-lg bg-apple-card">
+              <div className="p-4 rounded-lg border border-apple-border bg-apple-card">
                 {childLinks.length > 0 ? <div className="space-y-4">
                     {childLinks.map(button => <div key={button.id} className="flex items-center gap-2">
                         <div className="w-32 text-sm">{button.title.replace(' Button', '')}</div>

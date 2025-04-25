@@ -14,7 +14,7 @@ export const GeographicDistribution = ({
       <div className="mb-3">
         <h3 className="text-base font-medium">Geographic Distribution (By Region)</h3>
       </div>
-      <div className="p-4 rounded-lg bg-apple-card">
+      <div className="p-4 rounded-lg border border-apple-border bg-apple-card">
         <ScrollArea className="max-h-[300px]">
           <div className="space-y-4">
             {displayRegions.length > 0 ? <>
