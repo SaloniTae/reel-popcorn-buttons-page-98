@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 interface LinkTableProps {
   filter?: 'all' | 'landing' | 'redirect';
   landingPageSlug?: string;
 }
+
 const LinkTable = ({
   filter = 'all',
   landingPageSlug
@@ -26,6 +28,7 @@ const LinkTable = ({
   } = useToast();
   const [sortField, setSortField] = useState<string>("createdAt");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const handleSort = (field: string) => {
     if (field === sortField) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
@@ -35,7 +38,6 @@ const LinkTable = ({
     }
   };
 
-  // Get the appropriate links based on the filter
   const getFilteredLinks = () => {
     if (landingPageSlug) {
       return getButtonsForLandingPage(landingPageSlug);
@@ -43,26 +45,24 @@ const LinkTable = ({
     if (filter === 'landing') {
       return getLandingPages();
     } else if (filter === 'redirect') {
-      // Only show redirect links that are not buttons of landing pages
       return links.filter(link => link.linkType !== 'landing' && !link.parentLandingPage);
     }
 
-    // For 'all' filter, only show landing pages and standalone links (not buttons)
     return links.filter(link => link.linkType === 'landing' || !link.parentLandingPage);
   };
+
   const filteredLinks = getFilteredLinks();
 
-  // Sort the links
   const sortedLinks = [...filteredLinks].sort((a, b) => {
     if (sortField === "clicks") {
       return sortDirection === "asc" ? a.clicks - b.clicks : b.clicks - a.clicks;
     } else if (sortField === "createdAt") {
       return sortDirection === "asc" ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     } else {
-      // Sort by title alphabetically
       return sortDirection === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     }
   });
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast({
@@ -70,14 +70,15 @@ const LinkTable = ({
       description: "The link has been copied to your clipboard."
     });
   };
+
   const handleOpenLink = (link: any) => {
-    // Open link directly without redirecting page
     if (link.linkType === 'landing') {
       window.open(link.shortUrl, '_blank', 'noopener,noreferrer');
     } else {
       window.open('https://telegram.me/ott_on_rent', '_blank', 'noopener,noreferrer');
     }
   };
+
   const handleDeleteLink = (id: string) => {
     deleteLink(id);
     toast({
@@ -85,6 +86,7 @@ const LinkTable = ({
       description: "The link has been permanently deleted."
     });
   };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -93,6 +95,7 @@ const LinkTable = ({
       day: "numeric"
     });
   };
+
   if (loading) {
     return <div className="w-full overflow-auto rounded-lg border">
         <div className="p-8 text-center">
@@ -104,7 +107,6 @@ const LinkTable = ({
       </div>;
   }
 
-  // Mobile view for links
   if (window.innerWidth < 640) {
     return <div className="space-y-4">
         {sortedLinks.length === 0 ? <div className="bg-white rounded-lg p-6 text-center text-gray-500">
@@ -171,65 +173,64 @@ const LinkTable = ({
       </div>;
   }
 
-  // Desktop view
-  return <div className="w-full overflow-auto rounded-lg border">
+  return <div className="w-full overflow-auto rounded-lg border border-apple-border bg-apple-card/30">
       {sortedLinks.length === 0 ? <table className="w-full text-sm">
           <tbody>
             <tr>
-              <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+              <td colSpan={5} className="px-4 py-8 text-center text-apple-light">
                 {landingPageSlug ? "No buttons added to this landing page yet." : filter === 'landing' ? "No landing pages created yet." : filter === 'redirect' ? "No redirect links created yet." : "No links created yet. Create your first tracked link to get started."}
               </td>
             </tr>
           </tbody>
         </table> : <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="px-4 py-3 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("title")}>
+            <tr className="bg-apple-dark text-left border-b border-apple-border">
+              <th className="px-4 py-3 font-medium text-apple-light cursor-pointer" onClick={() => handleSort("title")}>
                 {landingPageSlug ? "Button Title" : "Title"}
                 {sortField === "title" && <span className="ml-1">
                     {sortDirection === "asc" ? "↑" : "↓"}
                   </span>}
               </th>
-              <th className="px-4 py-3 font-medium text-gray-600">URL</th>
-              <th className="px-4 py-3 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("clicks")}>
+              <th className="px-4 py-3 font-medium text-apple-light">URL</th>
+              <th className="px-4 py-3 font-medium text-apple-light cursor-pointer" onClick={() => handleSort("clicks")}>
                 Clicks
                 {sortField === "clicks" && <span className="ml-1">
                     {sortDirection === "asc" ? "↑" : "↓"}
                   </span>}
               </th>
-              <th className="px-4 py-3 font-medium text-gray-600 cursor-pointer" onClick={() => handleSort("createdAt")}>
+              <th className="px-4 py-3 font-medium text-apple-light cursor-pointer" onClick={() => handleSort("createdAt")}>
                 Created
                 {sortField === "createdAt" && <span className="ml-1">
                     {sortDirection === "asc" ? "↑" : "↓"}
                   </span>}
               </th>
-              <th className="px-4 py-3 font-medium text-gray-600 text-right">Actions</th>
+              <th className="px-4 py-3 font-medium text-apple-light text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y">
-            {sortedLinks.map(link => <tr key={link.id} className="hover:bg-gray-50">
+          <tbody className="divide-y divide-apple-border">
+            {sortedLinks.map(link => <tr key={link.id} className="hover:bg-apple-hover/10">
                 <td className="px-4 py-3">
                   <div className="flex items-center">
-                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-blue-600 hover:underline">
+                    <Link to={`/OOR/links/${link.id}`} className="font-medium text-apple-accent hover:underline">
                       {link.title}
                     </Link>
-                    {link.linkType === 'landing' && <Badge variant="outline" className="ml-2 bg-purple-50">Landing</Badge>}
-                    {link.parentLandingPage && <Badge variant="outline" className="ml-2 bg-blue-50">Button</Badge>}
+                    {link.linkType === 'landing' && <Badge variant="outline" className="ml-2 bg-apple-dark text-apple-light border-apple-border">Landing</Badge>}
+                    {link.parentLandingPage && <Badge variant="outline" className="ml-2 bg-apple-dark text-apple-light border-apple-border">Button</Badge>}
                   </div>
-                  {!link.parentLandingPage && !landingPageSlug && <p className="text-xs text-gray-500 truncate max-w-xs" title={link.originalUrl}>
+                  {!link.parentLandingPage && !landingPageSlug && <p className="text-xs text-apple-gray truncate max-w-xs" title={link.originalUrl}>
                       {link.originalUrl}
                     </p>}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600">{link.shortUrl}</span>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard(link.shortUrl)}>
+                    <span className="text-apple-light">{link.shortUrl}</span>
+                    <Button variant="ghost" size="icon" className="h-6 w-6 hover:bg-apple-hover text-apple-light" onClick={() => copyToClipboard(link.shortUrl)}>
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </td>
-                <td className="px-4 py-3 font-medium">{link.clicks}</td>
-                <td className="px-4 py-3 text-gray-600">{formatDate(link.createdAt)}</td>
+                <td className="px-4 py-3 font-medium text-apple-light">{link.clicks}</td>
+                <td className="px-4 py-3 text-apple-light">{formatDate(link.createdAt)}</td>
                 <td className="px-4 py-3 text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -266,4 +267,5 @@ const LinkTable = ({
         </table>}
     </div>;
 };
+
 export default LinkTable;
