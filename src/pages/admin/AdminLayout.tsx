@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { AlignJustify, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
@@ -31,23 +30,23 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-0 z-40 mx-4 mb-4"> {/* Changed top-4 to top-0 and added mb-4 for spacing */}
-            <div className="glass-morphism-light rounded-xl flex items-center justify-between px-4 h-14">
+          <div className="fixed top-4 left-0 right-0 z-40 mx-4"> 
+            <div className="bg-black/40 backdrop-blur-md rounded-xl flex items-center justify-between px-4 h-14 border border-apple-border/20">
               <div className="flex items-center">
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleSidebar}
-                  className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
+                  className="text-apple-light hover:text-white hover:bg-apple-hover/50 transition-colors"
                 >
-                  <AlignJustify className="h-6 w-6" />
+                  <Menu className="h-6 w-6" />
                 </Button>
                 
                 <div className="flex items-center ml-3">
                   <img 
                     src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
                     alt="OTT ON RENT" 
-                    className="h-8 w-auto" // Reduced height from h-8 to h-8
+                    className="h-8 w-auto"
                   />
                 </div>
               </div>
@@ -55,7 +54,7 @@ const AdminLayout = () => {
           </div>
         )}
         
-        <div className="flex h-screen">
+        <div className="flex h-screen pt-20">
           {!isMobile && (
             <div className="w-64 min-h-screen">
               <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
