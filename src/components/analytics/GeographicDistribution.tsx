@@ -20,7 +20,7 @@ export const GeographicDistribution = ({
             {displayRegions.length > 0 ? <>
                 {displayRegions.map(([region, count], index) => <div key={index} className="flex items-center gap-2">
                     <div className="w-32 text-sm truncate" title={region}>{region}</div>
-                    <div className="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex-1 h-6 rounded-full overflow-hidden bg-apple-muted">
                       <div className="h-full bg-blue-600 rounded-full" style={{
                   width: `${count / Math.max(...topRegions.map(([_, c]) => c || 1)) * 100}%`
                 }} />

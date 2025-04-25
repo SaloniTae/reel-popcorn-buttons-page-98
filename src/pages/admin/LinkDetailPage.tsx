@@ -275,7 +275,7 @@ const LinkDetailPage = () => {
                 {childLinks.length > 0 ? <div className="space-y-4">
                     {childLinks.map(button => <div key={button.id} className="flex items-center gap-2">
                         <div className="w-32 text-sm">{button.title.replace(' Button', '')}</div>
-                        <div className="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="flex-1 h-6 rounded-full overflow-hidden bg-apple-muted">
                           <div className="h-full bg-blue-600 rounded-full" style={{
                     width: `${button.clicks / Math.max(...childLinks.map(b => b.clicks || 1)) * 100}%`
                   }} />
