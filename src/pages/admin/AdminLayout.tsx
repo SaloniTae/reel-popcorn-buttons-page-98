@@ -69,7 +69,7 @@ const AdminLayout = () => {
               }`}
             >
               <div 
-                className="absolute inset-0 bg-black/80 backdrop-blur-sm" {/* Changed from bg-apple-glass-darker/80 to bg-black/80 */}
+                className="absolute inset-0 bg-black/80 backdrop-blur-sm" /* Changed from bg-apple-glass-darker/80 to bg-black/80 */
                 onClick={() => setIsSidebarOpen(false)}
               />
               
