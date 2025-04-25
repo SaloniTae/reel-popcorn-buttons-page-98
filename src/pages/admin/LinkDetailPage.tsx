@@ -14,6 +14,7 @@ import { DeviceDistribution } from "@/components/analytics/DeviceDistribution";
 import { ClickHistory } from "@/components/analytics/ClickHistory";
 import { TopReferrers } from "@/components/analytics/TopReferrers";
 import { resetClicks } from "@/services/linkTracking/linkService";
+
 const LinkDetailPage = () => {
   const {
     id
@@ -36,7 +37,9 @@ const LinkDetailPage = () => {
   const [childLinks, setChildLinks] = useState<TrackedLink[]>([]);
   const [consolidatedClicks, setConsolidatedClicks] = useState<ClickData[]>([]);
   const [loading, setLoading] = useState(true);
+
   const link = links.find(l => l.id === id);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -45,6 +48,7 @@ const LinkDetailPage = () => {
     };
     fetchData();
   }, [getAllLinks]);
+
   useEffect(() => {
     if (link && link.linkType === 'landing') {
       const slug = link.shortUrl.split('/').pop() || '';
@@ -63,11 +67,13 @@ const LinkDetailPage = () => {
       setConsolidatedClicks(allClickData);
     }
   }, [link, links, getButtonsForLandingPage]);
+
   if (loading) {
     return <div className="flex justify-center items-center h-[70vh]">
         <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
       </div>;
   }
+
   if (!link) {
     return <div className="max-w-3xl mx-auto text-center py-16">
         <h1 className="text-2xl font-bold mb-4">Link Not Found</h1>
@@ -79,6 +85,7 @@ const LinkDetailPage = () => {
         </Button>
       </div>;
   }
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(link.shortUrl);
     toast({
@@ -86,6 +93,7 @@ const LinkDetailPage = () => {
       description: "The link has been copied to your clipboard."
     });
   };
+
   const handleDeleteLink = () => {
     deleteLink(link.id);
     toast({
@@ -94,6 +102,7 @@ const LinkDetailPage = () => {
     });
     navigate("/OOR/links");
   };
+
   const handleTestLink = () => {
     if (link.linkType === 'landing') {
       window.open(link.shortUrl, '_blank');
@@ -102,6 +111,7 @@ const LinkDetailPage = () => {
       window.open(`/r/${shortCode}`, '_blank');
     }
   };
+
   const handleResetClickData = async () => {
     setLoading(true);
     const linkIdsToReset = link.linkType === "landing" ? [link.id, ...childLinks.map(btn => btn.id)] : [link.id];
@@ -121,6 +131,7 @@ const LinkDetailPage = () => {
     }
     setLoading(false);
   };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -131,7 +142,9 @@ const LinkDetailPage = () => {
       minute: "2-digit"
     });
   };
+
   const totalClicks = link.clicks + childLinks.reduce((total, button) => total + button.clicks, 0);
+
   const clicksByRegion = link.clickHistory.reduce((acc, click) => {
     let region = click.region || '';
     if (!region && click.location) {
@@ -147,20 +160,25 @@ const LinkDetailPage = () => {
     return acc;
   }, {} as Record<string, number>);
   const topRegions = Object.entries(clicksByRegion).sort((a, b) => b[1] - a[1]);
+
   const referrerStats = link.clickHistory.reduce((acc, click) => {
-    const referrer = "direct";
+    const referrer = link.utmParameters?.source || "direct";
     acc[referrer] = (acc[referrer] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
   const topReferrers = Object.entries(referrerStats).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
   const deviceStats = link.clickHistory.reduce((acc, click) => {
     const device = click.device || "unknown";
     acc[device] = (acc[device] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
   const deviceDistribution = Object.entries(deviceStats).sort((a, b) => b[1] - a[1]);
+
   const recentConsolidatedClicks = consolidatedClicks.slice(0, 20);
-  return <div>
+
+  return (
+    <div>
       <div className="flex items-center mb-6">
         <Button variant="ghost" size="sm" asChild className="mr-2">
           <RouterLink to="/OOR/links" className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors">
@@ -246,7 +264,8 @@ const LinkDetailPage = () => {
             <p className="text-sm text-gray-500">Scan this QR code to access the link</p>
           </div>}
 
-        {link?.linkType === 'landing' && <div className="mb-6">
+        {link?.linkType === 'landing' && (
+          <div className="mb-6">
             <h2 className="text-lg font-semibold mb-4">Analytics Dashboard</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -272,25 +291,42 @@ const LinkDetailPage = () => {
             <div className="mb-6">
               <h3 className="text-base font-medium mb-3">Button Clicks Distribution</h3>
               <div className="p-4 rounded-lg border border-apple-border bg-apple-card">
-                {childLinks.length > 0 ? <div className="space-y-4">
-                    {childLinks.map(button => <div key={button.id} className="flex items-center gap-2">
+                {childLinks.length > 0 ? (
+                  <div className="space-y-4">
+                    {childLinks.map(button => (
+                      <div key={button.id} className="flex items-center gap-2">
                         <div className="w-32 text-sm">{button.title.replace(' Button', '')}</div>
                         <div className="flex-1 h-6 rounded-full overflow-hidden bg-apple-muted">
-                          <div className="h-full bg-blue-600 rounded-full" style={{
-                    width: `${button.clicks / Math.max(...childLinks.map(b => b.clicks || 1)) * 100}%`
-                  }} />
+                          <div 
+                            className="h-full bg-blue-600 rounded-full" 
+                            style={{
+                              width: `${button.clicks / Math.max(...childLinks.map(b => b.clicks || 1)) * 100}%`
+                            }} 
+                          />
                         </div>
                         <div className="w-12 text-sm text-right">{button.clicks}</div>
-                      </div>)}
-                  </div> : <p className="text-gray-500 text-center py-4">No button clicks recorded yet.</p>}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-center py-4">No button clicks recorded yet.</p>
+                )}
               </div>
             </div>
 
-            <GeographicDistribution topRegions={topRegions} />
-            <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={link.clicks} />
-          </div>}
-        
-        {link?.linkType !== 'landing' && <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <GeographicDistribution topRegions={topRegions} />
+              <DeviceDistribution deviceDistribution={deviceDistribution} totalClicks={link.clicks} />
+            </div>
+            
+            <div className="mb-6">
+              <TopReferrers referrers={topReferrers} totalClicks={totalClicks} />
+            </div>
+          </div>
+        )}
+
+        {link?.linkType !== 'landing' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="p-4 rounded-lg bg-neutral-700">
               <h3 className="text-sm font-medium mb-1 text-gray-400">Created On</h3>
               <p>{formatDate(link.createdAt)}</p>
@@ -305,31 +341,45 @@ const LinkDetailPage = () => {
                 {link.clickHistory.length > 0 ? formatDate(link.clickHistory.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0].timestamp) : "No clicks yet"}
               </p>
             </div>
-          </div>}
+          </div>
+        )}
 
-        {link.utmParameters && Object.values(link.utmParameters).some(Boolean) && <div className="mb-6">
+        {link.utmParameters && Object.values(link.utmParameters).some(Boolean) && (
+          <div className="mb-6">
             <h3 className="text-base font-medium mb-2">UTM Parameters</h3>
             <div className="flex flex-wrap gap-2">
-              {link.utmParameters.campaign && <Badge variant="outline" className="bg-blue-50">
+              {link.utmParameters.campaign && (
+                <Badge variant="outline" className="bg-blue-50">
                   campaign: {link.utmParameters.campaign}
-                </Badge>}
-              {link.utmParameters.source && <Badge variant="outline" className="bg-green-50">
+                </Badge>
+              )}
+              {link.utmParameters.source && (
+                <Badge variant="outline" className="bg-green-50">
                   source: {link.utmParameters.source}
-                </Badge>}
-              {link.utmParameters.medium && <Badge variant="outline" className="bg-yellow-50">
+                </Badge>
+              )}
+              {link.utmParameters.medium && (
+                <Badge variant="outline" className="bg-yellow-50">
                   medium: {link.utmParameters.medium}
-                </Badge>}
-              {link.utmParameters.content && <Badge variant="outline" className="bg-purple-50">
+                </Badge>
+              )}
+              {link.utmParameters.content && (
+                <Badge variant="outline" className="bg-purple-50">
                   content: {link.utmParameters.content}
-                </Badge>}
-              {link.utmParameters.term && <Badge variant="outline" className="bg-pink-50">
+                </Badge>
+              )}
+              {link.utmParameters.term && (
+                <Badge variant="outline" className="bg-pink-50">
                   term: {link.utmParameters.term}
-                </Badge>}
+                </Badge>
+              )}
             </div>
-          </div>}
+          </div>
+        )}
       </div>
 
-      {link?.linkType === 'landing' && <Tabs defaultValue="clicks" className="w-full">
+      {link?.linkType === 'landing' && (
+        <Tabs defaultValue="clicks" className="w-full">
           <TabsList className="mb-4 bg-[#1a1a1a]">
             <TabsTrigger value="clicks" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">Click History</TabsTrigger>
             <TabsTrigger value="referrers" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">Top Referrers</TabsTrigger>
@@ -348,9 +398,11 @@ const LinkDetailPage = () => {
               <TopReferrers referrers={topReferrers} totalClicks={totalClicks} />
             </div>
           </TabsContent>
-        </Tabs>}
+        </Tabs>
+      )}
 
-      {link?.linkType !== 'landing' && <Tabs defaultValue="clicks" className="w-full">
+      {link?.linkType !== 'landing' && (
+        <Tabs defaultValue="clicks" className="w-full">
           <TabsList className="mb-4 bg-[#1a1a1a]">
             <TabsTrigger value="clicks" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">Click History</TabsTrigger>
             <TabsTrigger value="referrers" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">Top Referrers</TabsTrigger>
@@ -369,7 +421,10 @@ const LinkDetailPage = () => {
               <TopReferrers referrers={topReferrers} totalClicks={totalClicks} />
             </div>
           </TabsContent>
-        </Tabs>}
-    </div>;
+        </Tabs>
+      )}
+    </div>
+  );
 };
+
 export default LinkDetailPage;
