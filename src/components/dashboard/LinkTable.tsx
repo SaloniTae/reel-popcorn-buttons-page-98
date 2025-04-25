@@ -116,7 +116,7 @@ const LinkTable = ({
                     <Link to={`/OOR/links/${link.id}`} className="font-medium text-white-600 hover:underline">
                       {link.title}
                     </Link>
-                    {link.linkType === 'landing' && <Badge variant="outline" className="ml-2 bg-purple-50">Landing</Badge>}
+                    {link.linkType === 'landing' && <Badge variant="outline" className="ml-2 text-white bg-transparent">Landing</Badge>}
                     {link.parentLandingPage && <Badge variant="outline" className="ml-2 bg-blue-50">Button</Badge>}
                   </div>
                   <DropdownMenu>
