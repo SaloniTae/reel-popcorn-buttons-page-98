@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Progress } from "@/components/ui/progress";
 
 interface TopReferrersProps {
   referrers: [string, number][];
@@ -14,8 +15,8 @@ export const TopReferrers = ({ referrers, totalClicks }: TopReferrersProps) => {
   return (
     <div className="space-y-4">
       {referrers.map(([referrer, count], index) => (
-        <div key={index} className="bg-apple-card p-4 rounded-lg border border-apple-border">
-          <div className="flex justify-between items-center text-apple-light">
+        <div key={index} className="p-4 rounded-lg border border-apple-border bg-apple-card">
+          <div className="flex justify-between items-center text-apple-light mb-2">
             <span className="font-medium">{referrer}</span>
             <span className="text-apple-gray">
               {count} clicks ({Math.round((count / totalClicks) * 100)}%)
