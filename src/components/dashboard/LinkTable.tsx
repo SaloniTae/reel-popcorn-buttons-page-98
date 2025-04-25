@@ -110,7 +110,7 @@ const LinkTable = ({
         {sortedLinks.length === 0 ? <div className="bg-white rounded-lg p-6 text-center text-gray-500">
             {landingPageSlug ? "No buttons added to this landing page yet." : filter === 'landing' ? "No landing pages created yet." : filter === 'redirect' ? "No redirect links created yet." : "No links created yet. Create your first tracked link to get started."}
           </div> : <>
-            {sortedLinks.map(link => <div key={link.id} className="rounded-lg shadow-sm p-4 mb-3 bg-white/[0.09]">
+            {sortedLinks.map(link => <div key={link.id} className="rounded-lg border border-apple-border shadow-sm p-4 mb-3 bg-white/[0.09]">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center">
                     <Link to={`/OOR/links/${link.id}`} className="font-medium text-white-600 hover:underline">
@@ -156,7 +156,7 @@ const LinkTable = ({
                 
                 <div className="flex justify-between items-center text-sm mt-3">
                   <div className="flex items-center">
-                    <span className="text-white-600 mr-1 text-blue-600">{link.shortUrl}</span>
+                    <span className="text-white-600 mr-1 text-blue-600 font-bold">{link.shortUrl}</span>
                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => copyToClipboard(link.shortUrl)}>
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
