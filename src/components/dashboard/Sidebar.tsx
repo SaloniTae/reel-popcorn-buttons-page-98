@@ -1,12 +1,10 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { 
   BarChart3, 
   Link as LinkIcon, 
   PlusCircle, 
   Settings, 
-  Home,
-  X
+  Home 
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -44,16 +42,12 @@ const Sidebar = ({ closeSidebar }: SidebarProps) => {
   return (
     <aside className="min-h-screen w-full glass-morphism-light">
       <div className="p-4 border-b border-apple-border flex justify-between items-center">
-        <Link to="/OOR" className="flex items-center gap-3" onClick={closeSidebar}>
+        <Link to="/OOR" className="flex items-center" onClick={closeSidebar}>
           <img 
-            src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+            src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
             alt="OTT ON RENT" 
-            className="w-10 h-10 rounded-full border border-apple-border shadow-md"
+            className="h-10 w-auto"
           />
-          <div>
-            <h1 className="font-semibold text-white">OTT ON RENT</h1>
-            <p className="text-xs text-apple-light/80">Admin Dashboard</p>
-          </div>
         </Link>
       </div>
       

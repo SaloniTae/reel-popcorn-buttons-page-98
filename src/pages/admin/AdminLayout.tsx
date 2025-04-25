@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { Menu, X } from "lucide-react";
+import { AlignJustify, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
@@ -40,19 +39,15 @@ const AdminLayout = () => {
                   onClick={toggleSidebar}
                   className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
                 >
-                  <Menu className="h-5 w-5" />
+                  <AlignJustify className="h-6 w-6" />
                 </Button>
                 
-                <div className="flex items-center gap-3 ml-3">
+                <div className="flex items-center ml-3">
                   <img 
-                    src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+                    src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
                     alt="OTT ON RENT" 
-                    className="w-8 h-8 rounded-full border border-apple-border"
+                    className="h-8 w-auto"
                   />
-                  <div>
-                    <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
-                    <p className="text-xs text-apple-light/80">Admin Dashboard</p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -60,14 +55,12 @@ const AdminLayout = () => {
         )}
         
         <div className="flex h-screen">
-          {/* Sidebar for desktop */}
           {!isMobile && (
             <div className="w-64 min-h-screen">
               <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
             </div>
           )}
           
-          {/* Mobile sidebar overlay */}
           {isMobile && (
             <div 
               className={`fixed inset-0 z-50 transition-all duration-300 ${
