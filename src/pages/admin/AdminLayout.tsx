@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { LinkTrackingProvider } from "@/context/LinkTrackingContext";
-import { AlignJustify } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const AdminLayout = () => {
@@ -30,35 +31,43 @@ const AdminLayout = () => {
     <LinkTrackingProvider>
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
-          <div className="sticky top-6 z-40 mx-4">
+          <div className="sticky top-4 z-40 mx-4">
             <div className="glass-morphism-light rounded-xl flex items-center justify-between px-4 h-14">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center">
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleSidebar}
                   className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors"
                 >
-                  <AlignJustify className="h-6 w-6 font-bold" />
+                  <Menu className="h-5 w-5" />
                 </Button>
                 
-                <img 
-                  src="https://res.cloudinary.com/djzfoukhz/image/upload/v1745595290/oskspw1vm2hyk8qn0yjo.png" 
-                  alt="Logo" 
-                  className="w-8 h-8 rounded-lg"
-                />
+                <div className="flex items-center gap-3 ml-3">
+                  <img 
+                    src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/OOR-CIRCLE.jpg" 
+                    alt="OTT ON RENT" 
+                    className="w-8 h-8 rounded-full border border-apple-border"
+                  />
+                  <div>
+                    <h1 className="font-semibold text-sm text-white">OTT ON RENT</h1>
+                    <p className="text-xs text-apple-light/80">Admin Dashboard</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         )}
         
         <div className="flex h-screen">
+          {/* Sidebar for desktop */}
           {!isMobile && (
             <div className="w-64 min-h-screen">
               <Sidebar closeSidebar={() => setIsSidebarOpen(false)} />
             </div>
           )}
           
+          {/* Mobile sidebar overlay */}
           {isMobile && (
             <div 
               className={`fixed inset-0 z-50 transition-all duration-300 ${
