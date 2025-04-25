@@ -32,7 +32,7 @@ const AdminLayout = () => {
       <div className="min-h-screen bg-apple-darker">
         {isMobile && (
           <div className="fixed top-4 left-0 right-0 z-40 mx-4"> 
-            <div className="bg-black/40 backdrop-blur-md rounded-xl flex items-center justify-between px-4 h-14 border border-apple-border/20">
+            <div className="bg-apple-glass backdrop-blur-md rounded-xl flex items-center justify-between px-4 h-14 border border-apple-border/20">
               <div className="flex items-center">
                 <Button 
                   variant="ghost" 
