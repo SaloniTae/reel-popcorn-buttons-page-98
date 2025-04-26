@@ -4,6 +4,7 @@ import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
+
 interface LandingPageTemplateProps {
   slug: string;
   trackingSlugs: {
@@ -13,6 +14,7 @@ interface LandingPageTemplateProps {
     crunchyroll: string;
   };
 }
+
 interface Settings {
   business_profile_image: string;
   background_video: string;
@@ -23,6 +25,7 @@ interface Settings {
   buy_now_button_link: string;
   show_footer_images: boolean;
 }
+
 const LandingPageTemplate = ({
   slug,
   trackingSlugs
@@ -43,6 +46,7 @@ const LandingPageTemplate = ({
     show_footer_images: true,
     business_name: "OTT ON RENT"
   });
+
   useEffect(() => {
     const fetchSettings = async () => {
       const {
@@ -69,6 +73,7 @@ const LandingPageTemplate = ({
     };
     fetchSettings();
   }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
@@ -89,9 +94,11 @@ const LandingPageTemplate = ({
       }
     };
   }, [settings.background_video]);
+
   const handleVideoLoaded = () => {
     setIsVideoLoaded(true);
   };
+
   return <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       <div className="video-container absolute inset-0 w-full h-full overflow-hidden z-0">
         <video ref={videoRef} autoPlay muted loop playsInline className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} onLoadedData={handleVideoLoaded}></video>
@@ -150,4 +157,5 @@ const LandingPageTemplate = ({
         </>}
     </div>;
 };
+
 export default LandingPageTemplate;
