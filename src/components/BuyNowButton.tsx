@@ -31,14 +31,14 @@ const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
         target="_blank" 
         rel="noopener noreferrer"
         onClick={handleClick}
-        className="w-full py-4 px-6 bg-[#0086ff] text-white rounded-full flex items-center justify-center hover:bg-[#0073e0] transition-all duration-300 transform hover:scale-105"
+        className="w-full py-4 px-6 bg-[#0086ff] text-white rounded-full flex items-center hover:bg-[#0073e0] transition-all duration-300 transform hover:scale-105"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <div className="bg-white rounded-full p-2 mr-4">
+        <div className="bg-white rounded-full p-2">
           <ShoppingCart className="h-5 w-5 text-black" />
         </div>
-        <span className="text-xl font-bold">BUY NOW</span>
+        <span className="text-xl font-bold flex-1 text-center">BUY NOW</span>
       </a>
       
       {showTooltip && (
