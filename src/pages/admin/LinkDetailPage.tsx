@@ -210,8 +210,8 @@ const LinkDetailPage = () => {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel disabled={loading} className="text-apple-light bg-apple-dark">Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleResetClickData} disabled={loading} className="text-apple-light bg-rose-700 hover:bg-rose-600">
+                  <AlertDialogCancel disabled={loading} className="text-apple-light bg-apple-glass">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetClickData} disabled={loading} className="text-apple-light bg-red-600 hover:bg-red-500">
                     {loading ? "Resetting..." : "Reset"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
