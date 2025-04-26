@@ -226,13 +226,13 @@ const LinkDetailPage = () => {
               <AlertDialogContent className="bg-apple-glass">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogDescription className="text-apple-gray">
                     {link.linkType === 'landing' ? "This will permanently delete this landing page and all its associated buttons. This action cannot be undone." : "This will permanently delete this link and all its click data. This action cannot be undone."}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteLink}>
+                  <AlertDialogCancel className="text-apple-light bg-apple-glass">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteLink} className="text-apple-light bg-red-600 hover:bg-red-500">
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
