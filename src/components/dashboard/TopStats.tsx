@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useLinkTracking } from "@/context/LinkTrackingContext";
 import { BarChart3, Link as LinkIcon, MousePointerClick, TrendingUp } from "lucide-react";
-
 const StatCard = ({
   title,
   value,
@@ -12,20 +11,17 @@ const StatCard = ({
   value: string | number;
   icon: any;
   className?: string;
-}) => (
-  <div className={`glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border ${className}`}>
+}) => <div className={`glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border ${className}`}>
     <div className="flex items-start justify-between">
       <div>
         <p className="text-sm font-medium text-apple-gray">{title}</p>
         <h3 className="text-2xl font-bold mt-1 text-apple-light">{value}</h3>
       </div>
-      <div className="p-2 rounded-md bg-apple-dark">
+      <div className="p-2 rounded-md bg-apple-dark border border-apple-border">
         <Icon className="text-blue-600" size={20} />
       </div>
     </div>
-  </div>
-);
-
+  </div>;
 const TopStats = () => {
   const {
     links
@@ -56,5 +52,4 @@ const TopStats = () => {
       <StatCard title="Avg. Clicks per Link" value={stats.avgClickRate} icon={TrendingUp} />
     </div>;
 };
-
 export default TopStats;

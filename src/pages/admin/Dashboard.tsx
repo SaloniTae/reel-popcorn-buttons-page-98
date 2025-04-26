@@ -1,4 +1,3 @@
-
 import TopStats from "@/components/dashboard/TopStats";
 import LinkTable from "@/components/dashboard/LinkTable";
 import LinkStatsVisual from "@/components/dashboard/LinkStatsVisual";
@@ -6,11 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 const Dashboard = () => {
-  return (
-    <div className="space-y-6">
-      <div>
+  return <div className="space-y-6">
+      <div className="py-0 my-[20px]">
         <h1 className="text-2xl font-bold mb-1 text-gradient">
           Dashboard
         </h1>
@@ -28,10 +25,7 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold text-gradient">
             Links
           </h2>
-          <Button 
-            asChild
-            className="bg-apple-accent hover:bg-apple-accent/90 text-contrast"
-          >
+          <Button asChild className="bg-apple-accent hover:bg-apple-accent/90 text-contrast">
             <Link to="/OOR/create">
               <Layout className="mr-2 h-4 w-4" />
               Create Landing Page
@@ -41,16 +35,10 @@ const Dashboard = () => {
         
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="mb-4 bg-apple-dark">
-            <TabsTrigger 
-              value="all" 
-              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light"
-            >
+            <TabsTrigger value="all" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">
               All Links
             </TabsTrigger>
-            <TabsTrigger 
-              value="landing" 
-              className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light"
-            >
+            <TabsTrigger value="landing" className="data-[state=active]:bg-apple-hover data-[state=active]:text-apple-accent text-apple-light">
               Landing Pages
             </TabsTrigger>
           </TabsList>
@@ -64,8 +52,6 @@ const Dashboard = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
