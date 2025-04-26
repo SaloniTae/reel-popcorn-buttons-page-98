@@ -205,13 +205,13 @@ const LinkDetailPage = () => {
                   <AlertDialogTitle>
                     Reset Click Data?
                   </AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogDescription className="text-apple-gray">
                     Are you sure you want to reset the click data for {link.linkType === "landing" ? "this landing page and its associated buttons" : "this link"}? This will delete all click events and cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleResetClickData} disabled={loading}>
+                  <AlertDialogCancel disabled={loading} className="text-apple-light bg-apple-dark">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetClickData} disabled={loading} className="text-apple-light bg-rose-700 hover:bg-rose-600">
                     {loading ? "Resetting..." : "Reset"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
