@@ -137,12 +137,10 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           rel="noopener noreferrer"
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center justify-center mb-4 small-screen:mb-3"
         >
-          <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-4">
+          <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-2">
             <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
           </div>
-          <span className="text-center flex-grow">
-            BUY NOW
-          </span>
+          <span>BUY NOW</span>
         </a>
 
         <div className="mb-4 small-screen:mb-2 text-sm small-screen:text-xs font-light text-gray-300">
