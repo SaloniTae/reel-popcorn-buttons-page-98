@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 interface LinkTableProps {
   filter?: 'all' | 'landing' | 'redirect';
   landingPageSlug?: string;
 }
+
 const LinkTable = ({
   filter = 'all',
   landingPageSlug
@@ -26,6 +28,7 @@ const LinkTable = ({
   } = useToast();
   const [sortField, setSortField] = useState<string>("createdAt");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const handleSort = (field: string) => {
     if (field === sortField) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
@@ -34,6 +37,7 @@ const LinkTable = ({
       setSortDirection("desc");
     }
   };
+
   const getFilteredLinks = () => {
     if (landingPageSlug) {
       return getButtonsForLandingPage(landingPageSlug);
@@ -43,9 +47,12 @@ const LinkTable = ({
     } else if (filter === 'redirect') {
       return links.filter(link => link.linkType !== 'landing' && !link.parentLandingPage);
     }
+
     return links.filter(link => link.linkType === 'landing' || !link.parentLandingPage);
   };
+
   const filteredLinks = getFilteredLinks();
+
   const sortedLinks = [...filteredLinks].sort((a, b) => {
     if (sortField === "clicks") {
       return sortDirection === "asc" ? a.clicks - b.clicks : b.clicks - a.clicks;
@@ -55,6 +62,7 @@ const LinkTable = ({
       return sortDirection === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     }
   });
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast({
@@ -62,6 +70,7 @@ const LinkTable = ({
       description: "The link has been copied to your clipboard."
     });
   };
+
   const handleOpenLink = (link: any) => {
     if (link.linkType === 'landing') {
       window.open(link.shortUrl, '_blank', 'noopener,noreferrer');
@@ -69,6 +78,7 @@ const LinkTable = ({
       window.open('https://telegram.me/ott_on_rent', '_blank', 'noopener,noreferrer');
     }
   };
+
   const handleDeleteLink = (id: string) => {
     deleteLink(id);
     toast({
@@ -76,6 +86,7 @@ const LinkTable = ({
       description: "The link has been permanently deleted."
     });
   };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -84,6 +95,7 @@ const LinkTable = ({
       day: "numeric"
     });
   };
+
   if (loading) {
     return <div className="w-full overflow-auto rounded-lg border">
         <div className="p-8 text-center">
@@ -94,12 +106,13 @@ const LinkTable = ({
         </div>
       </div>;
   }
+
   if (window.innerWidth < 640) {
     return <div className="space-y-4">
         {sortedLinks.length === 0 ? <div className="bg-white rounded-lg p-6 text-center text-gray-500">
             {landingPageSlug ? "No buttons added to this landing page yet." : filter === 'landing' ? "No landing pages created yet." : filter === 'redirect' ? "No redirect links created yet." : "No links created yet. Create your first tracked link to get started."}
           </div> : <>
-            {sortedLinks.map(link => <div key={link.id} className="rounded-lg border border-apple-border shadow-sm p-4 mb-3 bg-[apple-glass-darker] bg-apple-card">
+            {sortedLinks.map(link => <div key={link.id} className="rounded-lg border border-apple-border shadow-sm p-4 mb-3 bg-white/[0.09]">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center">
                     <Link to={`/OOR/links/${link.id}`} className="font-medium text-white-600 hover:underline">
@@ -159,6 +172,7 @@ const LinkTable = ({
           </>}
       </div>;
   }
+
   return <div className="w-full overflow-auto rounded-lg border border-apple-border bg-apple-card/30">
       {sortedLinks.length === 0 ? <table className="w-full text-sm">
           <tbody>
@@ -253,4 +267,5 @@ const LinkTable = ({
         </table>}
     </div>;
 };
+
 export default LinkTable;

@@ -1,10 +1,13 @@
+
 import { Link } from "react-router-dom";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LinkTable from "@/components/dashboard/LinkTable";
+
 const LinksPage = () => {
-  return <div className="space-y-6">
-      <div className="my-[20px]">
+  return (
+    <div className="space-y-6">
+      <div>
         <h1 className="text-2xl font-bold mb-1 text-gradient">
           Links
         </h1>
@@ -14,7 +17,10 @@ const LinksPage = () => {
       <div className="glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-contrast">All Links</h2>
-          <Button asChild className="bg-apple-accent hover:bg-apple-accent/90 text-contrast">
+          <Button 
+            asChild
+            className="bg-apple-accent hover:bg-apple-accent/90 text-contrast"
+          >
             <Link to="/OOR/create">
               <PlusCircle className="mr-2 h-4 w-4" />
               Create New Link
@@ -24,6 +30,8 @@ const LinksPage = () => {
         
         <LinkTable />
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default LinksPage;
