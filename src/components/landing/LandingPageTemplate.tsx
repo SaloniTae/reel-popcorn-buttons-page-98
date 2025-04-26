@@ -4,6 +4,7 @@ import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
+
 interface LandingPageTemplateProps {
   slug: string;
   trackingSlugs: {
@@ -13,6 +14,7 @@ interface LandingPageTemplateProps {
     crunchyroll: string;
   };
 }
+
 interface Settings {
   business_profile_image: string;
   background_video: string;
@@ -23,6 +25,7 @@ interface Settings {
   buy_now_button_link: string;
   show_footer_images: boolean;
 }
+
 const LandingPageTemplate = ({
   slug,
   trackingSlugs
@@ -43,6 +46,7 @@ const LandingPageTemplate = ({
     show_footer_images: true,
     business_name: "OTT ON RENT"
   });
+
   useEffect(() => {
     const fetchSettings = async () => {
       const {
@@ -69,6 +73,7 @@ const LandingPageTemplate = ({
     };
     fetchSettings();
   }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
@@ -89,9 +94,11 @@ const LandingPageTemplate = ({
       }
     };
   }, [settings.background_video]);
+
   const handleVideoLoaded = () => {
     setIsVideoLoaded(true);
   };
+
   return <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       <div className="video-container absolute inset-0 w-full h-full overflow-hidden z-0">
         <video ref={videoRef} autoPlay muted loop playsInline className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} onLoadedData={handleVideoLoaded}></video>
@@ -108,11 +115,11 @@ const LandingPageTemplate = ({
           </h1>
         </div>
 
-        <a href={settings.buy_now_button_link} onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} target="_blank" rel="noopener noreferrer" className="relative w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center justify-center mb-4 small-screen:mb-3">
-          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 small-screen:p-1.5">
+        <a href={settings.buy_now_button_link} onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} target="_blank" rel="noopener noreferrer" className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center justify-center mb-4 small-screen:mb-3">
+          <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-4">
             <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
           </div>
-          <span className="absolute inset-0 flex items-center justify-center">
+          <span className="absolute inset">
             BUY NOW
           </span>
         </a>
@@ -150,4 +157,5 @@ const LandingPageTemplate = ({
         </>}
     </div>;
 };
+
 export default LandingPageTemplate;
