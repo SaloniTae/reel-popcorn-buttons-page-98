@@ -116,7 +116,7 @@ const LandingPageTemplate = ({
         </div>
 
         <a href={settings.buy_now_button_link} onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} target="_blank" rel="noopener noreferrer" className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center justify-center mb-4 small-screen:mb-3">
-          <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-4">
+          <div className="bg-white rounded-full p-2 small-screen:p-1.5 mr-4 self-start">
             <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
           </div>
           <span className="absolute inset">
