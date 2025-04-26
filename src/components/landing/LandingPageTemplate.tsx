@@ -112,7 +112,7 @@ const LandingPageTemplate = ({
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 small-screen:p-1.5">
             <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
           </div>
-          <span className="absolute inset">
+          <span className="absolute inset-0 flex items-center justify-center">
             BUY NOW
           </span>
         </a>
