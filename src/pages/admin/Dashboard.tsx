@@ -22,7 +22,7 @@ const Dashboard = () => {
       
       <div className="glass-morphism-light rounded-2xl p-6 shadow-lg border border-apple-border">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gradient">
+          <h2 className="text-xl font-semibold text-apple-light">
             Links
           </h2>
           <Button asChild className="bg-apple-accent hover:bg-apple-accent/90 text-contrast">

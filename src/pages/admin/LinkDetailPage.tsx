@@ -163,7 +163,7 @@ const LinkDetailPage = () => {
   return <div>
       <div className="flex items-center mb-6">
         <Button variant="ghost" size="sm" asChild className="mr-2">
-          <RouterLink to="/OOR/links" className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors">
+          <RouterLink to="/OOR/links" className="text-apple-light hover:text-white hover:bg-apple-hover transition-colors px-[240px]">
             <ArrowLeft className="h-4 w-4" />
           </RouterLink>
         </Button>
@@ -200,18 +200,18 @@ const LinkDetailPage = () => {
                   <RotateCcw className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-apple-glass">
                 <AlertDialogHeader>
                   <AlertDialogTitle>
                     Reset Click Data?
                   </AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogDescription className="text-apple-gray">
                     Are you sure you want to reset the click data for {link.linkType === "landing" ? "this landing page and its associated buttons" : "this link"}? This will delete all click events and cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleResetClickData} disabled={loading}>
+                  <AlertDialogCancel disabled={loading} className="text-apple-light bg-apple-glass">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleResetClickData} disabled={loading} className="text-apple-light bg-red-600 hover:bg-red-500">
                     {loading ? "Resetting..." : "Reset"}
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -223,16 +223,16 @@ const LinkDetailPage = () => {
                   <Trash className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-apple-glass">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogDescription className="text-apple-gray">
                     {link.linkType === 'landing' ? "This will permanently delete this landing page and all its associated buttons. This action cannot be undone." : "This will permanently delete this link and all its click data. This action cannot be undone."}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteLink}>
+                  <AlertDialogCancel className="text-apple-light bg-apple-glass">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteLink} className="text-apple-light bg-red-600 hover:bg-red-500">
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
