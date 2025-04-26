@@ -200,7 +200,7 @@ const LinkDetailPage = () => {
                   <RotateCcw className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="bg-apple-glass">
                 <AlertDialogHeader>
                   <AlertDialogTitle>
                     Reset Click Data?
