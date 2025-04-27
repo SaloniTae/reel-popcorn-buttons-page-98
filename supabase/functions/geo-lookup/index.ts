@@ -25,55 +25,31 @@ serve(async (req) => {
     
     console.log("Looking up IP:", ip);
     
-    // Try ip-api.com first as it seems more accurate for regions in India
-    const ipApiUrl = `http://ip-api.com/json/${ip}?fields=status,message,country,regionName,city,region`;
-    console.log("Making request to:", ipApiUrl);
+    // Use ipapi.co instead of ip-api.com
+    const ipapiUrl = `https://ipapi.co/${ip}/json/`;
+    console.log("Making request to:", ipapiUrl);
     
-    try {
-      const response = await fetch(ipApiUrl);
-      const data = await response.json();
-      
-      console.log("IP Lookup response from ip-api.com:", JSON.stringify(data));
-      
-      // Check if response is successful
-      if (data.status === "success") {
-        return new Response(
-          JSON.stringify({
-            country: data.country || 'Unknown',
-            region: data.regionName || data.region || 'Unknown',
-            city: data.city || 'Unknown',
-            stateCode: data.region || 'UN'
-          }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      } else {
-        console.log("ip-api.com failed, falling back to ipapi.co");
-        // If ip-api.com fails, fall back to ipapi.co
-        throw new Error("ip-api.com lookup failed");
-      }
-    } catch (error) {
-      console.log("Fallback to ipapi.co due to error:", error);
-      
-      // Fallback to ipapi.co
-      const fallbackResponse = await fetch(`https://ipapi.co/${ip}/json/`);
-      const fallbackData = await fallbackResponse.json();
-      
-      console.log("Fallback IP Lookup response:", JSON.stringify(fallbackData));
-      
-      if (fallbackData.error) {
-        throw new Error(fallbackData.error);
-      }
-      
+    const response = await fetch(ipapiUrl);
+    const data = await response.json();
+    
+    console.log("IP Lookup response from ipapi.co:", JSON.stringify(data));
+    
+    // Check if response is successful (ipapi.co returns error field when there's an error)
+    if (!data.error) {
       return new Response(
         JSON.stringify({
-          country: fallbackData.country_name || fallbackData.country || 'Unknown',
-          region: fallbackData.region || fallbackData.region_code || 'Unknown',
-          city: fallbackData.city || 'Unknown',
-          stateCode: fallbackData.region_code || 'UN'
+          country: data.country_name || 'Unknown',
+          region: data.region || 'Unknown',
+          city: data.city || 'Unknown',
+          stateCode: data.region_code || 'UN'
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+    } else {
+      console.error("ipapi.co lookup failed:", data.error);
+      throw new Error(data.error);
     }
+    
   } catch (error) {
     console.error('Error in geo-lookup function:', error);
     return new Response(
@@ -88,3 +64,4 @@ serve(async (req) => {
     );
   }
 });
+
