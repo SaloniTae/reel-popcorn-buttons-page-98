@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
@@ -138,10 +137,10 @@ const LandingPageTemplate = ({ slug, trackingSlugs }: LandingPageTemplateProps) 
           rel="noopener noreferrer"
           className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3"
         >
-          <div className="bg-white rounded-full p-2 small-screen:p-1.5">
+          <div className="bg-white rounded-full p-2 small-screen:p-1.5 ml-4">
             <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
           </div>
-          <div className="flex-1 text-center">
+          <div className="flex-1 text-center -ml-10">
             <span>BUY NOW</span>
           </div>
         </a>
