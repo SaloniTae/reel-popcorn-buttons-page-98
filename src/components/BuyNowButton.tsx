@@ -35,10 +35,10 @@ const BuyNowButton = ({ link, trackingSlug }: BuyNowButtonProps) => {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
-        <div className="bg-white rounded-full p-2 ml-4">
+        <div className="bg-white rounded-full p-2">
           <ShoppingCart className="h-5 w-5 text-black" />
         </div>
-        <div className="flex-1 text-center -ml-10">
+        <div className="flex-1 text-center">
           <span className="text-xl font-bold">BUY NOW</span>
         </div>
       </a>
