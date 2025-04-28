@@ -166,7 +166,7 @@ const LandingPageTemplate = ({
           )}>
             <ShoppingCart className={cn(
               "h-5 w-5 text-[#007bff]",
-              "max-[400px]:h-3 max-[400px]:w-3"
+              "max-[400px]:h-5 max-[400px]:w-5"
             )} />
           </div>
           <div className="flex-1 text-center">
