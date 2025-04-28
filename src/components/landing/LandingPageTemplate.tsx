@@ -138,7 +138,7 @@ const LandingPageTemplate = ({
               alt="OTT ON RENT" 
               className={cn(
                 "w-24 h-24 rounded-full object-cover relative z-10",
-                "max-[400px]:w-20 max-[400px]:h-20"
+                "max-[400px]:w-24 max-[400px]:h-24"
               )}
             />
           </div>
