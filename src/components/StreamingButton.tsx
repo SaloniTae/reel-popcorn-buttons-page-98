@@ -23,15 +23,18 @@ const StreamingButton = ({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
+    // Always explicitly use 'button' as the referrer for streaming buttons
     if (trackingSlug) {
       console.log("StreamingButton click - tracking with slug:", trackingSlug);
       await recordClick(trackingSlug, 'button', navigator.userAgent);
     }
     
+    // Call the onClick callback if provided
     if (onClick) {
       onClick();
     }
     
+    // Open link directly in new tab without any redirecting page
     window.open(link, '_blank', 'noopener,noreferrer');
   };
 
@@ -40,21 +43,14 @@ const StreamingButton = ({
       href={link}
       onClick={handleClick}
       className={cn(
-        "w-full rounded-full flex justify-center items-center transition-all duration-300 transform hover:scale-105",
-        "[&:not(:first-of-type)]:mt-3",
-        "max-[400px]:w-[340px] max-[400px]:h-[52px] max-[400px]:bg-white",
-        "min-[401px]:max-w-[400px] min-[401px]:py-3 min-[401px]:mb-4 min-[401px]:bg-white min-[401px]:hover:shadow-lg",
+        "w-full max-w-[400px] py-3 rounded-full flex justify-center items-center mb-4 bg-white hover:shadow-lg transition-all duration-300 transform hover:scale-105",
         className
       )}
     >
       <img 
         src={imageUrl} 
         alt={alt} 
-        className={cn(
-          "object-contain",
-          "max-[400px]:h-6",
-          "min-[401px]:h-7"
-        )}
+        className="h-7 small-screen:h-5 object-contain" 
       />
     </a>
   );
