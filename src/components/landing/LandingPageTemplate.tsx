@@ -212,7 +212,7 @@ const LandingPageTemplate = ({
 
         <div className={cn(
           "text-center px-4 mb-4",
-          "max-[400px]:mb-3"
+          "max-[400px]:mb-2"
         )}>
           <p className={cn(
             "text-xs tracking-wider text-gray-300 mb-1",
