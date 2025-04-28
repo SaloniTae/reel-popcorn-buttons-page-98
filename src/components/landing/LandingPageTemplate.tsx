@@ -157,16 +157,16 @@ const LandingPageTemplate = ({
           rel="noopener noreferrer" 
           className={cn(
             "w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4",
-            "max-[400px]:max-w-[280px] max-[400px]:py-2 max-[400px]:px-3 max-[400px]:text-lg max-[400px]:font-normal max-[400px]:mb-4"
+            "max-[400px]:max-w-[280px] max-[400px]:py-2 max-[400px]:px-3 max-[400px]:text-sm max-[400px]:font-medium max-[400px]:mb-4"
           )}
         >
           <div className={cn(
             "bg-white rounded-full p-2",
-            "max-[400px]:p-1"
+            "max-[400px]:p-1.5"
           )}>
             <ShoppingCart className={cn(
               "h-5 w-5 text-[#007bff]",
-              "max-[400px]:h-4 max-[400px]:w-4"
+              "max-[400px]:h-4.5 max-[400px]:w-4.5"
             )} />
           </div>
           <div className="flex-1 text-center">
