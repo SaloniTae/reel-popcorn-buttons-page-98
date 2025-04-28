@@ -126,7 +126,7 @@ const LandingPageTemplate = ({
       )}>
         <div className={cn(
           "flex flex-col items-center mb-4",
-          "max-[400px]:mt-12 max-[400px]:mb-8"
+          "max-[400px]:mt-12 max-[400px]:mb-4"
         )}>
           <div className={cn(
             "mb-4 relative",
