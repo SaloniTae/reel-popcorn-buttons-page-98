@@ -212,7 +212,7 @@ const LandingPageTemplate = ({
 
         <div className={cn(
           "text-center px-4 mb-4",
-          "max-[400px]:mb-4"
+          "max-[400px]:mb-3"
         )}>
           <p className={cn(
             "text-xs tracking-wider text-gray-300 mb-1",
@@ -222,7 +222,7 @@ const LandingPageTemplate = ({
           </p>
           <p className={cn(
             "text-xs tracking-wider text-gray-300",
-            "max-[400px]:text-[10px] mb-1"
+            "max-[400px]:text-[10px]"
           )}>
             GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!
           </p>
