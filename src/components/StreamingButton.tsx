@@ -23,18 +23,15 @@ const StreamingButton = ({
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Always explicitly use 'button' as the referrer for streaming buttons
     if (trackingSlug) {
       console.log("StreamingButton click - tracking with slug:", trackingSlug);
       await recordClick(trackingSlug, 'button', navigator.userAgent);
     }
     
-    // Call the onClick callback if provided
     if (onClick) {
       onClick();
     }
     
-    // Open link directly in new tab without any redirecting page
     window.open(link, '_blank', 'noopener,noreferrer');
   };
 
@@ -50,7 +47,7 @@ const StreamingButton = ({
       <img 
         src={imageUrl} 
         alt={alt} 
-        className="h-7 small-screen:h-5 object-contain" 
+        className="h-7 max-[400px]:h-4 object-contain" 
       />
     </a>
   );
