@@ -157,12 +157,12 @@ const LandingPageTemplate = ({
           rel="noopener noreferrer" 
           className={cn(
             "w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4",
-            "max-[400px]:max-w-[85%] max-[400px]:py-2 max-[400px]:text-sm"
+            "max-[400px]:max-w-[280px] max-[400px]:py-3 max-[400px]:px-4 max-[400px]:text-xl max-[400px]:font-medium max-[400px]:mb-4"
           )}
         >
           <div className={cn(
             "bg-white rounded-full p-2",
-            "max-[400px]:p-1.5"
+            "max-[400px]:p-2"
           )}>
             <ShoppingCart className={cn(
               "h-5 w-5 text-[#007bff]",
@@ -198,7 +198,7 @@ const LandingPageTemplate = ({
             alt="Prime Video" 
             link={settings.prime_button_link} 
             trackingSlug={trackingSlugs.prime} 
-            className="max-[400px]:py-1.5" 
+            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto"
           />
           
           <StreamingButton 
@@ -206,7 +206,7 @@ const LandingPageTemplate = ({
             alt="Crunchyroll" 
             link={settings.crunchyroll_button_link} 
             trackingSlug={trackingSlugs.crunchyroll} 
-            className="max-[400px]:py-1.5" 
+            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto"
           />
         </div>
 
