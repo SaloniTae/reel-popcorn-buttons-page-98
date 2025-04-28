@@ -1,9 +1,12 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+
 interface LandingPageTemplateProps {
   slug: string;
   trackingSlugs: {
@@ -13,6 +16,7 @@ interface LandingPageTemplateProps {
     crunchyroll: string;
   };
 }
+
 interface Settings {
   business_profile_image: string;
   background_video: string;
@@ -23,6 +27,7 @@ interface Settings {
   buy_now_button_link: string;
   show_footer_images: boolean;
 }
+
 const LandingPageTemplate = ({
   slug,
   trackingSlugs
@@ -43,6 +48,7 @@ const LandingPageTemplate = ({
     show_footer_images: true,
     business_name: "OTT ON RENT"
   });
+
   useEffect(() => {
     const fetchSettings = async () => {
       const {
@@ -69,6 +75,7 @@ const LandingPageTemplate = ({
     };
     fetchSettings();
   }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
@@ -89,63 +96,152 @@ const LandingPageTemplate = ({
       }
     };
   }, [settings.background_video]);
+
   const handleVideoLoaded = () => {
     setIsVideoLoaded(true);
   };
-  return <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
+
+  return (
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       <div className="video-container absolute inset-0 w-full h-full overflow-hidden z-0">
         <video ref={videoRef} autoPlay muted loop playsInline className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} onLoadedData={handleVideoLoaded}></video>
       </div>
 
-      <div className="flex flex-col items-center w-full pt-4 pb-20 sm:pb-20 pb-small-screen relative z-10 overflow-auto">
-        <div className="flex flex-col items-center mb-4 small-screen:mb-3">
-          <div className="mb-4 small-screen:mb-2 relative">
+      <div className="flex flex-col items-center w-full relative z-10 overflow-auto">
+        <div className={cn(
+          "flex flex-col items-center",
+          "max-[400px]:mt-12 max-[400px]:mb-8",
+          "min-[401px]:mb-4"
+        )}>
+          <div className={cn(
+            "relative",
+            "max-[400px]:mb-3",
+            "min-[401px]:mb-4"
+          )}>
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
-            <img src={settings.business_profile_image} alt="OTT ON RENT" className="w-24 h-24 small-screen:w-16 small-screen:h-16 rounded-full object-cover relative z-10" />
+            <img 
+              src={settings.business_profile_image} 
+              alt="OTT ON RENT" 
+              className={cn(
+                "rounded-full object-cover relative z-10",
+                "max-[400px]:w-20 max-[400px]:h-20",
+                "min-[401px]:w-24 min-[401px]:h-24"
+              )}
+            />
           </div>
-          <h1 className="text-base small-screen:text-sm font-light tracking-wider text-gray-300">
+          <h1 className={cn(
+            "font-light tracking-wider text-gray-300",
+            "max-[400px]:text-sm",
+            "min-[401px]:text-base"
+          )}>
             {settings.business_name}
           </h1>
         </div>
 
-        <a href={settings.buy_now_button_link} onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} target="_blank" rel="noopener noreferrer" className="w-full max-w-xs small-screen:max-w-[75%] py-3 small-screen:py-2 px-4 bg-[#007bff] text-white text-xl small-screen:text-base font-medium rounded-full flex items-center mb-4 small-screen:mb-3">
-          <div className="bg-white rounded-full p-2 small-screen:p-1.5">
-            <ShoppingCart className="h-5 w-5 small-screen:h-4 small-screen:w-4 text-[#007bff]" />
+        <a 
+          href={settings.buy_now_button_link} 
+          onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="w-full max-w-xs max-[400px]:max-w-[85%] py-3 max-[400px]:py-2 px-4 bg-[#007bff] text-white text-xl max-[400px]:text-sm font-medium rounded-full flex items-center mb-4 max-[400px]:mb-2"
+        >
+          <div className="bg-white rounded-full p-2 max-[400px]:p-1.5">
+            <ShoppingCart className="h-5 w-5 max-[400px]:h-3 max-[400px]:w-3 text-[#007bff]" />
           </div>
           <div className="flex-1 text-center">
             <span className="flex-1 text-center -ml-7">BUY NOW</span>
           </div>
         </a>
 
-        <div className="mb-4 small-screen:mb-2 text-sm small-screen:text-xs font-light text-gray-300">
+        <div className={cn(
+          "text-gray-300 font-light",
+          "max-[400px]:text-xs max-[400px]:my-4",
+          "min-[401px]:text-sm min-[401px]:mb-4"
+        )}>
           OR
         </div>
 
-        <div className="w-full max-w-xs small-screen:max-w-[75%] space-y-4 small-screen:space-y-2 mb-8 small-screen:mb-3">
-          <StreamingButton imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" alt="Netflix" link={settings.netflix_button_link} trackingSlug={trackingSlugs.netflix} className="small-screen:py-2" />
+        <div className={cn(
+          "w-full flex flex-col items-center",
+          "max-[400px]:space-y-0",
+          "min-[401px]:max-w-xs min-[401px]:space-y-4 min-[401px]:mb-8"
+        )}>
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
+            alt="Netflix" 
+            link={settings.netflix_button_link} 
+            trackingSlug={trackingSlugs.netflix} 
+            className="max-[400px]:py-1.5" 
+          />
           
-          <StreamingButton imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" alt="Prime Video" link={settings.prime_button_link} trackingSlug={trackingSlugs.prime} className="small-screen:py-2" />
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/prime-button.png" 
+            alt="Prime Video" 
+            link={settings.prime_button_link} 
+            trackingSlug={trackingSlugs.prime} 
+            className="max-[400px]:py-1.5" 
+          />
           
-          <StreamingButton imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" alt="Crunchyroll" link={settings.crunchyroll_button_link} trackingSlug={trackingSlugs.crunchyroll} className="small-screen:py-2" />
+          <StreamingButton 
+            imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/crunchy-button.png" 
+            alt="Crunchyroll" 
+            link={settings.crunchyroll_button_link} 
+            trackingSlug={trackingSlugs.crunchyroll} 
+            className="max-[400px]:py-1.5" 
+          />
         </div>
 
-        <div className="text-center mb-4 small-screen:mb-2 px-4">
-          <p className="text-xs small-screen:text-[10px] text-gray-300 tracking-wider mb-1 small-screen:mb-0.5">
+        <div className={cn(
+          "text-center px-4",
+          "max-[400px]:mt-8",
+          "min-[401px]:mb-4"
+        )}>
+          <p className={cn(
+            "tracking-wider text-gray-300",
+            "max-[400px]:text-[10px] max-[400px]:mb-1",
+            "min-[401px]:text-xs min-[401px]:mb-1"
+          )}>
             START THE BOT • CHOOSE SLOT • PAY
           </p>
-          <p className="text-xs small-screen:text-[10px] text-gray-300 tracking-wider">GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!</p>
+          <p className={cn(
+            "tracking-wider text-gray-300",
+            "max-[400px]:text-[10px]",
+            "min-[401px]:text-xs"
+          )}>
+            GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!
+          </p>
         </div>
       </div>
 
-      {isMobile && settings.show_footer_images && <>
-          <div className="absolute bottom-[-40px] left-[-20px] w-[235px] max-w-[233px] small-screen:w-[150px] small-screen:max-w-[120px] small-screen:bottom-[-30px] opacity-90 pointer-events-none overflow-hidden">
-            <img src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" alt="Film Reel" className="w-full object-contain transform -translate-x-2" />
+      {isMobile && settings.show_footer_images && (
+        <>
+          <div className={cn(
+            "absolute left-[-20px] opacity-90 pointer-events-none overflow-hidden",
+            "max-[400px]:bottom-[-30px] max-[400px]:w-[180px]",
+            "min-[401px]:bottom-[-40px] min-[401px]:w-[235px]"
+          )}>
+            <img 
+              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
+              alt="Film Reel" 
+              className="w-full object-contain transform -translate-x-2" 
+            />
           </div>
           
-          <div className="absolute bottom-[-20px] right-[-20px] w-[228px] max-w-[228px] small-screen:w-[150px] small-screen:max-w-[120px] small-screen:bottom-[-20px] opacity-90 pointer-events-none overflow-hidden">
-            <img src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" alt="Popcorn" className="w-full object-contain transform translate-x-2" />
+          <div className={cn(
+            "absolute right-[-20px] opacity-90 pointer-events-none overflow-hidden",
+            "max-[400px]:bottom-[-15px] max-[400px]:w-[180px]",
+            "min-[401px]:bottom-[-20px] min-[401px]:w-[228px]"
+          )}>
+            <img 
+              src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
+              alt="Popcorn" 
+              className="w-full object-contain transform translate-x-2" 
+            />
           </div>
-        </>}
-    </div>;
+        </>
+      )}
+    </div>
+  );
 };
+
 export default LandingPageTemplate;
