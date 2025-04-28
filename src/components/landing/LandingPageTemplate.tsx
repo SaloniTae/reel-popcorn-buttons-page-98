@@ -130,7 +130,7 @@ const LandingPageTemplate = ({
         )}>
           <div className={cn(
             "mb-4 relative",
-            "max-[400px]:mb-3"
+            "max-[400px]:mb-4"
           )}>
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
             <img 
@@ -212,7 +212,7 @@ const LandingPageTemplate = ({
 
         <div className={cn(
           "text-center px-4 mb-4",
-          "max-[400px]:mt-8"
+          "max-[400px]:mb-4"
         )}>
           <p className={cn(
             "text-xs tracking-wider text-gray-300 mb-1",
