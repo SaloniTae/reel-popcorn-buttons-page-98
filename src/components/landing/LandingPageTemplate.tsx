@@ -1,9 +1,11 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
 import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
 
 interface LandingPageTemplateProps {
   slug: string;

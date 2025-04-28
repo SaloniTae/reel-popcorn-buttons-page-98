@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { recordClick } from "@/services/linkTracking/clickService";
 
 interface BuyNowButtonProps {
