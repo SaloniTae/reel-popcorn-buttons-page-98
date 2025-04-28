@@ -183,7 +183,7 @@ const LandingPageTemplate = ({
 
         <div className={cn(
           "w-full max-w-xs space-y-4 mb-8",
-          "max-[400px]:space-y-4"
+          "max-[400px]:space-y-4 mb-8"
         )}>
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
