@@ -157,7 +157,7 @@ const LandingPageTemplate = ({
           rel="noopener noreferrer" 
           className={cn(
             "w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4",
-            "max-[400px]:max-w-[280px] max-[400px]:py-2.3 max-[400px]:px-3.3 max-[400px]:text-l max-[400px]:font-small max-[400px]:mb-4"
+            "max-[400px]:max-w-[280px] max-[400px]:py-2 max-[400px]:px-3 max-[400px]:text-l max-[400px]:font-small max-[400px]:mb-4"
           )}
         >
           <div className={cn(
