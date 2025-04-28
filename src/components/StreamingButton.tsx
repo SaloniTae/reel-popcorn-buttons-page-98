@@ -40,14 +40,21 @@ const StreamingButton = ({
       href={link}
       onClick={handleClick}
       className={cn(
-        "w-full max-w-[400px] py-3 rounded-full flex justify-center items-center mb-4 bg-white hover:shadow-lg transition-all duration-300 transform hover:scale-105",
+        "w-full rounded-full flex justify-center items-center transition-all duration-300 transform hover:scale-105",
+        "[&:not(:first-of-type)]:mt-3",
+        "max-[400px]:w-[340px] max-[400px]:h-[52px] max-[400px]:bg-white",
+        "min-[401px]:max-w-[400px] min-[401px]:py-3 min-[401px]:mb-4 min-[401px]:bg-white min-[401px]:hover:shadow-lg",
         className
       )}
     >
       <img 
         src={imageUrl} 
         alt={alt} 
-        className="h-7 max-[400px]:h-4 object-contain" 
+        className={cn(
+          "object-contain",
+          "max-[400px]:h-6",
+          "min-[401px]:h-7"
+        )}
       />
     </a>
   );

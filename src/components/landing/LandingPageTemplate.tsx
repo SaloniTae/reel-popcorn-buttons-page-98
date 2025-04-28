@@ -99,22 +99,39 @@ const LandingPageTemplate = ({
     setIsVideoLoaded(true);
   };
 
-  return <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
+  return (
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       <div className="video-container absolute inset-0 w-full h-full overflow-hidden z-0">
         <video ref={videoRef} autoPlay muted loop playsInline className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} onLoadedData={handleVideoLoaded}></video>
       </div>
 
-      <div className="flex flex-col items-center w-full pt-4 pb-20 relative z-10 overflow-auto">
-        <div className="flex flex-col items-center mb-4 max-[400px]:mb-2">
-          <div className="mb-4 max-[400px]:mb-2 relative">
+      <div className="flex flex-col items-center w-full relative z-10 overflow-auto">
+        <div className={cn(
+          "flex flex-col items-center",
+          "max-[400px]:mt-12 max-[400px]:mb-8",
+          "min-[401px]:mb-4"
+        )}>
+          <div className={cn(
+            "relative",
+            "max-[400px]:mb-3",
+            "min-[401px]:mb-4"
+          )}>
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
             <img 
               src={settings.business_profile_image} 
               alt="OTT ON RENT" 
-              className="w-24 h-24 max-[400px]:w-14 max-[400px]:h-14 rounded-full object-cover relative z-10" 
+              className={cn(
+                "rounded-full object-cover relative z-10",
+                "max-[400px]:w-20 max-[400px]:h-20",
+                "min-[401px]:w-24 min-[401px]:h-24"
+              )}
             />
           </div>
-          <h1 className="text-base max-[400px]:text-xs font-light tracking-wider text-gray-300">
+          <h1 className={cn(
+            "font-light tracking-wider text-gray-300",
+            "max-[400px]:text-sm",
+            "min-[401px]:text-base"
+          )}>
             {settings.business_name}
           </h1>
         </div>
@@ -134,11 +151,19 @@ const LandingPageTemplate = ({
           </div>
         </a>
 
-        <div className="mb-4 max-[400px]:mb-2 text-sm max-[400px]:text-[10px] font-light text-gray-300">
+        <div className={cn(
+          "text-gray-300 font-light",
+          "max-[400px]:text-xs max-[400px]:my-4",
+          "min-[401px]:text-sm min-[401px]:mb-4"
+        )}>
           OR
         </div>
 
-        <div className="w-full max-w-xs max-[400px]:max-w-[85%] space-y-4 max-[400px]:space-y-2 mb-8 max-[400px]:mb-3">
+        <div className={cn(
+          "w-full flex flex-col items-center",
+          "max-[400px]:space-y-0",
+          "min-[401px]:max-w-xs min-[401px]:space-y-4 min-[401px]:mb-8"
+        )}>
           <StreamingButton 
             imageUrl="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/netflix-button.png" 
             alt="Netflix" 
@@ -164,11 +189,23 @@ const LandingPageTemplate = ({
           />
         </div>
 
-        <div className="text-center mb-4 max-[400px]:mb-2 px-4">
-          <p className="text-xs max-[400px]:text-[8px] text-gray-300 tracking-wider mb-1 max-[400px]:mb-0.5">
+        <div className={cn(
+          "text-center px-4",
+          "max-[400px]:mt-8",
+          "min-[401px]:mb-4"
+        )}>
+          <p className={cn(
+            "tracking-wider text-gray-300",
+            "max-[400px]:text-[10px] max-[400px]:mb-1",
+            "min-[401px]:text-xs min-[401px]:mb-1"
+          )}>
             START THE BOT • CHOOSE SLOT • PAY
           </p>
-          <p className="text-xs max-[400px]:text-[8px] text-gray-300 tracking-wider">
+          <p className={cn(
+            "tracking-wider text-gray-300",
+            "max-[400px]:text-[10px]",
+            "min-[401px]:text-xs"
+          )}>
             GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!
           </p>
         </div>
@@ -176,7 +213,11 @@ const LandingPageTemplate = ({
 
       {isMobile && settings.show_footer_images && (
         <>
-          <div className="absolute bottom-[-40px] left-[-20px] w-[235px] max-w-[233px] max-[400px]:hidden opacity-90 pointer-events-none overflow-hidden">
+          <div className={cn(
+            "absolute left-[-20px] opacity-90 pointer-events-none overflow-hidden",
+            "max-[400px]:bottom-[-30px] max-[400px]:w-[180px]",
+            "min-[401px]:bottom-[-40px] min-[401px]:w-[235px]"
+          )}>
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" 
               alt="Film Reel" 
@@ -184,7 +225,11 @@ const LandingPageTemplate = ({
             />
           </div>
           
-          <div className="absolute bottom-[-20px] right-[-20px] w-[228px] max-w-[228px] max-[400px]:hidden opacity-90 pointer-events-none overflow-hidden">
+          <div className={cn(
+            "absolute right-[-20px] opacity-90 pointer-events-none overflow-hidden",
+            "max-[400px]:bottom-[-15px] max-[400px]:w-[180px]",
+            "min-[401px]:bottom-[-20px] min-[401px]:w-[228px]"
+          )}>
             <img 
               src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" 
               alt="Popcorn" 
@@ -193,7 +238,8 @@ const LandingPageTemplate = ({
           </div>
         </>
       )}
-    </div>;
+    </div>
+  );
 };
 
 export default LandingPageTemplate;
