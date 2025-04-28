@@ -42,6 +42,47 @@ html, body, #root {
   background-color: #000000;
 }
 
+/* Ensure film reel and popcorn are visible but properly sized on mobile */
+@media (max-width: 400px) {
+  .w-[120px] {
+    width: 120px;
+  }
+  .max-w-[120px] {
+    max-width: 120px;
+  }
+  
+  /* Improved button spacing for mobile */
+  .space-y-2\.5 > * + * {
+    margin-top: 0.625rem;
+  }
+  
+  /* Adjusted profile image size */
+  .w-16 {
+    width: 4rem;
+  }
+  .h-16 {
+    height: 4rem;
+  }
+  
+  /* Better text sizing */
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .text-base {
+    font-size: 1rem;
+  }
+  
+  .text-\[10px\] {
+    font-size: 10px;
+  }
+  
+  /* Button max width adjustment */
+  .max-w-\[80\%\] {
+    max-width: 80%;
+  }
+}
+
 /* Responsive adjustments for smaller screens */
 @media (max-height: 700px) {
   .mb-20 { margin-bottom: 2rem; }
