@@ -216,13 +216,13 @@ const LandingPageTemplate = ({
         )}>
           <p className={cn(
             "text-xs tracking-wider text-gray-300 mb-1",
-            "max-[400px]:text-sm mb-1"
+            "max-[400px]:text-xs mb-1"
           )}>
             START THE BOT • CHOOSE SLOT • PAY
           </p>
           <p className={cn(
             "text-xs tracking-wider text-gray-300",
-            "max-[400px]:text-sm"
+            "max-[400px]:text-xs"
           )}>
             GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!
           </p>
