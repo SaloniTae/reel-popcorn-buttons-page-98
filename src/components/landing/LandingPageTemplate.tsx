@@ -190,7 +190,7 @@ const LandingPageTemplate = ({
             alt="Netflix" 
             link={settings.netflix_button_link} 
             trackingSlug={trackingSlugs.netflix} 
-            className="max-[400px]:py-1.5 max-[400px]:w-full max-[400px]:h-10"
+            className="max-[400px]:py-2 max-[400px]:w-48 max-[400px]:h-12 px-4"
           />
           
           <StreamingButton 
