@@ -138,11 +138,11 @@ const LandingPageTemplate = ({
       </div>
 
       {isMobile && settings.show_footer_images && <>
-          <div className="absolute bottom-0 left-0 w-[250px] max-w-[250px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-0 opacity-90 pointer-events-none overflow-hidden">
+          <div className="absolute bottom-[-20px] left-0 w-[205px] max-w-[205px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-[-20px] opacity-90 pointer-events-none overflow-hidden">
             <img src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/film.png" alt="Film Reel" className="w-full object-contain transform -translate-x-2" />
           </div>
           
-          <div className="absolute bottom-0 right-0 w-[250px] max-w-[250px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-0 opacity-90 pointer-events-none overflow-hidden">
+          <div className="absolute bottom-[-20px] right-0 w-[205px] max-w-[205px] small-screen:w-[150px] small-screen:max-w-[150px] small-screen:bottom-[-20px] opacity-90 pointer-events-none overflow-hidden">
             <img src="https://raw.githubusercontent.com/OTTONRENT01/FOR-PHOTOS/refs/heads/main/popcorn.png" alt="Popcorn" className="w-full object-contain transform translate-x-2" />
           </div>
         </>}
