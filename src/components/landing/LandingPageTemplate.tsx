@@ -176,7 +176,7 @@ const LandingPageTemplate = ({
 
         <div className={cn(
           "text-sm font-light text-gray-300 mb-4",
-          "max-[400px]:text-xs max-[400px]:my-4"
+          "max-[400px]:text-xs max-[400px]:mb-4"
         )}>
           OR
         </div>
