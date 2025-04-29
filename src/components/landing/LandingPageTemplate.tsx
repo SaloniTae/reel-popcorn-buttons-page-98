@@ -6,7 +6,6 @@ import { ShoppingCart } from "lucide-react";
 import { recordClick } from "@/services/linkTracking";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
-import BuyNowButton from "@/components/BuyNowButton";
 
 interface LandingPageTemplateProps {
   slug: string;
@@ -117,7 +116,7 @@ const LandingPageTemplate = ({
           muted 
           loop 
           playsInline 
-          className={`absolute object-cover w-full h-full transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} 
+          className={`absolute object-cover w-full h-full transition-opacity duration-700 ${isVideoLoaded ? 'opacity-70' : 'opacity-0'}`} 
           onLoadedData={handleVideoLoaded}>
         </video>
       </div>
@@ -127,11 +126,11 @@ const LandingPageTemplate = ({
         "max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center max-[400px]:w-full max-[400px]:relative max-[400px]:z-10 max-[400px]:pt-1 max-[400px]:-mt-2"
       )}>
         <div className={cn(
-          "flex flex-col items-center mb-4 animate-fade-in",
+          "flex flex-col items-center mb-4",
           "max-[400px]:mt-12 max-[400px]:mb-4"
         )}>
           <div className={cn(
-            "mb-4 relative animate-pulse-gentle",
+            "mb-4 relative",
             "max-[400px]:mb-4"
           )}>
             <div className="absolute inset-0 rounded-full bg-white/20 blur-md"></div>
@@ -139,35 +138,52 @@ const LandingPageTemplate = ({
               src={settings.business_profile_image} 
               alt="OTT ON RENT" 
               className={cn(
-                "w-24 h-24 rounded-full object-cover relative z-10 transition-transform duration-300 hover:scale-105",
+                "w-24 h-24 rounded-full object-cover relative z-10",
                 "max-[400px]:w-24 max-[400px]:h-24"
               )}
             />
           </div>
           <h1 className={cn(
-            "text-base font-light tracking-wider text-gray-300 transition-all duration-300 hover:text-white",
+            "text-base font-light tracking-wider text-gray-300",
             "max-[400px]:text-base"
           )}>
             {settings.business_name}
           </h1>
         </div>
 
-        <div className="animate-fade-in-slow">
-          <BuyNowButton
-            link={settings.buy_now_button_link}
-            trackingSlug={trackingSlugs.buyNow}
-          />
-        </div>
+        <a 
+          href={settings.buy_now_button_link} 
+          onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={cn(
+            "w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4",
+            "max-[400px]:max-w-[280px] max-[400px]:py-2.5 max-[400px]:px-3 max-[400px]:text-lg max-[400px]:font-medium max-[400px]:mb-4"
+          )}
+        >
+          <div className={cn(
+            "bg-white rounded-full p-2",
+            "max-[400px]:p-1.5"
+          )}>
+            <ShoppingCart className={cn(
+              "h-5 w-5 text-[#007bff]",
+              "max-[400px]:h-4.5 max-[400px]:w-4.5"
+            )} />
+          </div>
+          <div className="flex-1 text-center">
+            <span className="flex-1 text-center -ml-7">BUY NOW</span>
+          </div>
+        </a>
 
         <div className={cn(
-          "text-sm font-light text-gray-300 mb-4 animate-fade-in-slow",
+          "text-sm font-light text-gray-300 mb-4",
           "max-[400px]:text-sm max-[400px]:mb-4 mx-auto"
         )}>
           OR
         </div>
 
         <div className={cn(
-          "w-full max-w-xs space-y-4 mb-8 stagger-animation",
+          "w-full max-w-xs space-y-4 mb-8",
           "max-[400px]:space-y-4 mb-8"
         )}>
           <StreamingButton 
@@ -175,7 +191,7 @@ const LandingPageTemplate = ({
             alt="Netflix" 
             link={settings.netflix_button_link} 
             trackingSlug={trackingSlugs.netflix} 
-            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto transition-transform duration-300 hover:scale-105"
+            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto"
           />
           
           <StreamingButton 
@@ -183,7 +199,7 @@ const LandingPageTemplate = ({
             alt="Prime Video" 
             link={settings.prime_button_link} 
             trackingSlug={trackingSlugs.prime} 
-            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto transition-transform duration-300 hover:scale-105"
+            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto"
           />
           
           <StreamingButton 
@@ -191,22 +207,22 @@ const LandingPageTemplate = ({
             alt="Crunchyroll" 
             link={settings.crunchyroll_button_link} 
             trackingSlug={trackingSlugs.crunchyroll} 
-            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto transition-transform duration-300 hover:scale-105"
+            className="max-[400px]:py-2 max-[400px]:w-[280px] max-[400px]:h-12 px-4 mx-auto"
           />
         </div>
 
         <div className={cn(
-          "text-center px-4 mb-4 animate-fade-in",
+          "text-center px-4 mb-4",
           "max-[400px]:-mt-3"
         )}>
           <p className={cn(
-            "text-xs tracking-wider text-gray-300 mb-1 transition-colors duration-300 hover:text-white",
+            "text-xs tracking-wider text-gray-300 mb-1",
             "max-[400px]:text-[10px]"
           )}>
             START THE BOT • CHOOSE SLOT • PAY
           </p>
           <p className={cn(
-            "text-xs tracking-wider text-gray-300 transition-colors duration-300 hover:text-white",
+            "text-xs tracking-wider text-gray-300",
             "max-[400px]:text-[10px]"
           )}>
             GET YOUR NETFLIX PRIME OR CRUNCHYROLL ACCOUNT!
@@ -217,7 +233,7 @@ const LandingPageTemplate = ({
       {isMobile && settings.show_footer_images && (
         <>
           <div className={cn(
-            "absolute bottom-[-40px] left-[-20px] w-[235px] opacity-90 pointer-events-none overflow-hidden animate-float",
+            "absolute bottom-[-40px] left-[-20px] w-[235px] opacity-90 pointer-events-none overflow-hidden",
             "max-[400px]:bottom-[-30px] max-[400px]:w-[180px]"
           )}>
             <img 
@@ -228,7 +244,7 @@ const LandingPageTemplate = ({
           </div>
           
           <div className={cn(
-            "absolute bottom-[-20px] right-[-20px] w-[228px] opacity-90 pointer-events-none overflow-hidden animate-float",
+            "absolute bottom-[-20px] right-[-20px] w-[228px] opacity-90 pointer-events-none overflow-hidden",
             "max-[400px]:bottom-[-15px] max-[400px]:w-[180px]"
           )}>
             <img 
