@@ -216,7 +216,7 @@ const LandingPageTemplate = ({
         )}>
           <p className={cn(
             "text-xs tracking-wider text-gray-300 mb-1",
-            "max-[400px]:text-[10px] mb-1"
+            "max-[400px]:text-[10px]"
           )}>
             START THE BOT • CHOOSE SLOT • PAY
           </p>
