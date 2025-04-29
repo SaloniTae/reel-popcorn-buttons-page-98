@@ -233,7 +233,7 @@ const LandingPageTemplate = ({
       {isMobile && settings.show_footer_images && (
         <>
           <div className={cn(
-            "absolute bottom-[-40px] left-[-20px] w-[235px] opacity-90 pointer-events-none overflow-hidden",
+            "absolute bottom-[-40px] left-[-20px] w-[235px] opacity-90 pointer-events-none overflow-hidden footer-image footer-image-left",
             "max-[400px]:bottom-[-30px] max-[400px]:w-[180px]"
           )}>
             <img 
@@ -244,7 +244,7 @@ const LandingPageTemplate = ({
           </div>
           
           <div className={cn(
-            "absolute bottom-[-20px] right-[-20px] w-[228px] opacity-90 pointer-events-none overflow-hidden",
+            "absolute bottom-[-20px] right-[-20px] w-[228px] opacity-90 pointer-events-none overflow-hidden footer-image footer-image-right",
             "max-[400px]:bottom-[-15px] max-[400px]:w-[180px]"
           )}>
             <img 

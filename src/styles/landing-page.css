@@ -1,4 +1,5 @@
 
+
 /* Reset any animations */
 .float-animation,
 .shimmer,
@@ -40,6 +41,28 @@ html, body, #root {
   overflow: hidden;
   z-index: 0;
   background-color: #000000;
+}
+
+/* Animation for footer images */
+.footer-image {
+  animation: float 6s ease-in-out infinite;
+}
+
+.footer-image-left {
+  animation-delay: 0.5s;
+}
+
+.footer-image-right {
+  animation-delay: 0s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Responsive adjustments for smaller screens */
