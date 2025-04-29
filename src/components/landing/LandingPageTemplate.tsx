@@ -1,9 +1,7 @@
-
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
-import { ShoppingCart } from "lucide-react";
-import { recordClick } from "@/services/linkTracking";
+import BuyNowButton from "@/components/BuyNowButton";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -151,29 +149,10 @@ const LandingPageTemplate = ({
           </h1>
         </div>
 
-        <a 
-          href={settings.buy_now_button_link} 
-          onClick={() => recordClick(trackingSlugs.buyNow, document.referrer, navigator.userAgent)} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className={cn(
-            "w-full max-w-xs py-3 px-4 bg-[#007bff] text-white text-xl font-medium rounded-full flex items-center mb-4",
-            "max-[400px]:max-w-[280px] max-[400px]:py-2.5 max-[400px]:px-3 max-[400px]:text-lg max-[400px]:font-medium max-[400px]:mb-4"
-          )}
-        >
-          <div className={cn(
-            "bg-white rounded-full p-2",
-            "max-[400px]:p-1.5"
-          )}>
-            <ShoppingCart className={cn(
-              "h-5 w-5 text-[#007bff]",
-              "max-[400px]:h-4.5 max-[400px]:w-4.5"
-            )} />
-          </div>
-          <div className="flex-1 text-center">
-            <span className="flex-1 text-center -ml-7">BUY NOW</span>
-          </div>
-        </a>
+        <BuyNowButton 
+          link={settings.buy_now_button_link}
+          trackingSlug={trackingSlugs.buyNow}
+        />
 
         <div className={cn(
           "text-sm font-light text-gray-300 mb-4",
