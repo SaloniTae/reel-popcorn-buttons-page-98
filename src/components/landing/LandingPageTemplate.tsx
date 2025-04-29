@@ -139,7 +139,7 @@ const LandingPageTemplate = ({
               alt="OTT ON RENT" 
               className={cn(
                 "w-24 h-24 rounded-full object-cover relative z-10",
-                "max-[400px]:w-24 max-[400px]:h-24"
+                "max-[400px]:w-24 max-[400px]:h-24 mx-auto"
               )}
             />
           </div>
@@ -171,7 +171,7 @@ const LandingPageTemplate = ({
             )} />
           </div>
           <div className="flex-1 text-center">
-            <span className="flex-1 text-center -ml-7">BUY NOW</span>
+            <span className="flex-1 text-center -ml-7 mx-auto">BUY NOW</span>
           </div>
         </a>
 
