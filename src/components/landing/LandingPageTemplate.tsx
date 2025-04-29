@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import StreamingButton from "@/components/StreamingButton";
@@ -121,8 +122,8 @@ const LandingPageTemplate = ({
       </div>
 
       <div className={cn(
-        "flex flex-col items-center w-full pt-4 pb-20 overflow-auto relative z-10",
-        "max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center max-[400px]:w-full max-[400px]:relative max-[400px]:z-10"
+        "flex flex-col items-center w-full pt-2 pb-20 overflow-auto relative z-10 -mt-2",
+        "max-[400px]:flex max-[400px]:flex-col max-[400px]:items-center max-[400px]:w-full max-[400px]:relative max-[400px]:z-10 max-[400px]:pt-1 max-[400px]:-mt-2"
       )}>
         <div className={cn(
           "flex flex-col items-center mb-4",
