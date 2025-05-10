@@ -42,6 +42,11 @@ export default defineConfig(async ({ mode }: ConfigEnv) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
+    preview: {
+      port: 4173,
+      host: '0.0.0.0',
+      allowedHosts: ['oorlink.onrender.com', 'localhost']
+    },
     build: {
       outDir: 'dist',
       sourcemap: false,
