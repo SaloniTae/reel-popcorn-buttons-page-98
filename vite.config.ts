@@ -1,5 +1,5 @@
 
-import { defineConfig, Plugin } from "vite";
+import { defineConfig, Plugin, PluginOption, ConfigEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
@@ -16,14 +16,15 @@ async function loadComponentTagger(): Promise<Plugin> {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(async ({ mode }: ConfigEnv) => {
   // Load plugins based on environment
-  const plugins = [react()];
+  const plugins: PluginOption[] = [react()];
   
   if (mode === 'development') {
     // Only load the tagger in development mode
     try {
       const tagger = await loadComponentTagger();
+      // Add the plugin to the array (it's already a Plugin type that extends PluginOption)
       plugins.push(tagger);
     } catch (e) {
       console.warn('Failed to load component tagger:', e);
@@ -47,7 +48,7 @@ export default defineConfig(async ({ mode }) => {
       // Ensure we have reasonable chunk sizes
       rollupOptions: {
         output: {
-          manualChunks(id) {
+          manualChunks(id: string) {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
